@@ -16,18 +16,20 @@ public class Player extends GameObject {
     public final Bitmap heroRight;
     public final Bitmap heroLeft;
     private static final float speed = 30;
+    private final int fieldSize;
     private float speedX;
     private float speedY;
 
 
-    public Player(Context context, int width, int height) {
+    public Player(Context context, int width, int height, int fieldSize) {
         super(width / 2, height / 2, null);
+        this.fieldSize = fieldSize;
         int heroHeight = 200;
-        int heroWidth = 200;
+        int heroWidth = 180;
         heroRight = BitmapUtil.getScaledBitmap(context, heroWidth, heroHeight, R.drawable.hero_right);
         heroLeft = BitmapUtil.getScaledBitmap(context, heroWidth, heroHeight, R.drawable.hero_left);
         hero = new Hero();
-        joystick = new Joystick(context, width / 8f, height * 3 / 4f, width / 9f - 25, width / 9f);
+        joystick = new Joystick(context, 250, height * 3 / 4f, 100, 150);
     }
 
     @Override
@@ -43,5 +45,9 @@ public class Player extends GameObject {
         speedY = joystick.getActuatorY() * speed;
         x += speedX;
         y += speedY;
+        if (x > (fieldSize - 5) * 40) x = (fieldSize - 5) * 40;
+        if (x < 0) x = 0;
+        if (y > (fieldSize - 5) * 40) y = (fieldSize - 5) * 40;
+        if (y < 0) y = 0;
     }
 }

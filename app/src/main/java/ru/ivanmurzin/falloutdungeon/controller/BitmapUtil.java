@@ -6,6 +6,6 @@ import android.graphics.BitmapFactory;
 
 public class BitmapUtil {
     public static Bitmap getScaledBitmap(Context context, int width, int height, int id) {
-        return Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), id), 200, 200, false);
+        return Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), id), width, height, false);
     }
 }

@@ -30,8 +30,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         this.holder = holder;
-        player = new Player(getContext(), getWidth(), getHeight());
-        level = new Level(getContext(), player.hero, 1, 200);
+        player = new Player(getContext(), getWidth(), getHeight(), 40);
+        level = new Level(getContext(), player.hero, 1, 40);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);
