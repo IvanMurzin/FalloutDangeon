@@ -22,10 +22,11 @@ public class HealthBar extends GameObject {
         paintText.setTextSize(40);
     }
 
-    public void draw(Canvas canvas, Hero hero) {
+    public void draw(Canvas canvas) {
+        Hero hero = Hero.instance;
         float healthScale = hero.getHealth() / (float) hero.getMaxHealth();
-        canvas.drawRect( 90, 59,  90+270* healthScale, 86, paintHealth);
+        canvas.drawRect(90, 59, 90 + 270 * healthScale, 86, paintHealth);
         canvas.drawBitmap(bitmap, x, y, null);
-        canvas.drawText(hero.getHealth() + "/" + hero.getMaxHealth(),  380, 85, paintText);
+        canvas.drawText(hero.getHealth() + "/" + hero.getMaxHealth(), 380, 85, paintText);
     }
 }

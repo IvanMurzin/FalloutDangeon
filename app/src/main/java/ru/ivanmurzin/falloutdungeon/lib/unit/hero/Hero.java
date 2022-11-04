@@ -9,6 +9,8 @@ import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
 import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 
 public class Hero extends Unit {
+    public static final Hero instance = new Hero();
+
     public final Special special;
     public final Experience experience;
     private Weapon weapon;
@@ -18,15 +20,22 @@ public class Hero extends Unit {
     private int lockpicks;
     private Aid[] aid;
 
-
-    public Hero() {
+    private Hero() {
         super(100, 10);
         this.special = new Special();
+        special.setSpecial(SpecialType.Strength, 2);
+        special.setSpecial(SpecialType.Perception, 4);
+        special.setSpecial(SpecialType.Endurance, 5);
+        special.setSpecial(SpecialType.Charisma, 6);
+        special.setSpecial(SpecialType.Intelligence, 7);
+        special.setSpecial(SpecialType.Agility, 8);
+        special.setSpecial(SpecialType.Luck, 10);
         this.experience = new Experience();
     }
 
     public void getDamage(int damage) {
         health -= damage;
+        if (health < 0) health = 0;
     }
 
     public void unlock(Chest chest) {

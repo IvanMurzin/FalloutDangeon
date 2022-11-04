@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
+import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder holder;
@@ -31,7 +32,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         this.holder = holder;
         player = new Player(getContext(), getWidth(), getHeight(), 40);
-        level = new Level(getContext(), player.hero, 1, 40);
+        level = new Level(getContext(), Hero.instance, 1, 40);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);

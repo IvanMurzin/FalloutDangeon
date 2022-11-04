@@ -11,7 +11,6 @@ import ru.ivanmurzin.falloutdungeon.lib.game.object.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class Player extends GameObject {
-    public final Hero hero;
     public final Joystick joystick;
     public final HealthBar healthBar;
     public final Bitmap heroRight;
@@ -29,7 +28,6 @@ public class Player extends GameObject {
         int heroWidth = 180;
         heroRight = BitmapUtil.getScaledBitmap(context, heroWidth, heroHeight, R.drawable.hero_right);
         heroLeft = BitmapUtil.getScaledBitmap(context, heroWidth, heroHeight, R.drawable.hero_left);
-        hero = new Hero();
         joystick = new Joystick(context, 250, height * 3 / 4f);
         healthBar = new HealthBar(context);
     }
@@ -39,7 +37,7 @@ public class Player extends GameObject {
         Bitmap heroBitmap = speedX < 0 ? heroLeft : heroRight;
         canvas.drawBitmap(heroBitmap, display.offsetX(x), display.offsetY(y), null);
         joystick.draw(canvas);
-        healthBar.draw(canvas, hero);
+        healthBar.draw(canvas);
     }
 
     public void update() {
@@ -51,7 +49,7 @@ public class Player extends GameObject {
         if (x > (fieldSize - 5) * 40) x = (fieldSize - 5) * 40;
         if (x < 0) {
             x = 0;
-            hero.getDamage(1);
+            Hero.instance.getDamage(1);
         }
         if (y > (fieldSize - 5) * 40) y = (fieldSize - 5) * 40;
         if (y < 0) y = 0;
