@@ -25,6 +25,10 @@ public class Hero extends Unit {
         this.experience = new Experience();
     }
 
+    public void getDamage(int damage) {
+        health -= damage;
+    }
+
     public void unlock(Chest chest) {
 
     }

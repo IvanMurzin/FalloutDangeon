@@ -42,14 +42,14 @@ public class Joystick {
 
     private int touchCount = 0;
 
-    public Joystick(Context context, float centerX, float centerY, float innerRadius, float outRadius) {
+    public Joystick(Context context, float centerX, float centerY) {
         this.centerX = centerX;
         this.centerY = centerY;
-        this.outRadius = outRadius;
+        this.outRadius = 150;
         this.positionX = centerX;
         this.positionY = centerY;
-        buttonIn = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_in), (int) innerRadius, (int) innerRadius, false);
-        buttonOut = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_out), (int) outRadius + buttonIn.getWidth() / 2, (int) outRadius + buttonIn.getHeight() / 2, false);
+        buttonIn = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_in), 100, 100, false);
+        buttonOut = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_out), 150 + buttonIn.getWidth() / 2, 150 + buttonIn.getHeight() / 2, false);
     }
 
     public void draw(Canvas canvas) {
