@@ -9,6 +9,12 @@ public class Special {
     private final Map<SpecialType, SpecialItem> special = new HashMap<>();
     private int maxHealth;
 
+    Special() {
+        for (SpecialType key : SpecialType.values()) {
+            special.put(key, new SpecialItem(String.valueOf(key.name().charAt(0)), key.name(), 0));
+        }
+    }
+
     public Map<SpecialType, SpecialItem> getSpecial() {
         return special;
     }
@@ -19,12 +25,6 @@ public class Special {
 
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
-    }
-
-    Special() {
-        for (SpecialType key : SpecialType.values()) {
-            special.put(key, new SpecialItem(String.valueOf(key.name().charAt(0)), key.name(), 0));
-        }
     }
 
     public SpecialItem getSpecial(SpecialType type) {

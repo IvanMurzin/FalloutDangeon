@@ -19,26 +19,8 @@ public class Level {
     public final int levelNumber;
     public final int fieldSize;
     public final Cell[][] cells;
-
-    public Level getNextLevel() {
-        return nextLevel;
-    }
-
-    public void setNextLevel(Level nextLevel) {
-        this.nextLevel = nextLevel;
-    }
-
-    public Level getPreviousLevel() {
-        return previousLevel;
-    }
-
-
     private Level nextLevel;
     private Level previousLevel;
-
-    private int getRandom(int min, int max) {
-        return min + (int) (Math.random() * (max - min));
-    }
 
     public Level(Context context, Hero hero, int levelNumber, int fieldSize) {
         cells = new Cell[fieldSize][fieldSize];
@@ -62,6 +44,22 @@ public class Level {
         this.enemies = new Enemy[10];
         this.levelNumber = levelNumber;
         this.fieldSize = fieldSize;
+    }
+
+    public Level getNextLevel() {
+        return nextLevel;
+    }
+
+    public void setNextLevel(Level nextLevel) {
+        this.nextLevel = nextLevel;
+    }
+
+    public Level getPreviousLevel() {
+        return previousLevel;
+    }
+
+    private int getRandom(int min, int max) {
+        return min + (int) (Math.random() * (max - min));
     }
 
     public void draw(Canvas canvas, GameDisplay display) {

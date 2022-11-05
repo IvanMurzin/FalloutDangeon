@@ -11,14 +11,25 @@ public class Joystick {
     private final float centerX;
     private final float centerY;
     private final float outRadius;
+    private final Bitmap buttonIn;
+    private final Bitmap buttonOut;
     private float positionX;
     private float positionY;
     private float actuatorX;
     private float actuatorY;
     private boolean isPressed = false;
-    private final Bitmap buttonIn;
-    private final Bitmap buttonOut;
     private int joystickPointerId = 0;
+    private int touchCount = 0;
+
+    public Joystick(Context context, float centerX, float centerY) {
+        this.centerX = centerX;
+        this.centerY = centerY;
+        this.outRadius = 150;
+        this.positionX = centerX;
+        this.positionY = centerY;
+        buttonIn = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_in), 100, 100, false);
+        buttonOut = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_out), 150 + buttonIn.getWidth() / 2, 150 + buttonIn.getHeight() / 2, false);
+    }
 
     public int getJoystickPointerId() {
         return joystickPointerId;
@@ -38,18 +49,6 @@ public class Joystick {
 
     public void decTouchCount() {
         this.touchCount--;
-    }
-
-    private int touchCount = 0;
-
-    public Joystick(Context context, float centerX, float centerY) {
-        this.centerX = centerX;
-        this.centerY = centerY;
-        this.outRadius = 150;
-        this.positionX = centerX;
-        this.positionY = centerY;
-        buttonIn = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_in), 100, 100, false);
-        buttonOut = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_out), 150 + buttonIn.getWidth() / 2, 150 + buttonIn.getHeight() / 2, false);
     }
 
     public void draw(Canvas canvas) {

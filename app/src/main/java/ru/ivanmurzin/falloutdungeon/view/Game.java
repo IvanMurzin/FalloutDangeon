@@ -15,9 +15,9 @@ import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
+    private static final int fps = 30;
     private SurfaceHolder holder;
     private GameThread gameThread;
-    private static final int fps = 30;
     private Level level;
     private Player player;
     private GameDisplay gameDisplay;
@@ -38,30 +38,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);
         gameThread = new GameThread();
         gameThread.start();
-    }
-
-    private class GameThread extends Thread {
-        private volatile boolean running = true;
-
-        @SuppressWarnings("BusyWait")
-        @Override
-        public void run() {
-            while (running) {
-                Canvas canvas = holder.lockCanvas();
-                try {
-                    sleep(1000 / fps);
-                    drawFrames(canvas, gameDisplay);
-                    update();
-                } catch (Exception ignored) {
-                } finally {
-                    try {
-                        holder.unlockCanvasAndPost(canvas);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
     }
 
     @Override
@@ -126,5 +102,29 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                 return true;
         }
         return true;
+    }
+
+    private class GameThread extends Thread {
+        private volatile boolean running = true;
+
+        @SuppressWarnings("BusyWait")
+        @Override
+        public void run() {
+            while (running) {
+                Canvas canvas = holder.lockCanvas();
+                try {
+                    sleep(1000 / fps);
+                    drawFrames(canvas, gameDisplay);
+                    update();
+                } catch (Exception ignored) {
+                } finally {
+                    try {
+                        holder.unlockCanvasAndPost(canvas);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 }

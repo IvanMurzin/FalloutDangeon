@@ -1,7 +1,6 @@
 package ru.ivanmurzin.falloutdungeon.lib.game.object;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.controller.BitmapUtil;
