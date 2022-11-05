@@ -1,18 +1,19 @@
-package ru.ivanmurzin.falloutdungeon.view;
+package ru.ivanmurzin.falloutdungeon.controller.object.unit;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import ru.ivanmurzin.falloutdungeon.controller.BitmapUtil;
-import ru.ivanmurzin.falloutdungeon.controller.Joystick;
-import ru.ivanmurzin.falloutdungeon.lib.game.object.GameObject;
+import ru.ivanmurzin.falloutdungeon.controller.ui.HealthBarController;
+import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
+import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
+import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
-public class Player extends GameObject {
+public class HeroController extends UnitController {
     private static final float speed = 30;
-    public final Joystick joystick;
-    public final HealthBar healthBar;
+    public final JoystickController joystickController;
+    public final HealthBarController healthBarController;
     private final Frames framesNE;
     private final Frames framesE;
     private final Frames framesSE;
@@ -24,13 +25,11 @@ public class Player extends GameObject {
     private float speedX;
     private float speedY;
 
-
-    public Player(Context context, int width, int height, int fieldSize) {
-        super(width / 2, height / 2, null);
+    public HeroController(Context context, int width, int height, int fieldSize) {
+        super(width / 2, height / 2);
         this.fieldSize = fieldSize;
-        joystick = new Joystick(context, 250, height * 3 / 4f);
-        healthBar = new HealthBar(context);
-
+        joystickController = new JoystickController(context, 250, height * 3 / 4f);
+        healthBarController = new HealthBarController(context);
         int heroHeight = 150;
         int heroWidth = 120;
 
@@ -41,20 +40,20 @@ public class Player extends GameObject {
         framesW = new Frames(context, 32, 39, heroWidth, heroHeight);
         framesNW = new Frames(context, 40, 47, heroWidth, heroHeight);
         currentFrame = setFrame();
-
     }
 
     @Override
     public void draw(Canvas canvas, GameDisplay display) {
         canvas.drawBitmap(currentFrame, display.offsetX(x), display.offsetY(y), null);
-        joystick.draw(canvas);
-        healthBar.draw(canvas);
+        joystickController.draw(canvas);
+        healthBarController.draw(canvas);
     }
 
+    @Override
     public void update() {
-        joystick.update();
-        speedX = joystick.getActuatorX() * speed;
-        speedY = joystick.getActuatorY() * speed;
+        joystickController.update();
+        speedX = joystickController.getActuatorX() * speed;
+        speedY = joystickController.getActuatorY() * speed;
         x += speedX;
         y += speedY;
         if (x > (fieldSize - 5) * 40) x = (fieldSize - 5) * 40;

@@ -9,10 +9,16 @@ public class Special {
     private final Map<SpecialType, SpecialItem> special = new HashMap<>();
     private int maxHealth;
 
-    Special() {
+    public Special() {
         for (SpecialType key : SpecialType.values()) {
             special.put(key, new SpecialItem(String.valueOf(key.name().charAt(0)), key.name(), 0));
         }
+    }
+
+    public static Special getSpecialWithScale(SpecialType type, int scale) {
+        Special special = new Special();
+        special.setSpecial(type, scale);
+        return special;
     }
 
     public Map<SpecialType, SpecialItem> getSpecial() {
@@ -40,7 +46,6 @@ public class Special {
     public double getMaxWeight() {
         return special.get(SpecialType.Strength).getValue() / 2d; // strength / 2
     }
-
 
     public int getHitChance() {
         int agility = special.get(SpecialType.Agility).getValue() * 5;

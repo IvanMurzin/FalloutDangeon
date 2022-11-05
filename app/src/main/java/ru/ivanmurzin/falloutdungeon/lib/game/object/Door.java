@@ -1,12 +1,12 @@
 package ru.ivanmurzin.falloutdungeon.lib.game.object;
 
-import android.graphics.Bitmap;
+import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 
 public class Door extends GameObject {
     private DoorState state = DoorState.Closed;
 
-    public Door(int x, int y, Bitmap bitmap) {
-        super(x, y, bitmap);
+    public Door(int x, int y) {
+        super(x, y);
     }
 
     public void open() {

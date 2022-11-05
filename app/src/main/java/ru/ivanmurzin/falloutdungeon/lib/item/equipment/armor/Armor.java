@@ -10,8 +10,8 @@ public abstract class Armor extends Equipment {
     protected final double armor;
     protected final Map<WeaponType, Double> typeResistance;
 
-    public Armor(Special enchantScale, int armor, Map<WeaponType, Double> typeResistance) {
-        super(enchantScale);
+    public Armor(String name, Special enchantScale, int armor, Map<WeaponType, Double> typeResistance) {
+        super(name, enchantScale);
         this.armor = armor;
         this.typeResistance = typeResistance;
     }

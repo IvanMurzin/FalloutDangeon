@@ -7,7 +7,7 @@ import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 
 public class Ghoul extends Enemy {
-    public Ghoul(int maxHealth, int armor, Weapon weapon, int dropExperience, Item drop, Map<WeaponType, Double> typeResistance) {
-        super(maxHealth, armor, weapon, dropExperience, drop, typeResistance);
+    public Ghoul(int x, int y, int maxHealth, int armor, Weapon weapon, int dropExperience, Item drop, Map<WeaponType, Double> typeResistance) {
+        super(x, y, maxHealth, armor, weapon, dropExperience, drop, typeResistance);
     }
 }

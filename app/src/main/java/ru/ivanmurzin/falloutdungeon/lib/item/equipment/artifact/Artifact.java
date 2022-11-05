@@ -5,7 +5,7 @@ import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Special;
 
 public class Artifact extends Equipment {
 
-    public Artifact(Special enchantScale) {
-        super(enchantScale);
+    public Artifact(String name, Special enchantScale) {
+        super(name, enchantScale);
     }
 }

@@ -1,6 +1,6 @@
 package ru.ivanmurzin.falloutdungeon.lib.unit.hero;
 
-import ru.ivanmurzin.falloutdungeon.lib.game.object.Chest;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.Aid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.BodyArmor;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Helmet;

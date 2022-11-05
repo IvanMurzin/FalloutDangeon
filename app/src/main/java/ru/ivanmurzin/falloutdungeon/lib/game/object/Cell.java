@@ -1,10 +1,10 @@
 package ru.ivanmurzin.falloutdungeon.lib.game.object;
 
-import android.graphics.Bitmap;
+import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 
 public class Cell extends GameObject {
 
-    public Cell(int x, int y, Bitmap bitmap) {
-        super(x, y, bitmap);
+    public Cell(int x, int y) {
+        super(x, y);
     }
 }

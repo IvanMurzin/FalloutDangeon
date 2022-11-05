@@ -1,4 +1,4 @@
-package ru.ivanmurzin.falloutdungeon.controller;
+package ru.ivanmurzin.falloutdungeon.controller.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 
 import ru.ivanmurzin.falloutdungeon.R;
 
-public class Joystick {
+public class JoystickController implements UiController {
     private final float centerX;
     private final float centerY;
     private final float outRadius;
@@ -21,7 +21,7 @@ public class Joystick {
     private int joystickPointerId = 0;
     private int touchCount = 0;
 
-    public Joystick(Context context, float centerX, float centerY) {
+    public JoystickController(Context context, float centerX, float centerY) {
         this.centerX = centerX;
         this.centerY = centerY;
         this.outRadius = 150;
@@ -51,6 +51,7 @@ public class Joystick {
         this.touchCount--;
     }
 
+    @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(buttonOut, centerX - buttonOut.getWidth() / 2f, centerY - buttonOut.getHeight() / 2f, null);
         canvas.drawBitmap(buttonIn, positionX - buttonIn.getWidth() / 2f, positionY - buttonIn.getHeight() / 2f, null);

@@ -5,7 +5,6 @@ public class Experience {
     private int required = 110;
     private int level = 1;
 
-
     public int getCurrent() {
         return current;
     }
