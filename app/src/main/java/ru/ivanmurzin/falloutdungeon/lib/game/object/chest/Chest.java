@@ -1,9 +1,11 @@
 package ru.ivanmurzin.falloutdungeon.lib.game.object.chest;
 
-import ru.ivanmurzin.falloutdungeon.lib.GameObject;
+import android.util.Log;
+
+import ru.ivanmurzin.falloutdungeon.lib.game.IntractableGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
 
-public class Chest extends GameObject {
+public class Chest extends IntractableGameObject {
     public final Item item;
     public final int difficulty;
 
@@ -11,5 +13,10 @@ public class Chest extends GameObject {
         super(x, y);
         this.item = item;
         this.difficulty = difficulty;
+    }
+
+    @Override
+    public void action() {
+        Log.d("RRR", difficulty + "");
     }
 }

@@ -26,7 +26,8 @@ public class HeroController extends UnitController {
     private float speedY;
 
     public HeroController(Context context, int width, int height, int fieldSize) {
-        super(width / 2, height / 2);
+        Hero.instance.x = width / 2;
+        Hero.instance.y = height / 2;
         this.fieldSize = fieldSize;
         joystickController = new JoystickController(context, 250, height * 3 / 4f);
         healthBarController = new HealthBarController(context);
@@ -44,7 +45,7 @@ public class HeroController extends UnitController {
 
     @Override
     public void draw(Canvas canvas, GameDisplay display) {
-        canvas.drawBitmap(currentFrame, display.offsetX(x), display.offsetY(y), null);
+        canvas.drawBitmap(currentFrame, display.offsetX(Hero.instance.x), display.offsetY(Hero.instance.y), null);
         joystickController.draw(canvas);
         healthBarController.draw(canvas);
     }
@@ -54,15 +55,15 @@ public class HeroController extends UnitController {
         joystickController.update();
         speedX = joystickController.getActuatorX() * speed;
         speedY = joystickController.getActuatorY() * speed;
-        x += speedX;
-        y += speedY;
-        if (x > (fieldSize - 5) * 40) x = (fieldSize - 5) * 40;
-        if (x < 0) {
-            x = 0;
+        Hero.instance.x += speedX;
+        Hero.instance.y += speedY;
+        if (Hero.instance.x > (fieldSize - 5) * 40) Hero.instance.x = (fieldSize - 5) * 40;
+        if (Hero.instance.x < 0) {
+            Hero.instance.x = 0;
             Hero.instance.getDamage(1);
         }
-        if (y > (fieldSize - 5) * 40) y = (fieldSize - 5) * 40;
-        if (y < 0) y = 0;
+        if (Hero.instance.y > (fieldSize - 5) * 40) Hero.instance.y = (fieldSize - 5) * 40;
+        if (Hero.instance.y < 0) Hero.instance.y = 0;
         currentFrame = setFrame();
     }
 
