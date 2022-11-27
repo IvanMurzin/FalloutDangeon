@@ -35,8 +35,14 @@ public class PauseDialog extends Dialog {
         initSpecial();
         initExperience();
         initButtons();
+        initData();
     }
 
+
+    private void initData() {
+        TextView lockpicks = findViewById(R.id.lockpicks);
+        lockpicks.setText(String.valueOf(Hero.instance.getLockpicks()));
+    }
 
     @SuppressLint("DefaultLocale")
     private void initSpecial() {

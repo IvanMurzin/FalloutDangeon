@@ -45,6 +45,7 @@ public class Chest extends IntractableGameObject {
                 }
                 break;
             case Opened:
+                item.pick(logger);
                 state = ChestState.Clear;
                 break;
             case Clear:

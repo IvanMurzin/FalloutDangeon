@@ -20,6 +20,10 @@ public class Hero extends Unit {
     private BodyArmor bodyArmor;
     private Artifact[] artifacts;
 
+    public void addLockpicks(int lockpicks) {
+        this.lockpicks += lockpicks;
+    }
+
     public int getLockpicks() {
         return lockpicks;
     }
