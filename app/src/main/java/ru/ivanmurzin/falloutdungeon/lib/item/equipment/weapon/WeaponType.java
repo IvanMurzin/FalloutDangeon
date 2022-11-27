@@ -5,4 +5,5 @@ public enum WeaponType {
     Frost,
     Fire,
     Rad,
+    Laser,
 }

@@ -1,8 +1,8 @@
 package ru.ivanmurzin.falloutdungeon.controller.object.unit;
 
-import ru.ivanmurzin.falloutdungeon.controller.object.DrawController;
+import ru.ivanmurzin.falloutdungeon.controller.object.Drawer;
 
-public abstract class UnitController extends DrawController {
+public abstract class UnitController implements Drawer {
 
     public abstract void update();
 }

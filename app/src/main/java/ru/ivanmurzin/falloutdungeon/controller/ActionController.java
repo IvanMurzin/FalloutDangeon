@@ -6,7 +6,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import ru.ivanmurzin.falloutdungeon.R;
+import androidx.annotation.DrawableRes;
+
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 
 public class ActionController {
@@ -16,10 +17,10 @@ public class ActionController {
     private final int y;
 
 
-    public ActionController(Context context, int width, int height) {
-        action = BitmapUtil.getScaledBitmap(context, 150, 150, R.drawable.act);
-        x = width - 200;
-        y = height - 200;
+    public ActionController(Context context, int width, int height, @DrawableRes int id) {
+        action = BitmapUtil.getScaledBitmap(context, 150, 150, id);
+        x = width;
+        y = height;
     }
 
     public void draw(Canvas canvas) {

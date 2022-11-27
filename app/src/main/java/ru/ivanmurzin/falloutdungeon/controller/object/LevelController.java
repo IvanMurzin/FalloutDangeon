@@ -4,43 +4,49 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.controller.ActionController;
+import ru.ivanmurzin.falloutdungeon.controller.GameObjectController;
 import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
-import ru.ivanmurzin.falloutdungeon.lib.game.IntractableGameObject;
+import ru.ivanmurzin.falloutdungeon.lib.game.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.ChestType;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.lockpick.Lockpick;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
-public class LevelController extends DrawController {
+public class LevelController implements Drawer {
     private final Logger logger;
-    private final ChestController chestController;
+    private final GameObjectController gameObjectController;
     private final ActionController actionController;
+    private final ActionController shootController;
     private final Level level;
     private final Hero hero = Hero.instance;
     private final Bitmap defaultBitmap;
     private final Bitmap fence;
 
-    public LevelController(Context context, ActionController actionController, Logger logger) {
+    public LevelController(Context context, int width, int height, Logger logger) {
         this.logger = logger;
-        this.actionController = actionController;
+        actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
+        shootController = new ActionController(context, width - 200, height - 200, R.drawable.shoot);
         level = new Level(context, 1, 40);
+        gameObjectController = new GameObjectController(context, level);
         Set<Chest> chests = getRandomChests();
         level.addChests(chests);
-        chestController = new ChestController(context, chests, level);
         Bitmap[] cellBitmaps = new Bitmap[4];
         cellBitmaps[0] = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile1);
         cellBitmaps[1] = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile2);
@@ -71,30 +77,43 @@ public class LevelController extends DrawController {
             canvas.drawBitmap(fence, display.offsetX(i * 40), display.offsetY(0), null);
             canvas.drawBitmap(fence, display.offsetX(i * 40), display.offsetY((level.fieldSize - 1) * 40), null);
         }
-        chestController.draw(canvas, display);
-        for (GameObject object : level.objects) {
+        for (GameObject object : level.getInteractiveGameObjects()) {
             if (hero.getDistance(object) < 100) {
                 actionController.draw(canvas);
                 break;
             }
         }
+        for (GameObject object : level.getObjects()) {
+            gameObjectController.draw(canvas, display, object);
+        }
+        shootController.draw(canvas);
     }
 
     public void onTouchEvent(MotionEvent event) {
-        if (event.getActionMasked() == MotionEvent.ACTION_DOWN && actionController.clickOnAction(event.getX(), event.getY())) {
-            for (IntractableGameObject object : level.objects) {
+        Log.d(Constants.TAG, level.getObjects().toString());
+        Log.d(Constants.TAG, level.getInteractiveGameObjects().toString());
+        if (event.getActionMasked() != MotionEvent.ACTION_DOWN) return;
+        if (actionController.clickOnAction(event.getX(), event.getY())) {
+            Set<InteractiveGameObject> interactiveGameObjects = level.getInteractiveGameObjects();
+            for (InteractiveGameObject object : interactiveGameObjects) {
                 if (hero.getDistance(object) < 100) {
                     object.action(logger);
+                    break;
                 }
             }
+            return;
+        }
+        if (shootController.clickOnAction(event.getX(), event.getY())) {
+            logger.notifyInfo("Shoot");
+            level.addBullet(new Bullet(event.getX(), event.getY()));
         }
     }
 
     public Set<Chest> getRandomChests() {
         Set<Chest> chests = new HashSet<>();
         chests.add(new Chest(20, 20, new Lockpick(3), 1, ChestType.Ordinary));
-        chests.add(new Chest(200, 200, new Weapon("a", null, 100, WeaponType.Ordinary, 10, null), 2, ChestType.Weapon));
-        chests.add(new Chest(600, 600, new Lockpick(3), 3, ChestType.Rare));
+        chests.add(new Chest(100, 100, new Pistol(), 0, ChestType.Weapon));
+        chests.add(new Chest(200, 200, new LaserPistol(), 0, ChestType.Weapon));
         return chests;
     }
 }

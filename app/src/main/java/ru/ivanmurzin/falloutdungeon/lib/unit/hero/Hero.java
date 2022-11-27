@@ -19,21 +19,6 @@ public class Hero extends Unit {
     private Helmet helmet;
     private BodyArmor bodyArmor;
     private Artifact[] artifacts;
-
-    public void addLockpicks(int lockpicks) {
-        this.lockpicks += lockpicks;
-    }
-
-    public int getLockpicks() {
-        return lockpicks;
-    }
-
-    public boolean decreaseLockpick() {
-        if (lockpicks == 0) return false;
-        lockpicks--;
-        return true;
-    }
-
     private int lockpicks;
     private Aid[] aid;
 
@@ -49,6 +34,20 @@ public class Hero extends Unit {
         special.setSpecial(SpecialType.Luck, 10);
         lockpicks = 5;
         experience = new Experience();
+    }
+
+    public void addLockpicks(int lockpicks) {
+        this.lockpicks += lockpicks;
+    }
+
+    public int getLockpicks() {
+        return lockpicks;
+    }
+
+    public boolean decreaseLockpick() {
+        if (lockpicks == 0) return false;
+        lockpicks--;
+        return true;
     }
 
     public void getDamage(int damage) {

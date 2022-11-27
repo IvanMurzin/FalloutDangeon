@@ -5,10 +5,10 @@ import static java.lang.Math.sqrt;
 import androidx.annotation.NonNull;
 
 public abstract class GameObject {
-    public int x;
-    public int y;
+    public float x;
+    public float y;
 
-    public GameObject(int x, int y) {
+    public GameObject(float x, float y) {
         this.x = x;
         this.y = y;
     }

@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         initGame(rootPanel);
         initMenuButton(rootPanel);
-
         setContentView(rootPanel);
     }
 
