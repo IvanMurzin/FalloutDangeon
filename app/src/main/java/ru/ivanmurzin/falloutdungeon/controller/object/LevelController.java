@@ -4,17 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.controller.ActionController;
 import ru.ivanmurzin.falloutdungeon.controller.GameObjectController;
 import ru.ivanmurzin.falloutdungeon.controller.Logger;
+import ru.ivanmurzin.falloutdungeon.controller.NotifyController;
+import ru.ivanmurzin.falloutdungeon.controller.object.unit.HeroController;
+import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
@@ -34,13 +35,15 @@ public class LevelController implements Drawer {
     private final GameObjectController gameObjectController;
     private final ActionController actionController;
     private final ActionController shootController;
+    private final HeroController heroController;
     private final Level level;
     private final Hero hero = Hero.instance;
     private final Bitmap defaultBitmap;
     private final Bitmap fence;
 
-    public LevelController(Context context, int width, int height, Logger logger) {
-        this.logger = logger;
+    public LevelController(Context context, int width, int height) {
+        logger = new NotifyController(context);
+        heroController = new HeroController(context, width, height, 40);
         actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
         shootController = new ActionController(context, width - 200, height - 200, R.drawable.shoot);
         level = new Level(context, 1, 40);
@@ -87,11 +90,10 @@ public class LevelController implements Drawer {
             gameObjectController.draw(canvas, display, object);
         }
         shootController.draw(canvas);
+        heroController.draw(canvas, display);
     }
 
     public void onTouchEvent(MotionEvent event) {
-        Log.d(Constants.TAG, level.getObjects().toString());
-        Log.d(Constants.TAG, level.getInteractiveGameObjects().toString());
         if (event.getActionMasked() != MotionEvent.ACTION_DOWN) return;
         if (actionController.clickOnAction(event.getX(), event.getY())) {
             Set<InteractiveGameObject> interactiveGameObjects = level.getInteractiveGameObjects();
@@ -104,8 +106,7 @@ public class LevelController implements Drawer {
             return;
         }
         if (shootController.clickOnAction(event.getX(), event.getY())) {
-            logger.notifyInfo("Shoot");
-            level.addBullet(new Bullet(event.getX(), event.getY()));
+            level.addMovingObject(new Bullet(heroController.getSpeedX(), heroController.getSpeedY()));
         }
     }
 
@@ -115,5 +116,14 @@ public class LevelController implements Drawer {
         chests.add(new Chest(100, 100, new Pistol(), 0, ChestType.Weapon));
         chests.add(new Chest(200, 200, new LaserPistol(), 0, ChestType.Weapon));
         return chests;
+    }
+
+    public void update() {
+        heroController.update();
+        level.update();
+    }
+
+    public JoystickController getJoystickController() {
+        return heroController.joystickController;
     }
 }

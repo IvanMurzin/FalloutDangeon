@@ -11,10 +11,7 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
-import ru.ivanmurzin.falloutdungeon.controller.Logger;
-import ru.ivanmurzin.falloutdungeon.controller.NotifyController;
 import ru.ivanmurzin.falloutdungeon.controller.object.LevelController;
-import ru.ivanmurzin.falloutdungeon.controller.object.unit.HeroController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
@@ -24,8 +21,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private GameThread gameThread;
     private GameDisplay gameDisplay;
     private LevelController levelController;
-    private Logger logger;
-    private HeroController heroController;
 
 
     public Game(Context context) {
@@ -36,9 +31,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         this.holder = holder;
-        logger = new NotifyController(getContext());
-        levelController = new LevelController(getContext(), getWidth(), getHeight(), logger);
-        heroController = new HeroController(getContext(), getWidth(), getHeight(), 40);
+        levelController = new LevelController(getContext(), getWidth(), getHeight());
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, Hero.instance);
@@ -58,19 +51,18 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update() {
         gameDisplay.update();
-        heroController.update();
+        levelController.update();
     }
 
     public void drawFrames(Canvas canvas, GameDisplay display) {
         levelController.draw(canvas, display);
-        heroController.draw(canvas, display);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         levelController.onTouchEvent(event);
-        JoystickController joystick = heroController.joystickController;
+        JoystickController joystick = levelController.getJoystickController();
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:

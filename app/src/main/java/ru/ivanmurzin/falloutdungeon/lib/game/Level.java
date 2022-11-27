@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
-import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.Cell;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
@@ -17,7 +16,9 @@ public class Level {
     public final int fieldSize;
     public final Cell[][] cells;
     private final Set<InteractiveGameObject> interactiveGameObjects;
+    private final Set<MovingGameObject> movingGameObjects;
     private final Set<GameObject> objects;
+    private final Set<GameObject> objectsToRemove;
     private Level nextLevel;
     private Level previousLevel;
 
@@ -32,6 +33,8 @@ public class Level {
         this.fieldSize = fieldSize;
         objects = new HashSet<>();
         interactiveGameObjects = new HashSet<>();
+        movingGameObjects = new HashSet<>();
+        objectsToRemove = new HashSet<>();
     }
 
     public Set<GameObject> getObjects() {
@@ -53,13 +56,19 @@ public class Level {
         interactiveGameObjects.add(gameItem);
     }
 
+    public void addMovingObject(MovingGameObject object) {
+        objects.add(object);
+        movingGameObjects.add(object);
+    }
+
     public void removeInteractive(InteractiveGameObject object) {
         objects.remove(object);
         interactiveGameObjects.remove(object);
     }
 
-    public void addBullet(Bullet bullet) {
-        interactiveGameObjects.add(bullet);
+    public void removeMoving(MovingGameObject object) {
+        objects.remove(object);
+        movingGameObjects.remove(object);
     }
 
     public Level getNextLevel() {
@@ -68,6 +77,18 @@ public class Level {
 
     public void setNextLevel(Level nextLevel) {
         this.nextLevel = nextLevel;
+    }
+
+    public void update() {
+        for (MovingGameObject object : movingGameObjects) {
+            object.move();
+            if (object.x > (fieldSize - 5) * 40 || object.x < 0 || object.y > (fieldSize - 5) * 40 || object.y < 0) {
+                objectsToRemove.add(object);
+            }
+        }
+        objects.removeAll(objectsToRemove);
+        movingGameObjects.removeAll(objectsToRemove);
+        objectsToRemove.clear();
     }
 
     public Level getPreviousLevel() {

@@ -8,6 +8,7 @@ import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.controller.object.ChestController;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
@@ -21,12 +22,20 @@ import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 public class GameObjectController {
     private final ChestController chestController;
     private final Bitmap unknownBitmap;
+    private final Bitmap bulletNBitmap;
+    private final Bitmap bulletSBitmap;
+    private final Bitmap bulletWBitmap;
+    private final Bitmap bulletEBitmap;
     private final ItemController itemController;
 
     public GameObjectController(Context context, Level level) {
         itemController = new ItemController(context);
         chestController = new ChestController(context, level);
         unknownBitmap = BitmapUtil.getScaledBitmap(context, 100, 80, R.drawable.unknown);
+        bulletNBitmap = BitmapUtil.getScaledBitmap(context, 40, 20, R.drawable.bullet_up);
+        bulletSBitmap = BitmapUtil.getScaledBitmap(context, 40, 20, R.drawable.bullet_down);
+        bulletWBitmap = BitmapUtil.getScaledBitmap(context, 40, 20, R.drawable.bullet_left);
+        bulletEBitmap = BitmapUtil.getScaledBitmap(context, 40, 20, R.drawable.bullet_right);
     }
 
     public void draw(Canvas canvas, GameDisplay display, GameObject object) {
@@ -39,10 +48,26 @@ public class GameObjectController {
             itemController.draw(canvas, display, (GameItem) object);
             return;
         }
-        itemBitmap = unknownBitmap;
+        if (object instanceof Bullet) {
+            switch (((Bullet) object).direction) {
+                case South:
+                    itemBitmap = bulletSBitmap;
+                    break;
+                case North:
+                    itemBitmap = bulletNBitmap;
+                    break;
+                case West:
+                    itemBitmap = bulletWBitmap;
+                    break;
+                default:
+                    itemBitmap = bulletEBitmap;
+                    break;
+            }
+        } else {
+            itemBitmap = unknownBitmap;
+        }
         canvas.drawBitmap(itemBitmap, display.offsetX(object.x), display.offsetY(object.y), null);
     }
-
 
     private static class ItemController {
         private final Bitmap lockpickBitmap;

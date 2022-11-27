@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import java.util.Locale;
+
 import ru.ivanmurzin.falloutdungeon.controller.ui.HealthBarController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
@@ -26,8 +28,8 @@ public class HeroController extends UnitController {
     private float speedY;
 
     public HeroController(Context context, int width, int height, int fieldSize) {
-        Hero.instance.x = width / 2;
-        Hero.instance.y = height / 2;
+        Hero.instance.x = width / 2f;
+        Hero.instance.y = height / 2f;
         this.fieldSize = fieldSize;
         joystickController = new JoystickController(context, 250, height * 3 / 4f);
         healthBarController = new HealthBarController(context);
@@ -41,6 +43,14 @@ public class HeroController extends UnitController {
         framesW = new Frames(context, 32, 39, heroWidth, heroHeight);
         framesNW = new Frames(context, 40, 47, heroWidth, heroHeight);
         currentFrame = setFrame();
+    }
+
+    public float getSpeedX() {
+        return speedX;
+    }
+
+    public float getSpeedY() {
+        return speedY;
     }
 
     @Override
@@ -84,7 +94,7 @@ public class HeroController extends UnitController {
 
         Frames(Context context, int from, int to, int width, int height) {
             for (int i = from; i <= to; i++) {
-                String name = "tile0" + String.format("%02d", i);
+                String name = "tile0" + String.format(Locale.ROOT, "%02d", i);
                 int id = context.getResources().getIdentifier(name, "drawable", context.getPackageName());
                 frames[i % frames.length] = BitmapUtil.getScaledBitmap(context, width, height, id);
             }
