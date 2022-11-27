@@ -15,6 +15,7 @@ import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.IntractableGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.ChestType;
 import ru.ivanmurzin.falloutdungeon.lib.item.lockpick.Lockpick;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
@@ -32,12 +33,9 @@ public class LevelController extends DrawController {
     public LevelController(Context context, ActionController actionController) {
         this.actionController = actionController;
         level = new Level(context, 1, 40);
-        Set<Chest> chests = new HashSet<>();
-        chests.add(new Chest(20, 20, new Lockpick(3), 1));
-        chests.add(new Chest(200, 200, new Lockpick(3), 5));
-        chests.add(new Chest(600, 600, new Lockpick(3), 10));
+        Set<Chest> chests = getRandomChests();
         level.addChests(chests);
-        chestController = new ChestController(context, level, chests);
+        chestController = new ChestController(context, chests);
         defaultBitmap = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile1);
         Bitmap[] cellBitmaps = new Bitmap[4];
         cellBitmaps[0] = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile1);
@@ -85,5 +83,13 @@ public class LevelController extends DrawController {
                 }
             }
         }
+    }
+
+    public Set<Chest> getRandomChests() {
+        Set<Chest> chests = new HashSet<>();
+        chests.add(new Chest(20, 20, new Lockpick(3), 1, ChestType.Weapon));
+        chests.add(new Chest(200, 200, new Lockpick(3), 5, ChestType.Ordinary));
+        chests.add(new Chest(600, 600, new Lockpick(3), 10, ChestType.Rare));
+        return chests;
     }
 }

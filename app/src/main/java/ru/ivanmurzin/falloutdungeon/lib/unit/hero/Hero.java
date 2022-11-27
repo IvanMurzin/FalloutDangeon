@@ -1,5 +1,8 @@
 package ru.ivanmurzin.falloutdungeon.lib.unit.hero;
 
+import static java.lang.Math.sqrt;
+
+import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.Aid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.BodyArmor;
@@ -40,5 +43,10 @@ public class Hero extends Unit {
 
     public void unlock(Chest chest) {
 
+    }
+
+    @Override
+    public double getDistance(GameObject o) {
+        return sqrt((x + 60 - o.x) * (x + 60 - o.x) + (y + 75 - o.y) * (y + 75 - o.y));
     }
 }
