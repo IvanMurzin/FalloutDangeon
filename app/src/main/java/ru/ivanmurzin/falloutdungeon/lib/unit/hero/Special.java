@@ -63,10 +63,10 @@ public class Special {
         return 1 + intelligence + luck; // 1 + intelligence / 2 + luck / 5
     }
 
-    public int getHackChance() {
+    public int getHackChance(int difficult) {
         int perception = special.get(SpecialType.Perception).getValue() * 5;
         int luck = special.get(SpecialType.Agility).getValue() * 2;
-        return 30 + perception + luck; // 30% + perception * 5% + luck * 2%
+        return 40 + perception + luck - 10 * difficult; // 40% + perception * 5% + luck * 2% - difficult * 10%
     }
 
     public int getHealthBonus() {

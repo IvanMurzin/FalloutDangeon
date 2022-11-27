@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-public class NotifyController implements Loggable {
+public class NotifyController implements Logger {
     private final Context context;
 
     public NotifyController(Context context) {
@@ -24,6 +24,16 @@ public class NotifyController implements Loggable {
     @Override
     public void notifyInfo(String message) {
         showToast(message, FancyToast.INFO);
+    }
+
+    @Override
+    public void notifySuccess(String message) {
+        showToast(message, FancyToast.SUCCESS);
+    }
+
+    @Override
+    public void notifyWarning(String message) {
+        showToast(message, FancyToast.WARNING);
     }
 
     @Override

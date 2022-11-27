@@ -11,7 +11,7 @@ import java.util.Set;
 
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.controller.ActionController;
-import ru.ivanmurzin.falloutdungeon.controller.Loggable;
+import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.IntractableGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
@@ -26,7 +26,7 @@ import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
 public class LevelController extends DrawController {
-    private final Loggable loggable;
+    private final Logger logger;
     private final ChestController chestController;
     private final ActionController actionController;
     private final Level level;
@@ -34,8 +34,8 @@ public class LevelController extends DrawController {
     private final Bitmap defaultBitmap;
     private final Bitmap fence;
 
-    public LevelController(Context context, ActionController actionController, Loggable loggable) {
-        this.loggable = loggable;
+    public LevelController(Context context, ActionController actionController, Logger logger) {
+        this.logger = logger;
         this.actionController = actionController;
         level = new Level(context, 1, 40);
         Set<Chest> chests = getRandomChests();
@@ -84,7 +84,7 @@ public class LevelController extends DrawController {
         if (event.getActionMasked() == MotionEvent.ACTION_DOWN && actionController.clickOnAction(event.getX(), event.getY())) {
             for (IntractableGameObject object : level.objects) {
                 if (hero.getDistance(object) < 100) {
-                    object.action(loggable);
+                    object.action(logger);
                 }
             }
         }
@@ -93,8 +93,8 @@ public class LevelController extends DrawController {
     public Set<Chest> getRandomChests() {
         Set<Chest> chests = new HashSet<>();
         chests.add(new Chest(20, 20, new Lockpick(3), 1, ChestType.Ordinary));
-        chests.add(new Chest(200, 200, new Weapon("a", null, 100, WeaponType.Ordinary, 10, null), 5, ChestType.Weapon));
-        chests.add(new Chest(600, 600, new Lockpick(3), 10, ChestType.Rare));
+        chests.add(new Chest(200, 200, new Weapon("a", null, 100, WeaponType.Ordinary, 10, null), 2, ChestType.Weapon));
+        chests.add(new Chest(600, 600, new Lockpick(3), 3, ChestType.Rare));
         return chests;
     }
 }

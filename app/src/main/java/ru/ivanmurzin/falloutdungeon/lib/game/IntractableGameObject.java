@@ -1,6 +1,6 @@
 package ru.ivanmurzin.falloutdungeon.lib.game;
 
-import ru.ivanmurzin.falloutdungeon.controller.Loggable;
+import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 
 public abstract class IntractableGameObject extends GameObject {
@@ -8,5 +8,5 @@ public abstract class IntractableGameObject extends GameObject {
         super(x, y);
     }
 
-    public abstract void action(Loggable loggable);
+    public abstract void action(Logger logger);
 }

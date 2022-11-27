@@ -12,7 +12,7 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 
 import ru.ivanmurzin.falloutdungeon.controller.ActionController;
-import ru.ivanmurzin.falloutdungeon.controller.Loggable;
+import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.controller.NotifyController;
 import ru.ivanmurzin.falloutdungeon.controller.object.LevelController;
 import ru.ivanmurzin.falloutdungeon.controller.object.unit.HeroController;
@@ -26,7 +26,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private GameDisplay gameDisplay;
     private LevelController levelController;
     private ActionController actionController;
-    private Loggable loggable;
+    private Logger logger;
     private HeroController heroController;
 
 
@@ -38,9 +38,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         this.holder = holder;
-        loggable = new NotifyController(getContext());
+        logger = new NotifyController(getContext());
         actionController = new ActionController(getContext(), getWidth(), getHeight());
-        levelController = new LevelController(getContext(), actionController, loggable);
+        levelController = new LevelController(getContext(), actionController, logger);
         heroController = new HeroController(getContext(), getWidth(), getHeight(), 40);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
