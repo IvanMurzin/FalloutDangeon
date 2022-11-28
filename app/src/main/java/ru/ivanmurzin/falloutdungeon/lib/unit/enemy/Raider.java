@@ -8,13 +8,12 @@ import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class Raider extends Enemy {
     private final Level level;
+    private int reload = 0;
 
     public Raider(float x, float y, Level level) {
         super(x, y, 7, 100, 10, new Pistol(), 100, new Lockpick(3), null);
         this.level = level;
     }
-
-    private int reload = 0;
 
     @Override
     public void move() {
@@ -31,5 +30,11 @@ public class Raider extends Enemy {
             if (dy > 0) y += speed;
             else y -= speed;
         }
+    }
+
+    @Override
+    public void getShoot(Bullet bullet) {
+        if (!bullet.fromHero) return;
+        health -= 10;
     }
 }

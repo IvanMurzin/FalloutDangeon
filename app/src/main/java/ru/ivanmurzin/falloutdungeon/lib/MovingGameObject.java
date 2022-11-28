@@ -1,8 +1,8 @@
 package ru.ivanmurzin.falloutdungeon.lib;
 
 public abstract class MovingGameObject extends GameObject {
-    protected final float speed;
     public final boolean removeOnCollapse;
+    protected final float speed;
 
     public MovingGameObject(float x, float y, float speed, boolean removeOnCollapse) {
         super(x, y);

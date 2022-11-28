@@ -8,10 +8,12 @@ import java.util.Set;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.MovingGameObject;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.Cell;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
+import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 
 public class Level {
     public final int levelNumber;
@@ -84,6 +86,14 @@ public class Level {
     public void update() {
         for (MovingGameObject object : movingGameObjects) {
             object.move();
+            for (MovingGameObject anotherObject : movingGameObjects) {
+                if (anotherObject == object) continue;
+                if (anotherObject.getDistance(object.x, object.y) < 50){
+                    if (anotherObject instanceof Unit && object instanceof Bullet){
+                        ((Unit) anotherObject).getShoot((Bullet) object);
+                    }
+                }
+            }
             if (object.x > (fieldSize - 5) * 40 || object.x < 0 || object.y > (fieldSize - 5) * 40 || object.y < 0) {
                 if (object.removeOnCollapse) objectsToRemove.add(object);
                 else {

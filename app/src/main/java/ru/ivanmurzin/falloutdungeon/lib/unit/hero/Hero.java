@@ -2,6 +2,7 @@ package ru.ivanmurzin.falloutdungeon.lib.unit.hero;
 
 import static java.lang.Math.sqrt;
 
+import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.Aid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.BodyArmor;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Helmet;
@@ -62,5 +63,11 @@ public class Hero extends Unit {
     @Override
     public void move() {
 
+    }
+
+    @Override
+    public void getShoot(Bullet bullet) {
+        if (bullet.fromHero) return;
+        health -= 10;
     }
 }

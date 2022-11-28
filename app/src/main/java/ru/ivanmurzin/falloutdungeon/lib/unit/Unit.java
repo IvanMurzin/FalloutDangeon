@@ -1,6 +1,7 @@
 package ru.ivanmurzin.falloutdungeon.lib.unit;
 
 import ru.ivanmurzin.falloutdungeon.lib.MovingGameObject;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 
 abstract public class Unit extends MovingGameObject {
     protected int maxHealth;
@@ -29,4 +30,6 @@ abstract public class Unit extends MovingGameObject {
     public int getArmor() {
         return armor;
     }
+
+    public abstract void getShoot(Bullet bullet);
 }

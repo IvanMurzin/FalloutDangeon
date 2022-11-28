@@ -98,8 +98,9 @@ public class LevelController implements Drawer {
     }
 
     public void onTouchEvent(MotionEvent event) {
-        if (event.getActionMasked() != MotionEvent.ACTION_DOWN) return;
-        if (actionController.clickOnAction(event.getX(), event.getY())) {
+        if (event.getActionMasked() != MotionEvent.ACTION_POINTER_DOWN && event.getActionMasked() != MotionEvent.ACTION_DOWN)
+            return;
+        if (actionController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
             Set<InteractiveGameObject> interactiveGameObjects = level.getInteractiveGameObjects();
             for (InteractiveGameObject object : interactiveGameObjects) {
                 if (hero.getDistance(object.x, object.y) < 100) {
@@ -109,8 +110,8 @@ public class LevelController implements Drawer {
             }
             return;
         }
-        if (shootController.clickOnAction(event.getX(), event.getY())) {
-            level.addMovingObject(new Bullet(heroController.getSpeedX(), heroController.getSpeedY()));
+        if (shootController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
+            level.addMovingObject(new Bullet(heroController.getSpeedX(), heroController.getSpeedY(), true));
         }
     }
 

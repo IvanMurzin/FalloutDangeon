@@ -7,13 +7,23 @@ import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class Bullet extends MovingGameObject {
     public final Direction direction;
+    public final boolean fromHero;
 
     public Bullet(float speedX, float speedY) {
         this(Hero.instance.x + 60, Hero.instance.y + 75, speedX, speedY);
     }
 
+    public Bullet(float speedX, float speedY, boolean fromHero) {
+        this(Hero.instance.x + 60, Hero.instance.y + 75, speedX, speedY, fromHero);
+    }
+
     public Bullet(float x, float y, float speedX, float speedY) {
+        this(x, y, speedX, speedY, false);
+    }
+
+    public Bullet(float x, float y, float speedX, float speedY, boolean fromHero) {
         super(x, y, 100, true);
+        this.fromHero = fromHero;
         if (speedX > 0 && abs(speedX) > abs(speedY)) {
             direction = Direction.East;
             return;
