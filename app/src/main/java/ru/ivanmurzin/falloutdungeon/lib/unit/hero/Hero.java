@@ -2,12 +2,16 @@ package ru.ivanmurzin.falloutdungeon.lib.unit.hero;
 
 import static java.lang.Math.sqrt;
 
-import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
+import android.util.Log;
+
+import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.Aid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.BodyArmor;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Helmet;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.artifact.Artifact;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 
 public class Hero extends Unit {
@@ -15,7 +19,7 @@ public class Hero extends Unit {
 
     public final Special special;
     public final Experience experience;
-    private Weapon weapon;
+    private final Weapon weapon;
     private Helmet helmet;
     private BodyArmor bodyArmor;
     private Artifact[] artifacts;
@@ -34,6 +38,7 @@ public class Hero extends Unit {
         special.setSpecial(SpecialType.Luck, 10);
         lockpicks = 5;
         experience = new Experience();
+        weapon = new Pistol();
     }
 
     public void addLockpicks(int lockpicks) {
@@ -50,10 +55,10 @@ public class Hero extends Unit {
         return true;
     }
 
-    public void getDamage(int damage) {
-        health -= damage;
-        if (health < 0) health = 0;
+    public Weapon.Bullet shoot(float speedX, float speedY) {
+        return weapon.shoot(x, y, speedX, speedY, true);
     }
+
 
     @Override
     public double getDistance(float ox, float oy) {
@@ -66,8 +71,16 @@ public class Hero extends Unit {
     }
 
     @Override
-    public void getShoot(Bullet bullet) {
+    public void takeDamage(double damage, WeaponType type) {
+        double resistance = 1 - special.getResistance();
+        health -= damage * resistance;
+        Log.v(Constants.TAG, "Pure damage=" + damage + " resistance=" + resistance + " result=" + damage * resistance);
+        if (health < 0) health = 0;
+    }
+
+    @Override
+    public void getShoot(Weapon.Bullet bullet) {
         if (bullet.fromHero) return;
-        getDamage(10);
+        takeDamage(bullet.damage, bullet.getType());
     }
 }

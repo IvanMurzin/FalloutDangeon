@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import ru.ivanmurzin.falloutdungeon.controller.ui.HealthBarController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
@@ -70,7 +71,7 @@ public class HeroController extends UnitController {
         if (Hero.instance.x > (fieldSize - 5) * 40) Hero.instance.x = (fieldSize - 5) * 40;
         if (Hero.instance.x < 0) {
             Hero.instance.x = 0;
-            Hero.instance.getDamage(1);
+            Hero.instance.takeDamage(1, WeaponType.Ordinary);
         }
         if (Hero.instance.y > (fieldSize - 5) * 40) Hero.instance.y = (fieldSize - 5) * 40;
         if (Hero.instance.y < 0) Hero.instance.y = 0;

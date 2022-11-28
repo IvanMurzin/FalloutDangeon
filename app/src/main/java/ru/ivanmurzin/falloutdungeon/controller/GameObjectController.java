@@ -8,7 +8,6 @@ import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.controller.object.ChestController;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
-import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
@@ -34,8 +33,8 @@ public class GameObjectController {
         itemController = new ItemController(context);
         chestController = new ChestController(context, level);
         unknownBitmap = BitmapUtil.getScaledBitmap(context, 100, 80, R.drawable.unknown);
-        bulletNBitmap = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_up);
-        bulletSBitmap = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_down);
+        bulletNBitmap = BitmapUtil.getScaledBitmap(context, 30, 60, R.drawable.bullet_up);
+        bulletSBitmap = BitmapUtil.getScaledBitmap(context, 30, 60, R.drawable.bullet_down);
         bulletWBitmap = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_left);
         bulletEBitmap = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_right);
         raiderBitmap = BitmapUtil.getScaledBitmap(context, 100, 150, R.drawable.raider);
@@ -51,8 +50,8 @@ public class GameObjectController {
             itemController.draw(canvas, display, (GameItem) object);
             return;
         }
-        if (object instanceof Bullet) {
-            switch (((Bullet) object).direction) {
+        if (object instanceof Weapon.Bullet) {
+            switch (((Weapon.Bullet) object).direction) {
                 case South:
                     itemBitmap = bulletSBitmap;
                     break;

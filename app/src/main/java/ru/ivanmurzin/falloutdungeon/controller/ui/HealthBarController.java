@@ -26,9 +26,9 @@ public class HealthBarController implements UiController {
     @Override
     public void draw(Canvas canvas) {
         Hero hero = Hero.instance;
-        float healthScale = hero.getHealth() / (float) hero.getMaxHealth();
-        canvas.drawRect(90, 59, 90 + 270 * healthScale, 86, paintHealth);
+        double healthScale = hero.getHealth() / hero.getMaxHealth();
+        canvas.drawRect(90, 59, (float) (90 + 270 * healthScale), 86, paintHealth);
         canvas.drawBitmap(bitmap, 0, 0, null);
-        canvas.drawText(hero.getHealth() + "/" + hero.getMaxHealth(), 380, 85, paintText);
+        canvas.drawText((int) hero.getHealth() + "/" + (int) hero.getMaxHealth(), 380, 85, paintText);
     }
 }

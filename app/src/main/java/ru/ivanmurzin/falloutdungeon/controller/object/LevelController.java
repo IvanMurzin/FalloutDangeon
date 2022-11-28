@@ -19,7 +19,6 @@ import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
-import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.ChestType;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
@@ -111,7 +110,7 @@ public class LevelController implements Drawer {
             return;
         }
         if (shootController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
-            level.addMovingObject(new Bullet(heroController.getSpeedX(), heroController.getSpeedY(), true));
+            level.addMovingObject(Hero.instance.shoot(heroController.getSpeedX(), heroController.getSpeedY()));
         }
     }
 

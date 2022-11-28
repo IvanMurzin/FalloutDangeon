@@ -1,11 +1,12 @@
 package ru.ivanmurzin.falloutdungeon.lib.unit;
 
 import ru.ivanmurzin.falloutdungeon.lib.MovingGameObject;
-import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 
 abstract public class Unit extends MovingGameObject {
-    protected int maxHealth;
-    protected int health;
+    protected double maxHealth;
+    protected double health;
     protected int armor;
 
     public Unit(float x, float y, float speed, int maxHealth, int armor) {
@@ -19,11 +20,11 @@ abstract public class Unit extends MovingGameObject {
         this(0, 0, 0, maxHealth, armor);
     }
 
-    public int getMaxHealth() {
+    public double getMaxHealth() {
         return maxHealth;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
@@ -31,5 +32,7 @@ abstract public class Unit extends MovingGameObject {
         return armor;
     }
 
-    public abstract void getShoot(Bullet bullet);
+    public abstract void takeDamage(double damage, WeaponType type);
+
+    public abstract void getShoot(Weapon.Bullet bullet);
 }

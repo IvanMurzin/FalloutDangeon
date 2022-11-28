@@ -1,8 +1,9 @@
 package ru.ivanmurzin.falloutdungeon.lib.unit.enemy;
 
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
-import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.item.lockpick.Lockpick;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
@@ -22,7 +23,7 @@ public class Raider extends Enemy {
             float dx = Hero.instance.x - x;
             float dy = Hero.instance.y - y;
             if (reload == 0) {
-                level.addMovingObject(new Bullet(x + 50, y + 40, dx, dy));
+                level.addMovingObject(weapon.shoot(x + 50, y + 40, dx, dy, false));
             }
             reload = (reload + 1) % 30;
             if (distance < 150) return;
@@ -34,8 +35,13 @@ public class Raider extends Enemy {
     }
 
     @Override
-    public void getShoot(Bullet bullet) {
+    public void takeDamage(double damage, WeaponType type) {
+
+    }
+
+    @Override
+    public void getShoot(Weapon.Bullet bullet) {
         if (!bullet.fromHero) return;
-        health -= 10;
+        health -= bullet.damage;
     }
 }

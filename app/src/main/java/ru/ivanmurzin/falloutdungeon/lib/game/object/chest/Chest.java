@@ -1,8 +1,5 @@
 package ru.ivanmurzin.falloutdungeon.lib.game.object.chest;
 
-import android.util.Log;
-
-import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
@@ -35,7 +32,6 @@ public class Chest extends InteractiveGameObject {
                 return;
             }
             int hackChance = Hero.instance.special.getHackChance(difficulty);
-            Log.d(Constants.TAG, "action: " + hackChance);
             if (RandomGenerator.isSuccess(hackChance)) {
                 logger.notifySuccess("Успех! Отмычек в запасе: " + Hero.instance.getLockpicks());
                 state = ChestState.Opened;

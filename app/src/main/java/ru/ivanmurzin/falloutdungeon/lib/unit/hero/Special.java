@@ -54,7 +54,7 @@ public class Special {
     }
 
     public double getResistance() {
-        return special.get(SpecialType.Endurance).getValue() / 2d; // endurance / 2
+        return special.get(SpecialType.Endurance).getValue() / 2d * 0.05; // endurance / 2 * 0.05
     }
 
     public double getExperienceMultiplier() {
