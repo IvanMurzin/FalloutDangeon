@@ -18,13 +18,14 @@ public class Raider extends Enemy {
     @Override
     public void move() {
         double distance = Hero.instance.getDistance(x + 50, y + 40);
-        if (distance < 600 && distance > 150) {
+        if (distance < 600) {
             float dx = Hero.instance.x - x;
             float dy = Hero.instance.y - y;
             if (reload == 0) {
                 level.addMovingObject(new Bullet(x + 50, y + 40, dx, dy));
             }
             reload = (reload + 1) % 30;
+            if (distance < 150) return;
             if (dx > 0) x += speed;
             else x -= speed;
             if (dy > 0) y += speed;

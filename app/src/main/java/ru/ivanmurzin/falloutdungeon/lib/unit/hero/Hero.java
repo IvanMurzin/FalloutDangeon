@@ -68,6 +68,6 @@ public class Hero extends Unit {
     @Override
     public void getShoot(Bullet bullet) {
         if (bullet.fromHero) return;
-        health -= 10;
+        getDamage(10);
     }
 }

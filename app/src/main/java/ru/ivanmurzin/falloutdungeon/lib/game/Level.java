@@ -1,10 +1,12 @@
 package ru.ivanmurzin.falloutdungeon.lib.game;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.MovingGameObject;
@@ -14,6 +16,7 @@ import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
 import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
+import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class Level {
     public final int levelNumber;
@@ -88,11 +91,16 @@ public class Level {
             object.move();
             for (MovingGameObject anotherObject : movingGameObjects) {
                 if (anotherObject == object) continue;
-                if (anotherObject.getDistance(object.x, object.y) < 50){
-                    if (anotherObject instanceof Unit && object instanceof Bullet){
+                if (anotherObject.getDistance(object.x, object.y) < 20) {
+                    if (anotherObject instanceof Unit && object instanceof Bullet) {
                         ((Unit) anotherObject).getShoot((Bullet) object);
                     }
                 }
+            }
+            if (Hero.instance.getDistance(object.x, object.y) < 50) {
+                Log.d(Constants.TAG, Hero.instance.getDistance(object.x, object.y) + "");
+                Log.d(Constants.TAG, object.getClass().toString());
+                if (object instanceof Bullet) Hero.instance.getShoot((Bullet) object);
             }
             if (object.x > (fieldSize - 5) * 40 || object.x < 0 || object.y > (fieldSize - 5) * 40 || object.y < 0) {
                 if (object.removeOnCollapse) objectsToRemove.add(object);
