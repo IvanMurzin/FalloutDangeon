@@ -16,6 +16,7 @@ import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
 import ru.ivanmurzin.falloutdungeon.lib.item.lockpick.Lockpick;
+import ru.ivanmurzin.falloutdungeon.lib.unit.enemy.Raider;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
@@ -26,16 +27,18 @@ public class GameObjectController {
     private final Bitmap bulletSBitmap;
     private final Bitmap bulletWBitmap;
     private final Bitmap bulletEBitmap;
+    private final Bitmap raiderBitmap;
     private final ItemController itemController;
 
     public GameObjectController(Context context, Level level) {
         itemController = new ItemController(context);
         chestController = new ChestController(context, level);
         unknownBitmap = BitmapUtil.getScaledBitmap(context, 100, 80, R.drawable.unknown);
-        bulletNBitmap = BitmapUtil.getScaledBitmap(context, 40, 20, R.drawable.bullet_up);
-        bulletSBitmap = BitmapUtil.getScaledBitmap(context, 40, 20, R.drawable.bullet_down);
-        bulletWBitmap = BitmapUtil.getScaledBitmap(context, 40, 20, R.drawable.bullet_left);
-        bulletEBitmap = BitmapUtil.getScaledBitmap(context, 40, 20, R.drawable.bullet_right);
+        bulletNBitmap = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_up);
+        bulletSBitmap = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_down);
+        bulletWBitmap = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_left);
+        bulletEBitmap = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_right);
+        raiderBitmap = BitmapUtil.getScaledBitmap(context, 100, 150, R.drawable.raider);
     }
 
     public void draw(Canvas canvas, GameDisplay display, GameObject object) {
@@ -63,6 +66,8 @@ public class GameObjectController {
                     itemBitmap = bulletEBitmap;
                     break;
             }
+        } else if (object instanceof Raider) {
+            itemBitmap = raiderBitmap;
         } else {
             itemBitmap = unknownBitmap;
         }
@@ -101,5 +106,4 @@ public class GameObjectController {
             canvas.drawBitmap(itemBitmap, display.offsetX(gameItem.x), display.offsetY(gameItem.y), null);
         }
     }
-
 }

@@ -1,7 +1,6 @@
-package ru.ivanmurzin.falloutdungeon.lib.game;
+package ru.ivanmurzin.falloutdungeon.lib;
 
 import ru.ivanmurzin.falloutdungeon.controller.Logger;
-import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 
 public abstract class InteractiveGameObject extends GameObject {
     public InteractiveGameObject(float x, float y) {

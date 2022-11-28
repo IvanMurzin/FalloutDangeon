@@ -2,7 +2,6 @@ package ru.ivanmurzin.falloutdungeon.lib.unit.hero;
 
 import static java.lang.Math.sqrt;
 
-import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.Aid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.BodyArmor;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Helmet;
@@ -56,7 +55,12 @@ public class Hero extends Unit {
     }
 
     @Override
-    public double getDistance(GameObject o) {
-        return sqrt((x + 60 - o.x) * (x + 60 - o.x) + (y + 75 - o.y) * (y + 75 - o.y));
+    public double getDistance(float ox, float oy) {
+        return sqrt((x + 60 - ox) * (x + 60 - ox) + (y + 75 - oy) * (y + 75 - oy));
+    }
+
+    @Override
+    public void move() {
+
     }
 }

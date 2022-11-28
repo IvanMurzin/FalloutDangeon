@@ -1,7 +1,7 @@
 package ru.ivanmurzin.falloutdungeon.lib.game.object;
 
 import ru.ivanmurzin.falloutdungeon.controller.Logger;
-import ru.ivanmurzin.falloutdungeon.lib.game.InteractiveGameObject;
+import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
 

@@ -24,7 +24,7 @@ public class Weapon extends Equipment {
 
     public int getDamage(Special special) {
         int hitChance = special.getHitChance() + enchantScale.getHitChance();
-        if (!RandomGenerator.doesProc(hitChance)) return 0;
+        if (!RandomGenerator.isSuccess(hitChance)) return 0;
         return RandomGenerator.getFromMax(maxDamage);
     }
 

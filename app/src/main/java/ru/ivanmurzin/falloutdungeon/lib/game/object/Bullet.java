@@ -2,19 +2,18 @@ package ru.ivanmurzin.falloutdungeon.lib.game.object;
 
 import static java.lang.Math.abs;
 
-import ru.ivanmurzin.falloutdungeon.lib.game.MovingGameObject;
+import ru.ivanmurzin.falloutdungeon.lib.MovingGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class Bullet extends MovingGameObject {
     public final Direction direction;
-    private final float speed = 100;
 
     public Bullet(float speedX, float speedY) {
         this(Hero.instance.x + 60, Hero.instance.y + 75, speedX, speedY);
     }
 
     public Bullet(float x, float y, float speedX, float speedY) {
-        super(x, y);
+        super(x, y, 100, true);
         if (speedX > 0 && abs(speedX) > abs(speedY)) {
             direction = Direction.East;
             return;

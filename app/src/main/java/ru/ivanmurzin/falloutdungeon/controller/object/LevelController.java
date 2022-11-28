@@ -17,7 +17,7 @@ import ru.ivanmurzin.falloutdungeon.controller.NotifyController;
 import ru.ivanmurzin.falloutdungeon.controller.object.unit.HeroController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
-import ru.ivanmurzin.falloutdungeon.lib.game.InteractiveGameObject;
+import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.Bullet;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
@@ -25,6 +25,7 @@ import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.ChestType;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.lockpick.Lockpick;
+import ru.ivanmurzin.falloutdungeon.lib.unit.enemy.Raider;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
@@ -47,6 +48,9 @@ public class LevelController implements Drawer {
         actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
         shootController = new ActionController(context, width - 200, height - 200, R.drawable.shoot);
         level = new Level(context, 1, 40);
+        level.addMovingObject(new Raider(200, 200, level));
+        level.addMovingObject(new Raider(50, 50, level));
+        level.addMovingObject(new Raider(850, 850, level));
         gameObjectController = new GameObjectController(context, level);
         Set<Chest> chests = getRandomChests();
         level.addChests(chests);
@@ -81,7 +85,7 @@ public class LevelController implements Drawer {
             canvas.drawBitmap(fence, display.offsetX(i * 40), display.offsetY((level.fieldSize - 1) * 40), null);
         }
         for (GameObject object : level.getInteractiveGameObjects()) {
-            if (hero.getDistance(object) < 100) {
+            if (hero.getDistance(object.x, object.y) < 100) {
                 actionController.draw(canvas);
                 break;
             }
@@ -98,7 +102,7 @@ public class LevelController implements Drawer {
         if (actionController.clickOnAction(event.getX(), event.getY())) {
             Set<InteractiveGameObject> interactiveGameObjects = level.getInteractiveGameObjects();
             for (InteractiveGameObject object : interactiveGameObjects) {
-                if (hero.getDistance(object) < 100) {
+                if (hero.getDistance(object.x, object.y) < 100) {
                     object.action(logger);
                     break;
                 }

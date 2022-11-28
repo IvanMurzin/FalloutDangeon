@@ -13,8 +13,8 @@ public abstract class Enemy extends Unit {
     public final Item drop;
     protected final Map<WeaponType, Double> typeResistance;
 
-    public Enemy(int x, int y, int maxHealth, int armor, Weapon weapon, int dropExperience, Item drop, Map<WeaponType, Double> typeResistance) {
-        super(x, y, maxHealth, armor);
+    public Enemy(float x, float y, float speed, int maxHealth, int armor, Weapon weapon, int dropExperience, Item drop, Map<WeaponType, Double> typeResistance) {
+        super(x, y, speed, maxHealth, armor);
         this.weapon = weapon;
         this.dropExperience = dropExperience;
         this.drop = drop;

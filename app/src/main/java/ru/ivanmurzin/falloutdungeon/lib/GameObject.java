@@ -13,8 +13,8 @@ public abstract class GameObject {
         this.y = y;
     }
 
-    public double getDistance(GameObject o) {
-        return sqrt((x - o.x) * (x - o.x) + (y - o.y) * (y - o.y));
+    public double getDistance(float ox, float oy) {
+        return sqrt((x - ox) * (x - ox) + (y - oy) * (y - oy));
     }
 
     @NonNull

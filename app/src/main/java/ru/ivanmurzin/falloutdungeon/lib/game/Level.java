@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
+import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
+import ru.ivanmurzin.falloutdungeon.lib.MovingGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.Cell;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
@@ -83,7 +85,13 @@ public class Level {
         for (MovingGameObject object : movingGameObjects) {
             object.move();
             if (object.x > (fieldSize - 5) * 40 || object.x < 0 || object.y > (fieldSize - 5) * 40 || object.y < 0) {
-                objectsToRemove.add(object);
+                if (object.removeOnCollapse) objectsToRemove.add(object);
+                else {
+                    if (object.x > (fieldSize - 5) * 40) object.x = (fieldSize - 5) * 40;
+                    else if (object.x < 0) object.x = 0;
+                    else if (object.y > (fieldSize - 5) * 40) object.y = (fieldSize - 5) * 40;
+                    else object.y = 0;
+                }
             }
         }
         objects.removeAll(objectsToRemove);
