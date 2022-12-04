@@ -10,7 +10,7 @@ abstract public class Unit extends MovingGameObject {
     protected int armor;
 
     public Unit(float x, float y, float speed, int maxHealth, int armor) {
-        super(x, y, speed, false);
+        super(x, y, speed);
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.armor = armor;
@@ -34,5 +34,7 @@ abstract public class Unit extends MovingGameObject {
 
     public abstract void takeDamage(double damage, WeaponType type);
 
-    public abstract void getShoot(Weapon.Bullet bullet);
+    public abstract boolean onShoot(Weapon.Bullet bullet);
+
+    public abstract void onDie();
 }

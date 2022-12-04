@@ -7,7 +7,6 @@ import java.util.Set;
 
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
-import ru.ivanmurzin.falloutdungeon.lib.MovingGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.Cell;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
@@ -17,11 +16,13 @@ import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class Level {
+    private final static int hitRadius = 60;
     public final int levelNumber;
     public final int fieldSize;
     public final Cell[][] cells;
     private final Set<InteractiveGameObject> interactiveGameObjects;
-    private final Set<MovingGameObject> movingGameObjects;
+    private final Set<Unit> units;
+    private final Set<Weapon.Bullet> bullets;
     private final Set<GameObject> objects;
     private final Set<GameObject> objectsToRemove;
     private Level nextLevel;
@@ -38,8 +39,10 @@ public class Level {
         this.fieldSize = fieldSize;
         objects = new HashSet<>();
         interactiveGameObjects = new HashSet<>();
-        movingGameObjects = new HashSet<>();
+        units = new HashSet<>();
+        units.add(Hero.instance);
         objectsToRemove = new HashSet<>();
+        bullets = new HashSet<>();
     }
 
     public Set<GameObject> getObjects() {
@@ -61,9 +64,14 @@ public class Level {
         interactiveGameObjects.add(gameItem);
     }
 
-    public void addMovingObject(MovingGameObject object) {
-        objects.add(object);
-        movingGameObjects.add(object);
+    public void addUnit(Unit unit) {
+        objects.add(unit);
+        units.add(unit);
+    }
+
+    public void addBullet(Weapon.Bullet bullet) {
+        objects.add(bullet);
+        bullets.add(bullet);
     }
 
     public void removeInteractive(InteractiveGameObject object) {
@@ -71,9 +79,9 @@ public class Level {
         interactiveGameObjects.remove(object);
     }
 
-    public void removeMoving(MovingGameObject object) {
-        objects.remove(object);
-        movingGameObjects.remove(object);
+    public void removeUnit(Unit unit) {
+        objects.remove(unit);
+        units.remove(unit);
     }
 
     public Level getNextLevel() {
@@ -85,32 +93,31 @@ public class Level {
     }
 
     public void update() {
-        for (MovingGameObject object : movingGameObjects) {
-            object.move();
-            for (MovingGameObject anotherObject : movingGameObjects) {
-                if (anotherObject == object) continue;
-                if (anotherObject.getDistance(object.x, object.y) < 20) {
-                    if (anotherObject instanceof Unit && object instanceof Weapon.Bullet) {
-                        ((Unit) anotherObject).getShoot((Weapon.Bullet) object);
+        for (Unit unit : units) {
+            unit.onMove();
+            if (unit.x > (fieldSize - 5) * 40 || unit.x < 0 || unit.y > (fieldSize - 5) * 40 || unit.y < 0) {
+                if (unit.x > (fieldSize - 5) * 40) unit.x = (fieldSize - 5) * 40;
+                else if (unit.x < 0) unit.x = 0;
+                else if (unit.y > (fieldSize - 5) * 40) unit.y = (fieldSize - 5) * 40;
+                else unit.y = 0;
+            }
+            for (Weapon.Bullet bullet : bullets) {
+                bullet.onMove();
+                if (unit.getDistance(bullet.x, bullet.y) < hitRadius) {
+                    if (unit.onShoot(bullet)) {
+                        objectsToRemove.add(bullet);
+                        if (unit.getHealth() == 0) {
+                            unit.onDie();
+                            objectsToRemove.add(unit);
+                            break;
+                        }
                     }
                 }
             }
-            if (Hero.instance.getDistance(object.x, object.y) < 50) {
-                if (object instanceof Weapon.Bullet) Hero.instance.getShoot((Weapon.Bullet) object);
-            }
-            if (object.x > (fieldSize - 5) * 40 || object.x < 0 || object.y > (fieldSize - 5) * 40 || object.y < 0) {
-                if (object.removeOnCollapse) objectsToRemove.add(object);
-                else {
-                    if (object.x > (fieldSize - 5) * 40) object.x = (fieldSize - 5) * 40;
-                    else if (object.x < 0) object.x = 0;
-                    else if (object.y > (fieldSize - 5) * 40) object.y = (fieldSize - 5) * 40;
-                    else object.y = 0;
-                }
-            }
+            objects.removeAll(objectsToRemove);
+            units.removeAll(objectsToRemove);
+            objectsToRemove.clear();
         }
-        objects.removeAll(objectsToRemove);
-        movingGameObjects.removeAll(objectsToRemove);
-        objectsToRemove.clear();
     }
 
     public Level getPreviousLevel() {

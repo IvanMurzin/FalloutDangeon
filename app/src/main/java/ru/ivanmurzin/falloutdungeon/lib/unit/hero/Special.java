@@ -37,10 +37,9 @@ public class Special {
         return special.get(type);
     }
 
-    public boolean setSpecial(SpecialType type, int value) {
-        if (value <= 0 || value > 10) return false;
+    public void setSpecial(SpecialType type, int value) {
+        if (value <= 0 || value > 10) return;
         special.get(type).setValue(value);
-        return true;
     }
 
     public double getMaxWeight() {

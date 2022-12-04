@@ -48,7 +48,7 @@ public abstract class Weapon extends Equipment {
         public final double damage;
 
         public Bullet(float x, float y, float speedX, float speedY, boolean fromHero) {
-            super(x, y, 100, true);
+            super(x, y, 50);
             this.fromHero = fromHero;
             this.damage = getDamage(fromHero ? null : Hero.instance.special);
             if (speedX > 0 && abs(speedX) > abs(speedY)) {
@@ -71,7 +71,7 @@ public abstract class Weapon extends Equipment {
         }
 
         @Override
-        public void move() {
+        public void onMove() {
             switch (direction) {
                 case South:
                     y += speed;

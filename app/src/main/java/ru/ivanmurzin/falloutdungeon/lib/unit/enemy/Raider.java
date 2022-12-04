@@ -1,5 +1,8 @@
 package ru.ivanmurzin.falloutdungeon.lib.unit.enemy;
 
+import android.util.Log;
+
+import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
@@ -17,13 +20,13 @@ public class Raider extends Enemy {
     }
 
     @Override
-    public void move() {
+    public void onMove() {
         double distance = Hero.instance.getDistance(x + 50, y + 40);
         if (distance < 600) {
             float dx = Hero.instance.x - x;
             float dy = Hero.instance.y - y;
             if (reload == 0) {
-                level.addMovingObject(weapon.shoot(x + 50, y + 40, dx, dy, false));
+                level.addBullet(weapon.shoot(x + 50, y + 40, dx, dy, false));
             }
             reload = (reload + 1) % 30;
             if (distance < 150) return;
@@ -36,12 +39,21 @@ public class Raider extends Enemy {
 
     @Override
     public void takeDamage(double damage, WeaponType type) {
-
+        health -= damage;
+        if (health < 0) health = 0;
     }
 
     @Override
-    public void getShoot(Weapon.Bullet bullet) {
-        if (!bullet.fromHero) return;
-        health -= bullet.damage;
+    public boolean onShoot(Weapon.Bullet bullet) {
+        Log.d(Constants.TAG_D, "Hit: " + this.health + " " + bullet.damage + " from " + bullet.fromHero);
+        if (!bullet.fromHero) return false;
+        takeDamage(bullet.damage, bullet.getType());
+        return true;
+    }
+
+    @Override
+    public void onDie() {
+        level.addDroppedItem(drop, x, y);
+        Hero.instance.experience.accrueExperience(dropExperience);
     }
 }

@@ -66,7 +66,7 @@ public class Hero extends Unit {
     }
 
     @Override
-    public void move() {
+    public void onMove() {
 
     }
 
@@ -79,8 +79,14 @@ public class Hero extends Unit {
     }
 
     @Override
-    public void getShoot(Weapon.Bullet bullet) {
-        if (bullet.fromHero) return;
+    public boolean onShoot(Weapon.Bullet bullet) {
+        if (bullet.fromHero) return false;
         takeDamage(bullet.damage, bullet.getType());
+        return true;
+    }
+
+    @Override
+    public void onDie() {
+
     }
 }

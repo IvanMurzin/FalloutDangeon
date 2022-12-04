@@ -47,9 +47,9 @@ public class LevelController implements Drawer {
         actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
         shootController = new ActionController(context, width - 200, height - 200, R.drawable.shoot);
         level = new Level(context, 1, 40);
-        level.addMovingObject(new Raider(200, 200, level));
-        level.addMovingObject(new Raider(50, 50, level));
-        level.addMovingObject(new Raider(850, 850, level));
+        level.addUnit(new Raider(200, 200, level));
+        level.addUnit(new Raider(50, 50, level));
+        level.addUnit(new Raider(850, 850, level));
         gameObjectController = new GameObjectController(context, level);
         Set<Chest> chests = getRandomChests();
         level.addChests(chests);
@@ -110,7 +110,7 @@ public class LevelController implements Drawer {
             return;
         }
         if (shootController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
-            level.addMovingObject(Hero.instance.shoot(heroController.getSpeedX(), heroController.getSpeedY()));
+            level.addBullet(Hero.instance.shoot(heroController.getSpeedX(), heroController.getSpeedY()));
         }
     }
 
