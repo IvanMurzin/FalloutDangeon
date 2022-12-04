@@ -42,6 +42,8 @@ public class HeroController {
     private Bitmap currentFrame;
     private float speedX;
     private float speedY;
+    private float lastSpeedX;
+    private float lastSpeedY;
     private int reload = 0;
 
     public HeroController(Context context, Level level, int width, int height, int fieldSize) {
@@ -82,6 +84,10 @@ public class HeroController {
 
     public void update() {
         joystickController.update();
+        if (speedX != 0 && speedY != 0) {
+            lastSpeedX = speedX;
+            lastSpeedY = speedY;
+        }
         speedX = joystickController.getActuatorX() * SPEED;
         speedY = joystickController.getActuatorY() * SPEED;
         Hero.instance.x += speedX;
@@ -124,7 +130,11 @@ public class HeroController {
         }
 
         if (reload == 0 && shootController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
-            level.addBullet(Hero.instance.shoot(speedX, speedY));
+            if (speedX == 0 && speedY == 0) {
+                level.addBullet(Hero.instance.shoot(lastSpeedX, lastSpeedY));
+            } else {
+                level.addBullet(Hero.instance.shoot(speedX, speedY));
+            }
             reload++;
         }
     }
