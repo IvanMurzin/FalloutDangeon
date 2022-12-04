@@ -14,7 +14,7 @@ public class Cryolator extends Weapon {
 
     @Override
     public double getDamage(@Nullable Special special) {
-        int specialHitChance = special == null ? 60 : special.getHitChance();
+        int specialHitChance = special == null ? 70 : special.getHitChance();
         int specialCriticalChance = special == null ? 15 : special.getSpecial(SpecialType.Luck).getValue();
         int enchantHitChance = enchantScale == null ? 0 : enchantScale.getHitChance();
         int enchantCriticalChance = enchantScale == null ? 0 : enchantScale.getSpecial(SpecialType.Luck).getValue();

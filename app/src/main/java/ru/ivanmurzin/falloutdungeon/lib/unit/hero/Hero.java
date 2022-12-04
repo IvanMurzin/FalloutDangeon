@@ -9,7 +9,7 @@ import ru.ivanmurzin.falloutdungeon.lib.item.aid.Aid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.BodyArmor;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Helmet;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.artifact.Artifact;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Cryolator;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
@@ -38,7 +38,7 @@ public class Hero extends Unit {
         special.setSpecial(SpecialType.Luck, 10);
         lockpicks = 5;
         experience = new Experience();
-        weapon = new Pistol();
+        weapon = new Cryolator();
     }
 
     public void switchWeapon(Weapon weapon) {

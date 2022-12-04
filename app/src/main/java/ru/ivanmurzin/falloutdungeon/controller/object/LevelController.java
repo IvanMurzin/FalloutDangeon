@@ -20,6 +20,7 @@ import ru.ivanmurzin.falloutdungeon.lib.item.equipment.ItemGenerator;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponGenerator;
 import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 import ru.ivanmurzin.falloutdungeon.lib.unit.enemy.Raider;
+import ru.ivanmurzin.falloutdungeon.lib.unit.enemy.SuperMutant;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
@@ -78,7 +79,7 @@ public class LevelController {
         chests.add(new Chest(level.fieldSize * 40 - 200, 700, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
         chests.add(new Chest(200, level.fieldSize * 40 - 200, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
         chests.add(new Chest(200, 200, WeaponGenerator.getSimpleWeapon(), 2, ChestType.Weapon));
-        chests.add(new Chest(800, 800, ItemGenerator.getSimpleItem(), 1, ChestType.Weapon));
+        chests.add(new Chest(800, 800, ItemGenerator.getSimpleItem(), 1, ChestType.Ordinary));
         return chests;
     }
 
@@ -87,6 +88,7 @@ public class LevelController {
         units.add(new Raider(level.fieldSize * 40 - 100, level.fieldSize * 40 - 100, level));
         units.add(new Raider(50, 50, level));
         units.add(new Raider(850, 850, level));
+        units.add(new SuperMutant(550, 550, level));
         return units;
     }
 
