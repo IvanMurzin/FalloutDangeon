@@ -16,10 +16,8 @@ import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.ChestType;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Cryolator;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
-import ru.ivanmurzin.falloutdungeon.lib.item.lockpick.Lockpick;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.ItemGenerator;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponGenerator;
 import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 import ru.ivanmurzin.falloutdungeon.lib.unit.enemy.Raider;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
@@ -76,16 +74,17 @@ public class LevelController {
 
     private Set<Chest> getRandomChests() {
         Set<Chest> chests = new HashSet<>();
-        chests.add(new Chest(20, 20, new Lockpick(3), 1, ChestType.Ordinary));
-        chests.add(new Chest(100, 100, new Pistol(), 0, ChestType.Weapon));
-        chests.add(new Chest(200, 200, new LaserPistol(), 0, ChestType.Weapon));
-        chests.add(new Chest(700, 700, new Cryolator(), 5, ChestType.Weapon));
+        chests.add(new Chest(level.fieldSize * 40 - 200, level.fieldSize * 40 - 200, WeaponGenerator.getTopWeapon(), 5, ChestType.Weapon));
+        chests.add(new Chest(level.fieldSize * 40 - 200, 700, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
+        chests.add(new Chest(200, level.fieldSize * 40 - 200, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
+        chests.add(new Chest(200, 200, WeaponGenerator.getSimpleWeapon(), 2, ChestType.Weapon));
+        chests.add(new Chest(800, 800, ItemGenerator.getSimpleItem(), 1, ChestType.Weapon));
         return chests;
     }
 
     private Set<Unit> getRandomUnits() {
         Set<Unit> units = new HashSet<>();
-        units.add(new Raider(200, 200, level));
+        units.add(new Raider(level.fieldSize * 40 - 100, level.fieldSize * 40 - 100, level));
         units.add(new Raider(50, 50, level));
         units.add(new Raider(850, 850, level));
         return units;
