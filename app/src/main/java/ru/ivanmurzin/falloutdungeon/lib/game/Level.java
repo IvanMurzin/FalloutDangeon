@@ -1,8 +1,10 @@
 package ru.ivanmurzin.falloutdungeon.lib.game;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.Cell;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
@@ -13,6 +15,7 @@ import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class Level {
+    public final static int TILE_SIZE = 40;
     private final static int HIT_RADIUS = 60;
     public final int levelNumber;
     public final int fieldSize;
@@ -26,7 +29,7 @@ public class Level {
         cells = new Cell[fieldSize][fieldSize];
         for (int i = 0; i < fieldSize; i++) {
             for (int j = 0; j < fieldSize; j++) {
-                cells[i][j] = new Cell(i * 40, j * 40);
+                cells[i][j] = new Cell(i * TILE_SIZE, j * TILE_SIZE);
             }
         }
         this.levelNumber = levelNumber;
@@ -71,25 +74,36 @@ public class Level {
         interactiveGameObjects.remove(object);
     }
 
+    private boolean isOutOfBorders(GameObject object) {
+        return object.x > fieldSize * TILE_SIZE || object.x < 0 || object.y > fieldSize * TILE_SIZE || object.y < 0;
+    }
+
     public void update() {
-        for (Weapon.Bullet bullet : bullets) {
+        Iterator<Weapon.Bullet> bulletIterator = bullets.iterator();
+        while (bulletIterator.hasNext()) {
+            Weapon.Bullet bullet = bulletIterator.next();
             bullet.onMove();
+            if (isOutOfBorders(bullet)) bulletIterator.remove();
         }
-        for (Unit unit : units) {
+        Iterator<Unit> unitIterator = units.iterator();
+        while (unitIterator.hasNext()) {
+            Unit unit = unitIterator.next();
             unit.onMove();
-            if (unit.x > (fieldSize - 5) * 40 || unit.x < 0 || unit.y > (fieldSize - 5) * 40 || unit.y < 0) {
-                if (unit.x > (fieldSize - 5) * 40) unit.x = (fieldSize - 5) * 40;
+            if (isOutOfBorders(unit)) {
+                if (unit.x > (fieldSize - 5) * TILE_SIZE) unit.x = (fieldSize - 5) * TILE_SIZE;
                 else if (unit.x < 0) unit.x = 0;
-                else if (unit.y > (fieldSize - 5) * 40) unit.y = (fieldSize - 5) * 40;
+                else if (unit.y > (fieldSize - 5) * TILE_SIZE) unit.y = (fieldSize - 5) * TILE_SIZE;
                 else unit.y = 0;
             }
-            for (Weapon.Bullet bullet : bullets) {
+            bulletIterator = bullets.iterator();
+            while (bulletIterator.hasNext()) {
+                Weapon.Bullet bullet = bulletIterator.next();
                 if (unit.getDistance(bullet.x, bullet.y) < HIT_RADIUS) {
                     if (unit.onShoot(bullet)) {
-                        bullets.remove(bullet);
+                        bulletIterator.remove();
                         if (unit.getHealth() == 0) {
                             unit.onDie();
-                            units.remove(unit);
+                            unitIterator.remove();
                             break;
                         }
                     }
