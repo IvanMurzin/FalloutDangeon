@@ -489,27 +489,80 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="100dp"
+                <ImageView
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:text="Отмычки:"
-                    android:textColor="#BBB1B1"
-                    android:textSize="20sp" />
+                    android:src="@drawable/lockpick_icon"
+                    android:textColor="#BBB1B1" />
 
                 <TextView
                     android:id="@+id/lockpicks"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:textColor="#BBB1B1"
                     android:textSize="20sp"
-                    tools:text="5" />
+                    tools:text="50" />
+
+                <ImageView
+                    android:id="@+id/weapon_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginStart="50dp"
+                    android:textColor="#BBB1B1"
+                    tools:src="@drawable/laser_pistol" />
+
+                <ImageView
+                    android:id="@+id/weapon_bullet"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:textColor="#BBB1B1"
+                    tools:src="@drawable/laser_bullet_horizontal" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/damage"
+                    android:textColor="#BBB1B1" />
+
+                <TextView
+                    android:id="@+id/weapon_damage"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:textColor="#BBB1B1"
+                    android:textSize="20sp"
+                    tools:text="500" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/reload"
+                    android:textColor="#BBB1B1" />
+
+                <TextView
+                    android:id="@+id/weapon_reload"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:textColor="#BBB1B1"
+                    android:textSize="20sp"
+                    tools:text="500" />
 
             </LinearLayout>
 

@@ -50,8 +50,8 @@ public class Level {
         return units;
     }
 
-    public void addChests(Set<Chest> chests) {
-        interactiveGameObjects.addAll(chests);
+    public void addChest(Chest chests) {
+        interactiveGameObjects.add(chests);
     }
 
     public void addDroppedItem(Item item, float x, float y) {

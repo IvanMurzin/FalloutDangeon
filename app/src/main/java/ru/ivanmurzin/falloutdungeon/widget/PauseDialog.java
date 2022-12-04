@@ -5,18 +5,42 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import ru.ivanmurzin.falloutdungeon.R;
+import ru.ivanmurzin.falloutdungeon.databinding.MenuDialogBinding;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.SpecialType;
 
 public class PauseDialog extends Dialog {
 
+    private MenuDialogBinding binding;
+
     public PauseDialog(Activity activity) {
         super(activity);
     }
+
+    private int getWeaponId() {
+        switch (Hero.instance.getWeapon().getType()) {
+            case Ordinary:
+                return R.drawable.pistol;
+            case Laser:
+                return R.drawable.laser_pistol;
+            default:
+                return R.drawable.cryolator;
+        }
+    }
+
+    private int getBulletId() {
+        switch (Hero.instance.getWeapon().getType()) {
+            case Ordinary:
+                return R.drawable.bullet_right;
+            case Laser:
+                return R.drawable.laser_bullet_horizontal;
+            default:
+                return R.drawable.frost_bullet_right;
+        }
+    }
+
 
     private String getSpecialText(SpecialType type) {
         int value = Hero.instance.special.getSpecial(type).getValue();
@@ -30,8 +54,9 @@ public class PauseDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = MenuDialogBinding.inflate(getLayoutInflater());
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.menu_dialog);
+        setContentView(binding.getRoot());
         initSpecial();
         initExperience();
         initButtons();
@@ -40,65 +65,48 @@ public class PauseDialog extends Dialog {
 
 
     private void initData() {
-        TextView lockpicks = findViewById(R.id.lockpicks);
-        lockpicks.setText(String.valueOf(Hero.instance.getLockpicks()));
+        binding.lockpicks.setText(String.valueOf(Hero.instance.getLockpicks()));
+        binding.weaponIcon.setImageResource(getWeaponId());
+        binding.weaponBullet.setImageResource(getBulletId());
+        binding.weaponDamage.setText(String.valueOf(Hero.instance.getWeapon().getMaxDamage()));
+        binding.weaponReload.setText(String.valueOf(Hero.instance.getWeapon().getReload()));
     }
 
     @SuppressLint("DefaultLocale")
     private void initSpecial() {
-        TextView strength = findViewById(R.id.strength);
-        TextView strength_text = findViewById(R.id.strength_text);
-        TextView perception = findViewById(R.id.perception);
-        TextView perception_text = findViewById(R.id.perception_text);
-        TextView endurance = findViewById(R.id.endurance);
-        TextView endurance_text = findViewById(R.id.endurance_text);
-        TextView charisma = findViewById(R.id.charisma);
-        TextView charisma_text = findViewById(R.id.charisma_text);
-        TextView intelligence = findViewById(R.id.intelligence);
-        TextView intelligence_text = findViewById(R.id.intelligence_text);
-        TextView agility = findViewById(R.id.agility);
-        TextView agility_text = findViewById(R.id.agility_text);
-        TextView luck = findViewById(R.id.luck);
-        TextView luckText = findViewById(R.id.luck_text);
+        binding.strength.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Strength).getValue()));
+        binding.strengthText.setText(getSpecialText(SpecialType.Strength));
+        binding.perception.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Perception).getValue()));
+        binding.perceptionText.setText(getSpecialText(SpecialType.Perception));
 
-        strength.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Strength).getValue()));
-        strength_text.setText(getSpecialText(SpecialType.Strength));
-        perception.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Perception).getValue()));
-        perception_text.setText(getSpecialText(SpecialType.Perception));
+        binding.endurance.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Endurance).getValue()));
+        binding.enduranceText.setText(getSpecialText(SpecialType.Endurance));
 
-        endurance.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Endurance).getValue()));
-        endurance_text.setText(getSpecialText(SpecialType.Endurance));
+        binding.charisma.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Charisma).getValue()));
+        binding.charismaText.setText(getSpecialText(SpecialType.Charisma));
 
-        charisma.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Charisma).getValue()));
-        charisma_text.setText(getSpecialText(SpecialType.Charisma));
+        binding.intelligence.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Intelligence).getValue()));
+        binding.intelligenceText.setText(getSpecialText(SpecialType.Intelligence));
 
-        intelligence.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Intelligence).getValue()));
-        intelligence_text.setText(getSpecialText(SpecialType.Intelligence));
+        binding.agility.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Agility).getValue()));
+        binding.agilityText.setText(getSpecialText(SpecialType.Agility));
 
-        agility.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Agility).getValue()));
-        agility_text.setText(getSpecialText(SpecialType.Agility));
-
-        luck.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Luck).getValue()));
-        luckText.setText(getSpecialText(SpecialType.Luck));
+        binding.luck.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Luck).getValue()));
+        binding.luckText.setText(getSpecialText(SpecialType.Luck));
     }
 
     @SuppressLint("DefaultLocale")
     private void initExperience() {
-        TextView experience = findViewById(R.id.experience);
-        TextView experience_required = findViewById(R.id.experience_required);
-        TextView level = findViewById(R.id.level);
-        experience.setText(String.valueOf(Hero.instance.experience.getCurrent()));
-        experience_required.setText(String.valueOf(Hero.instance.experience.getRequired()));
-        level.setText(String.format("%02d", Hero.instance.experience.getLevel()));
+        binding.experience.setText(String.valueOf(Hero.instance.experience.getCurrent()));
+        binding.experienceRequired.setText(String.valueOf(Hero.instance.experience.getRequired()));
+        binding.level.setText(String.format("%02d", Hero.instance.experience.getLevel()));
     }
 
     private void initButtons() {
-        ImageView exit = findViewById(R.id.exit_button);
-        ImageView resume = findViewById(R.id.resume_button);
-        exit.setOnClickListener(view -> {
+        binding.exitButton.setOnClickListener(view -> {
             dismiss();
         });
-        resume.setOnClickListener(view -> {
+        binding.resumeButton.setOnClickListener(view -> {
             dismiss();
         });
     }

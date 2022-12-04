@@ -15,7 +15,7 @@ public class Raider extends Enemy {
     private int reload = 0;
 
     public Raider(float x, float y, Level level) {
-        super(x, y, 7, 100, 10, new Pistol(), 100, new Lockpick(3), null);
+        super(x, y, 7, 50, 10, new Pistol(), 100, new Lockpick(3), null);
         this.level = level;
     }
 

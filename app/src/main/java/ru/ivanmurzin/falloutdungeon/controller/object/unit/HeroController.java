@@ -95,6 +95,7 @@ public class HeroController {
         if (Hero.instance.y < 0) Hero.instance.y = 0;
         currentFrame = setFrame();
         if (reload != 0) reload = (reload + 1) % Hero.instance.getWeapon().reloadTime;
+        if (reload != 0) reload = (reload + 1) % Hero.instance.getWeapon().reloadTime;
     }
 
     private Bitmap setFrame() {

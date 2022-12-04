@@ -40,10 +40,18 @@ public abstract class Weapon extends Equipment {
         return type;
     }
 
+    public int getMaxDamage() {
+        return maxDamage;
+    }
+
     @Override
     public void pick(Logger logger) {
         logger.notifyInfo("Подобрано: " + name);
         Hero.instance.switchWeapon(this);
+    }
+
+    public int getReload() {
+        return reloadTime;
     }
 
     public enum Direction {

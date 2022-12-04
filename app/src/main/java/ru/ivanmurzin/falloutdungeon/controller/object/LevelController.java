@@ -16,9 +16,11 @@ import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.ChestType;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Cryolator;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.lockpick.Lockpick;
+import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 import ru.ivanmurzin.falloutdungeon.lib.unit.enemy.Raider;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
@@ -33,13 +35,8 @@ public class LevelController {
 
     public LevelController(Context context, int width, int height) {
         level = new Level(1, 40);
-        level.addUnit(new Raider(200, 200, level));
-        level.addUnit(new Raider(50, 50, level));
-        level.addUnit(new Raider(850, 850, level));
         heroController = new HeroController(context, level, width, height, 40);
         gameObjectController = new GameObjectController(context, level);
-        Set<Chest> chests = getRandomChests();
-        level.addChests(chests);
         Bitmap[] cellBitmaps = new Bitmap[4];
         cellBitmaps[0] = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile1);
         cellBitmaps[1] = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile2);
@@ -52,6 +49,8 @@ public class LevelController {
             }
         }
         fence = BitmapUtil.getScaledBitmap(context, 40, 60, R.drawable.fence);
+        getRandomChests().forEach(level::addChest);
+        getRandomUnits().forEach(level::addUnit);
     }
 
     public void draw(Canvas canvas, GameDisplay display) {
@@ -75,12 +74,21 @@ public class LevelController {
     }
 
 
-    public Set<Chest> getRandomChests() {
+    private Set<Chest> getRandomChests() {
         Set<Chest> chests = new HashSet<>();
         chests.add(new Chest(20, 20, new Lockpick(3), 1, ChestType.Ordinary));
         chests.add(new Chest(100, 100, new Pistol(), 0, ChestType.Weapon));
         chests.add(new Chest(200, 200, new LaserPistol(), 0, ChestType.Weapon));
+        chests.add(new Chest(700, 700, new Cryolator(), 5, ChestType.Weapon));
         return chests;
+    }
+
+    private Set<Unit> getRandomUnits() {
+        Set<Unit> units = new HashSet<>();
+        units.add(new Raider(200, 200, level));
+        units.add(new Raider(50, 50, level));
+        units.add(new Raider(850, 850, level));
+        return units;
     }
 
     public void update() {
