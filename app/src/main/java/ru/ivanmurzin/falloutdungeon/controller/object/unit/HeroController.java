@@ -13,7 +13,7 @@ import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
-public class HeroController extends UnitController {
+public class HeroController {
     private static final float speed = 30;
     public final JoystickController joystickController;
     public final HealthBarController healthBarController;
@@ -54,14 +54,12 @@ public class HeroController extends UnitController {
         return speedY;
     }
 
-    @Override
     public void draw(Canvas canvas, GameDisplay display) {
         canvas.drawBitmap(currentFrame, display.offsetX(Hero.instance.x), display.offsetY(Hero.instance.y), null);
         joystickController.draw(canvas);
         healthBarController.draw(canvas);
     }
 
-    @Override
     public void update() {
         joystickController.update();
         speedX = joystickController.getActuatorX() * speed;

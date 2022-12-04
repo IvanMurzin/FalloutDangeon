@@ -1,8 +1,34 @@
 package ru.ivanmurzin.falloutdungeon.controller.object.unit;
 
-import ru.ivanmurzin.falloutdungeon.controller.object.Drawer;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
-public abstract class UnitController implements Drawer {
+import ru.ivanmurzin.falloutdungeon.R;
+import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
+import ru.ivanmurzin.falloutdungeon.lib.unit.enemy.Raider;
+import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
+import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
+import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
-    public abstract void update();
+public class UnitController {
+    private final Bitmap unknownBitmap;
+    private final Bitmap raiderBitmap;
+
+
+    public UnitController(Context context) {
+        unknownBitmap = BitmapUtil.getScaledBitmap(context, 100, 80, R.drawable.unknown);
+        raiderBitmap = BitmapUtil.getScaledBitmap(context, 100, 150, R.drawable.raider);
+    }
+
+    public void draw(Canvas canvas, GameDisplay display, Unit unit) {
+        Bitmap unitBitmap;
+        if (unit instanceof Hero) return;
+        if (unit instanceof Raider) {
+            unitBitmap = raiderBitmap;
+        } else {
+            unitBitmap = unknownBitmap;
+        }
+        canvas.drawBitmap(unitBitmap, display.offsetX(unit.x), display.offsetY(unit.y), null);
+    }
 }

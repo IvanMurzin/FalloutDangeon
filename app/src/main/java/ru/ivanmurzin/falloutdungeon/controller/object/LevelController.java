@@ -30,7 +30,8 @@ import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
-public class LevelController implements Drawer {
+public class LevelController {
+    private static final int ACTION_ACTIVATION_RADIUS = 100;
     private final Logger logger;
     private final GameObjectController gameObjectController;
     private final ActionController actionController;
@@ -46,7 +47,7 @@ public class LevelController implements Drawer {
         heroController = new HeroController(context, width, height, 40);
         actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
         shootController = new ActionController(context, width - 200, height - 200, R.drawable.shoot);
-        level = new Level(context, 1, 40);
+        level = new Level(1, 40);
         level.addUnit(new Raider(200, 200, level));
         level.addUnit(new Raider(50, 50, level));
         level.addUnit(new Raider(850, 850, level));
@@ -67,7 +68,6 @@ public class LevelController implements Drawer {
         fence = BitmapUtil.getScaledBitmap(context, 40, 60, R.drawable.fence);
     }
 
-    @Override
     public void draw(Canvas canvas, GameDisplay display) {
         canvas.drawColor(Color.BLACK);
         for (int i = 1; i < level.cells.length - 1; i++) {
@@ -84,14 +84,12 @@ public class LevelController implements Drawer {
             canvas.drawBitmap(fence, display.offsetX(i * 40), display.offsetY((level.fieldSize - 1) * 40), null);
         }
         for (GameObject object : level.getInteractiveGameObjects()) {
-            if (hero.getDistance(object.x, object.y) < 100) {
+            if (hero.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
                 actionController.draw(canvas);
                 break;
             }
         }
-        for (GameObject object : level.getObjects()) {
-            gameObjectController.draw(canvas, display, object);
-        }
+        gameObjectController.draw(canvas, display);
         shootController.draw(canvas);
         heroController.draw(canvas, display);
     }
@@ -102,7 +100,7 @@ public class LevelController implements Drawer {
         if (actionController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
             Set<InteractiveGameObject> interactiveGameObjects = level.getInteractiveGameObjects();
             for (InteractiveGameObject object : interactiveGameObjects) {
-                if (hero.getDistance(object.x, object.y) < 100) {
+                if (hero.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
                     object.action(logger);
                     break;
                 }
