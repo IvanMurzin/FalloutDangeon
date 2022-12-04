@@ -71,10 +71,6 @@ public class Level {
         interactiveGameObjects.remove(object);
     }
 
-    public void removeUnit(Unit object) {
-        units.remove(object);
-    }
-
     public void update() {
         for (Weapon.Bullet bullet : bullets) {
             bullet.onMove();

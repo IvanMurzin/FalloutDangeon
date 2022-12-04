@@ -10,14 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ru.ivanmurzin.falloutdungeon.R;
-import ru.ivanmurzin.falloutdungeon.controller.ActionController;
 import ru.ivanmurzin.falloutdungeon.controller.GameObjectController;
-import ru.ivanmurzin.falloutdungeon.controller.Logger;
-import ru.ivanmurzin.falloutdungeon.controller.NotifyController;
 import ru.ivanmurzin.falloutdungeon.controller.object.unit.HeroController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
-import ru.ivanmurzin.falloutdungeon.lib.GameObject;
-import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.ChestType;
@@ -25,32 +20,23 @@ import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.lockpick.Lockpick;
 import ru.ivanmurzin.falloutdungeon.lib.unit.enemy.Raider;
-import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
 public class LevelController {
-    private static final int ACTION_ACTIVATION_RADIUS = 100;
-    private final Logger logger;
     private final GameObjectController gameObjectController;
-    private final ActionController actionController;
-    private final ActionController shootController;
     private final HeroController heroController;
     private final Level level;
-    private final Hero hero = Hero.instance;
     private final Bitmap defaultBitmap;
     private final Bitmap fence;
 
     public LevelController(Context context, int width, int height) {
-        logger = new NotifyController(context);
-        heroController = new HeroController(context, width, height, 40);
-        actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
-        shootController = new ActionController(context, width - 200, height - 200, R.drawable.shoot);
         level = new Level(1, 40);
         level.addUnit(new Raider(200, 200, level));
         level.addUnit(new Raider(50, 50, level));
         level.addUnit(new Raider(850, 850, level));
+        heroController = new HeroController(context, level, width, height, 40);
         gameObjectController = new GameObjectController(context, level);
         Set<Chest> chests = getRandomChests();
         level.addChests(chests);
@@ -83,34 +69,11 @@ public class LevelController {
             canvas.drawBitmap(fence, display.offsetX(i * 40), display.offsetY(0), null);
             canvas.drawBitmap(fence, display.offsetX(i * 40), display.offsetY((level.fieldSize - 1) * 40), null);
         }
-        for (GameObject object : level.getInteractiveGameObjects()) {
-            if (hero.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
-                actionController.draw(canvas);
-                break;
-            }
-        }
+
         gameObjectController.draw(canvas, display);
-        shootController.draw(canvas);
         heroController.draw(canvas, display);
     }
 
-    public void onTouchEvent(MotionEvent event) {
-        if (event.getActionMasked() != MotionEvent.ACTION_POINTER_DOWN && event.getActionMasked() != MotionEvent.ACTION_DOWN)
-            return;
-        if (actionController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
-            Set<InteractiveGameObject> interactiveGameObjects = level.getInteractiveGameObjects();
-            for (InteractiveGameObject object : interactiveGameObjects) {
-                if (hero.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
-                    object.action(logger);
-                    break;
-                }
-            }
-            return;
-        }
-        if (shootController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
-            level.addBullet(Hero.instance.shoot(heroController.getSpeedX(), heroController.getSpeedY()));
-        }
-    }
 
     public Set<Chest> getRandomChests() {
         Set<Chest> chests = new HashSet<>();
@@ -127,5 +90,9 @@ public class LevelController {
 
     public JoystickController getJoystickController() {
         return heroController.joystickController;
+    }
+
+    public void onTouchEvent(MotionEvent event) {
+        heroController.onTouchEvent(event);
     }
 }

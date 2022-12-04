@@ -28,7 +28,7 @@ public class Raider extends Enemy {
             if (reload == 0) {
                 level.addBullet(weapon.shoot(x + 50, y + 40, dx, dy, false));
             }
-            reload = (reload + 1) % 30;
+            reload = (reload + 1) % weapon.reloadTime;
             if (distance < 150) return;
             if (dx > 0) x += speed;
             else x -= speed;

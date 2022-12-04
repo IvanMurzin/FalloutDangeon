@@ -1,22 +1,37 @@
 package ru.ivanmurzin.falloutdungeon.controller.object.unit;
 
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 
 import java.util.Locale;
+import java.util.Set;
 
+import ru.ivanmurzin.falloutdungeon.R;
+import ru.ivanmurzin.falloutdungeon.controller.ActionController;
+import ru.ivanmurzin.falloutdungeon.controller.Logger;
+import ru.ivanmurzin.falloutdungeon.controller.NotifyController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.HealthBarController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
+import ru.ivanmurzin.falloutdungeon.lib.GameObject;
+import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
+import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
 public class HeroController {
-    private static final float speed = 30;
+    private static final float SPEED = 30;
+    private static final int ACTION_ACTIVATION_RADIUS = 100;
     public final JoystickController joystickController;
     public final HealthBarController healthBarController;
+    private final Logger logger;
+    private final Level level;
+    private final ActionController actionController;
+    private final ActionController shootController;
     private final Frames framesNE;
     private final Frames framesE;
     private final Frames framesSE;
@@ -27,13 +42,19 @@ public class HeroController {
     private Bitmap currentFrame;
     private float speedX;
     private float speedY;
+    private int reload = 0;
 
-    public HeroController(Context context, int width, int height, int fieldSize) {
+    public HeroController(Context context, Level level, int width, int height, int fieldSize) {
+        this.level = level;
         Hero.instance.x = width / 2f;
         Hero.instance.y = height / 2f;
         this.fieldSize = fieldSize;
         joystickController = new JoystickController(context, 250, height * 3 / 4f);
         healthBarController = new HealthBarController(context);
+        actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
+        shootController = new ActionController(context, width - 200, height - 200, R.drawable.shoot);
+        logger = new NotifyController(context);
+
         int heroHeight = 150;
         int heroWidth = 120;
 
@@ -46,24 +67,23 @@ public class HeroController {
         currentFrame = setFrame();
     }
 
-    public float getSpeedX() {
-        return speedX;
-    }
-
-    public float getSpeedY() {
-        return speedY;
-    }
-
     public void draw(Canvas canvas, GameDisplay display) {
         canvas.drawBitmap(currentFrame, display.offsetX(Hero.instance.x), display.offsetY(Hero.instance.y), null);
         joystickController.draw(canvas);
         healthBarController.draw(canvas);
+        for (GameObject object : level.getInteractiveGameObjects()) {
+            if (Hero.instance.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
+                actionController.draw(canvas);
+                break;
+            }
+        }
+        if (reload == 0) shootController.draw(canvas);
     }
 
     public void update() {
         joystickController.update();
-        speedX = joystickController.getActuatorX() * speed;
-        speedY = joystickController.getActuatorY() * speed;
+        speedX = joystickController.getActuatorX() * SPEED;
+        speedY = joystickController.getActuatorY() * SPEED;
         Hero.instance.x += speedX;
         Hero.instance.y += speedY;
         if (Hero.instance.x > (fieldSize - 5) * 40) Hero.instance.x = (fieldSize - 5) * 40;
@@ -74,6 +94,7 @@ public class HeroController {
         if (Hero.instance.y > (fieldSize - 5) * 40) Hero.instance.y = (fieldSize - 5) * 40;
         if (Hero.instance.y < 0) Hero.instance.y = 0;
         currentFrame = setFrame();
+        if (reload != 0) reload = (reload + 1) % Hero.instance.getWeapon().reloadTime;
     }
 
     private Bitmap setFrame() {
@@ -85,6 +106,26 @@ public class HeroController {
         if (speedX < 0 && speedY < -5) return framesNW.getCurrentFrame();
         framesSW.reset();
         return framesSW.getCurrentFrame();
+    }
+
+    public void onTouchEvent(MotionEvent event) {
+        if (event.getActionMasked() != MotionEvent.ACTION_POINTER_DOWN && event.getActionMasked() != MotionEvent.ACTION_DOWN)
+            return;
+        if (actionController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
+            Set<InteractiveGameObject> interactiveGameObjects = level.getInteractiveGameObjects();
+            for (InteractiveGameObject object : interactiveGameObjects) {
+                if (Hero.instance.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
+                    object.action(logger);
+                    break;
+                }
+            }
+            return;
+        }
+
+        if (reload == 0 && shootController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
+            level.addBullet(Hero.instance.shoot(speedX, speedY));
+            reload++;
+        }
     }
 
     private static class Frames {
@@ -109,4 +150,5 @@ public class HeroController {
             return frame;
         }
     }
+
 }

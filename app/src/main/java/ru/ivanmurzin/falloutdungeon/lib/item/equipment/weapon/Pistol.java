@@ -8,7 +8,7 @@ import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 
 public class Pistol extends Weapon {
     public Pistol() {
-        super("10-мм пистолет", null, 10, WeaponType.Ordinary, 10, null);
+        super("10-мм пистолет", null, 10, 30, WeaponType.Ordinary, 10, null);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class RandomGenerator {
 
     public static boolean isSuccess(int chance) {
         int randomInt = random.nextInt(100);
-        Log.i(Constants.TAG, "isSuccess: chance=" + chance + " random=" + randomInt);
+        Log.v(Constants.TAG_V, "isSuccess: chance=" + chance + " random=" + randomInt);
         return chance >= randomInt;
     }
 

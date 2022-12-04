@@ -19,7 +19,7 @@ public class Hero extends Unit {
 
     public final Special special;
     public final Experience experience;
-    private final Weapon weapon;
+    private Weapon weapon;
     private Helmet helmet;
     private BodyArmor bodyArmor;
     private Artifact[] artifacts;
@@ -39,6 +39,14 @@ public class Hero extends Unit {
         lockpicks = 5;
         experience = new Experience();
         weapon = new Pistol();
+    }
+
+    public void switchWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
     }
 
     public void addLockpicks(int lockpicks) {
