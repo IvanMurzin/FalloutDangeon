@@ -1,5 +1,7 @@
 package ru.ivanmurzin.falloutdungeon.controller.object;
 
+import static ru.ivanmurzin.falloutdungeon.lib.game.Level.TILE_SIZE;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -34,20 +36,20 @@ public class LevelController {
 
     public LevelController(Context context, int width, int height) {
         level = new Level(1, 40);
-        heroController = new HeroController(context, level, width, height, 40);
+        heroController = new HeroController(context, level, width, height, TILE_SIZE);
         gameObjectController = new GameObjectController(context, level);
         Bitmap[] cellBitmaps = new Bitmap[4];
-        cellBitmaps[0] = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile1);
-        cellBitmaps[1] = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile2);
-        cellBitmaps[2] = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile3);
-        cellBitmaps[3] = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile4);
-        defaultBitmap = BitmapUtil.getScaledBitmap(context, 40, 40, R.drawable.tile1);
+        cellBitmaps[0] = BitmapUtil.getScaledBitmap(context, TILE_SIZE, TILE_SIZE, R.drawable.tile1);
+        cellBitmaps[1] = BitmapUtil.getScaledBitmap(context, TILE_SIZE, TILE_SIZE, R.drawable.tile2);
+        cellBitmaps[2] = BitmapUtil.getScaledBitmap(context, TILE_SIZE, TILE_SIZE, R.drawable.tile3);
+        cellBitmaps[3] = BitmapUtil.getScaledBitmap(context, TILE_SIZE, TILE_SIZE, R.drawable.tile4);
+        defaultBitmap = BitmapUtil.getScaledBitmap(context, TILE_SIZE, TILE_SIZE, R.drawable.tile1);
         for (int i = 1; i < level.cells.length - 1; i++) {
             for (int j = 1; j < level.cells[i].length - 1; j++) {
                 level.cells[i][j].setBitmap(cellBitmaps[RandomGenerator.getRandom(0, cellBitmaps.length)]);
             }
         }
-        fence = BitmapUtil.getScaledBitmap(context, 40, 60, R.drawable.fence);
+        fence = BitmapUtil.getScaledBitmap(context, TILE_SIZE, 60, R.drawable.fence);
         getRandomChests().forEach(level::addChest);
         getRandomUnits().forEach(level::addUnit);
     }
@@ -62,10 +64,10 @@ public class LevelController {
             }
         }
         for (int i = 0; i < level.cells.length; i++) {
-            canvas.drawBitmap(fence, display.offsetX(0), display.offsetY(i * 40), null);
-            canvas.drawBitmap(fence, display.offsetX((level.fieldSize - 1) * 40), display.offsetY(i * 40), null);
-            canvas.drawBitmap(fence, display.offsetX(i * 40), display.offsetY(0), null);
-            canvas.drawBitmap(fence, display.offsetX(i * 40), display.offsetY((level.fieldSize - 1) * 40), null);
+            canvas.drawBitmap(fence, display.offsetX(0), display.offsetY(i * TILE_SIZE), null);
+            canvas.drawBitmap(fence, display.offsetX((level.fieldSize - 1) * TILE_SIZE), display.offsetY(i * TILE_SIZE), null);
+            canvas.drawBitmap(fence, display.offsetX(i * TILE_SIZE), display.offsetY(0), null);
+            canvas.drawBitmap(fence, display.offsetX(i * TILE_SIZE), display.offsetY((level.fieldSize - 1) * TILE_SIZE), null);
         }
 
         gameObjectController.draw(canvas, display);
@@ -75,9 +77,9 @@ public class LevelController {
 
     private Set<Chest> getRandomChests() {
         Set<Chest> chests = new HashSet<>();
-        chests.add(new Chest(level.fieldSize * 40 - 200, level.fieldSize * 40 - 200, WeaponGenerator.getTopWeapon(), 5, ChestType.Weapon));
-        chests.add(new Chest(level.fieldSize * 40 - 200, 700, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
-        chests.add(new Chest(200, level.fieldSize * 40 - 200, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
+        chests.add(new Chest(level.fieldSize * TILE_SIZE - 200, level.fieldSize * TILE_SIZE - 200, WeaponGenerator.getTopWeapon(), 5, ChestType.Weapon));
+        chests.add(new Chest(level.fieldSize * TILE_SIZE - 200, 700, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
+        chests.add(new Chest(200, level.fieldSize * TILE_SIZE - 200, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
         chests.add(new Chest(200, 200, WeaponGenerator.getSimpleWeapon(), 2, ChestType.Weapon));
         chests.add(new Chest(800, 800, ItemGenerator.getSimpleItem(), 1, ChestType.Ordinary));
         return chests;
@@ -85,7 +87,7 @@ public class LevelController {
 
     private Set<Unit> getRandomUnits() {
         Set<Unit> units = new HashSet<>();
-        units.add(new Raider(level.fieldSize * 40 - 100, level.fieldSize * 40 - 100, level));
+        units.add(new Raider(level.fieldSize * TILE_SIZE - 100, level.fieldSize * TILE_SIZE - 100, level));
         units.add(new Raider(50, 50, level));
         units.add(new Raider(850, 850, level));
         units.add(new SuperMutant(550, 550, level));
