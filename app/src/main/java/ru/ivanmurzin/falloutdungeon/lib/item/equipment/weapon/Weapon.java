@@ -45,9 +45,10 @@ public abstract class Weapon extends Equipment {
     }
 
     @Override
-    public void pick(Logger logger) {
+    public boolean pick(Logger logger) {
         logger.notifyInfo("Подобрано: " + name);
         Hero.instance.switchWeapon(this);
+        return true;
     }
 
     public int getReload() {

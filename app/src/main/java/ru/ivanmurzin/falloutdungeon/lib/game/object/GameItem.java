@@ -17,7 +17,8 @@ public class GameItem extends InteractiveGameObject {
 
     @Override
     public void action(Logger logger) {
-        item.pick(logger);
-        level.removeInteractive(this);
+        if (item.pick(logger)) {
+            level.removeInteractive(this);
+        }
     }
 }

@@ -83,6 +83,12 @@ public class LevelController {
         chests.add(new Chest(200, 200, WeaponGenerator.getSimpleWeapon(), 2, ChestType.Weapon));
         chests.add(new Chest(800, 800, ItemGenerator.getMiddleItem(), 3, ChestType.Ordinary));
         chests.add(new Chest(1000, 1000, ItemGenerator.getMiddleItem(), 3, ChestType.Ordinary));
+        chests.add(new Chest(100, 100, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
+        chests.add(new Chest(300, 300, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
+        chests.add(new Chest(400, 400, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
+        chests.add(new Chest(500, 500, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
+        chests.add(new Chest(600, 600, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
+        chests.add(new Chest(700, 700, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
         return chests;
     }
 

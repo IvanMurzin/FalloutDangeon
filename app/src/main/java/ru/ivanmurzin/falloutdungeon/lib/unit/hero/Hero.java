@@ -4,6 +4,9 @@ import static java.lang.Math.sqrt;
 
 import android.util.Log;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.Aid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Armor;
@@ -24,7 +27,8 @@ public class Hero extends Unit {
     private Armor breastplate;
     private Artifact[] artifacts;
     private int lockpicks;
-    private Aid[] aid;
+    private final List<Aid> aids;
+    private int aidWeight = 0;
 
     private Hero() {
         super(100, 10);
@@ -39,6 +43,7 @@ public class Hero extends Unit {
         lockpicks = 5;
         experience = new Experience();
         weapon = new Cryolator();
+        aids = new LinkedList<>();
     }
 
     public void switchWeapon(Weapon weapon) {
@@ -56,6 +61,13 @@ public class Hero extends Unit {
 
     public void addLockpicks(int lockpicks) {
         this.lockpicks += lockpicks;
+    }
+
+    public boolean addAid(Aid aid) {
+        if (aidWeight >= special.getMaxWeight()) return false;
+        aidWeight += aid.weight;
+        aids.add(aid);
+        return true;
     }
 
     public int getLockpicks() {

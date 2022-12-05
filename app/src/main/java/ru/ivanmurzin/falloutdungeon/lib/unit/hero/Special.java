@@ -43,7 +43,7 @@ public class Special {
     }
 
     public double getMaxWeight() {
-        return special.get(SpecialType.Strength).getValue() / 2d; // strength / 2
+        return 2 + special.get(SpecialType.Strength).getValue() / 2d; // 2 + strength / 2
     }
 
     public int getHitChance() {

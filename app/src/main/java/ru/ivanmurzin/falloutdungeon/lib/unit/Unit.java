@@ -28,6 +28,11 @@ abstract public class Unit extends MovingGameObject {
         return health;
     }
 
+    public void increaseHealth(double health) {
+        this.health += health;
+        if (this.health > maxHealth) this.health = maxHealth;
+    }
+
     public int getArmor() {
         return armor;
     }

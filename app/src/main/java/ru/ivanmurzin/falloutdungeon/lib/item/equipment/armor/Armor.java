@@ -35,8 +35,9 @@ public abstract class Armor extends Equipment {
     }
 
     @Override
-    public void pick(Logger logger) {
+    public boolean pick(Logger logger) {
         logger.notifyInfo("Надето: " + name);
         Hero.instance.switchArmor(this);
+        return true;
     }
 }

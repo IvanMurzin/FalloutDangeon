@@ -13,8 +13,9 @@ public class Lockpick extends Item {
     }
 
     @Override
-    public void pick(Logger logger) {
+    public boolean pick(Logger logger) {
         Hero.instance.addLockpicks(count);
         logger.notifyInfo("Отмычек в запасе: " + Hero.instance.getLockpicks());
+        return true;
     }
 }

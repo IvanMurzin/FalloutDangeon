@@ -9,5 +9,5 @@ public abstract class Item {
         this.name = name;
     }
 
-    public abstract void pick(Logger logger);
+    public abstract boolean pick(Logger logger);
 }

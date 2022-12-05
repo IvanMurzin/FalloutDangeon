@@ -13,6 +13,7 @@ import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
+import ru.ivanmurzin.falloutdungeon.lib.item.aid.CommonAid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherBreastplate;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherHelmet;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.MetalBreastplate;
@@ -69,6 +70,7 @@ public class GameObjectController {
         private final Bitmap metalHelmetBitmap;
         private final Bitmap leatherBreastplateBitmap;
         private final Bitmap metalBreastplateBitmap;
+        private final Bitmap stimpackBitmap;
         private final Bitmap unknownBitmap;
 
         public ItemController(Context context) {
@@ -81,6 +83,7 @@ public class GameObjectController {
             metalHelmetBitmap = BitmapUtil.getScaledBitmap(context, 80, 50, R.drawable.metal_helmet);
             leatherBreastplateBitmap = BitmapUtil.getScaledBitmap(context, 80, 80, R.drawable.leather_breatplate);
             metalBreastplateBitmap = BitmapUtil.getScaledBitmap(context, 80, 80, R.drawable.metal_breastplate);
+            stimpackBitmap = BitmapUtil.getScaledBitmap(context, 60, 80, R.drawable.stimpack);
             unknownBitmap = BitmapUtil.getScaledBitmap(context, 100, 80, R.drawable.unknown);
         }
 
@@ -103,6 +106,8 @@ public class GameObjectController {
                 itemBitmap = metalHelmetBitmap;
             } else if (item instanceof MetalBreastplate) {
                 itemBitmap = metalBreastplateBitmap;
+            } else if (item instanceof CommonAid) {
+                itemBitmap = stimpackBitmap;
             } else if (item instanceof Weapon) {
                 itemBitmap = weaponBitmap;
             } else {

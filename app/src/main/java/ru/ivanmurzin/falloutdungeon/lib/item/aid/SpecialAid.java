@@ -12,7 +12,7 @@ public class SpecialAid extends Aid {
     }
 
     @Override
-    public void pick(Logger logger) {
+    public void use() {
 
     }
 }

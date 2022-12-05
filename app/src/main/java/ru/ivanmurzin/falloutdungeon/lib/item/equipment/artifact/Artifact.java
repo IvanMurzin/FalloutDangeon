@@ -11,7 +11,7 @@ public class Artifact extends Equipment {
     }
 
     @Override
-    public void pick(Logger logger) {
-
+    public boolean pick(Logger logger) {
+        return false;
     }
 }

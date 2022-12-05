@@ -1,6 +1,6 @@
 package ru.ivanmurzin.falloutdungeon.lib.item.aid;
 
-import ru.ivanmurzin.falloutdungeon.controller.Logger;
+import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class CommonAid extends Aid {
     public final int health;
@@ -11,7 +11,7 @@ public class CommonAid extends Aid {
     }
 
     @Override
-    public void pick(Logger logger) {
-
+    public void use() {
+        Hero.instance.increaseHealth(health);
     }
 }
