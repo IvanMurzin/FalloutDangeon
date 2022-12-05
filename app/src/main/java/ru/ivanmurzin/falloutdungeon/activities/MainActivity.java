@@ -15,6 +15,8 @@ import ru.ivanmurzin.falloutdungeon.view.Game;
 import ru.ivanmurzin.falloutdungeon.widget.PauseDialog;
 
 public class MainActivity extends AppCompatActivity {
+    private boolean isMenuOpened = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +51,11 @@ public class MainActivity extends AppCompatActivity {
         menu.setPadding(0, 0, 0, 0);
         menu.setImageResource(R.drawable.pause);
         menu.setOnClickListener(view -> {
+            if (isMenuOpened) return;
             PauseDialog pauseDialog = new PauseDialog(this);
             pauseDialog.show();
+            pauseDialog.setOnDismissListener(v -> isMenuOpened = false);
+            isMenuOpened = true;
         });
         rootPanel.addView(menu);
     }
