@@ -9,7 +9,5 @@ public abstract class Item {
         this.name = name;
     }
 
-    public void pick(Logger logger) {
-        logger.notify(name);
-    }
+    public abstract void pick(Logger logger);
 }

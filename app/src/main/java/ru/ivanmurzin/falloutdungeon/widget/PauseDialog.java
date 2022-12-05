@@ -6,8 +6,19 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Window;
 
+import androidx.annotation.Nullable;
+
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.databinding.MenuDialogBinding;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Armor;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherBreastplate;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherHelmet;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.MetalBreastplate;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.MetalHelmet;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.SpecialType;
 
@@ -20,18 +31,14 @@ public class PauseDialog extends Dialog {
     }
 
     private int getWeaponId() {
-        switch (Hero.instance.getWeapon().getType()) {
-            case Ordinary:
-                return R.drawable.pistol;
-            case Laser:
-                return R.drawable.laser_pistol;
-            default:
-                return R.drawable.cryolator;
-        }
+        Weapon weapon = Hero.instance.getWeapon();
+        if (weapon instanceof Pistol) return R.drawable.pistol;
+        if (weapon instanceof LaserPistol) return R.drawable.laser_pistol;
+        return R.drawable.cryolator;
     }
 
-    private int getBulletId() {
-        switch (Hero.instance.getWeapon().getType()) {
+    private int getBulletId(WeaponType type) {
+        switch (type) {
             case Ordinary:
                 return R.drawable.bullet_right;
             case Laser:
@@ -39,6 +46,30 @@ public class PauseDialog extends Dialog {
             default:
                 return R.drawable.frost_bullet_right;
         }
+    }
+
+    @Nullable
+    private Integer getBreastplateId() {
+        Armor breastplate = Hero.instance.getBreastplate();
+        if (breastplate instanceof LeatherBreastplate) return R.drawable.leather_breatplate;
+        if (breastplate instanceof MetalBreastplate) return R.drawable.metal_breastplate;
+        return null;
+    }
+
+    @Nullable
+    private Integer getHelmetId() {
+        Armor helmet = Hero.instance.getHelmet();
+        if (helmet instanceof LeatherHelmet) return R.drawable.leather_helmet;
+        if (helmet instanceof MetalHelmet) return R.drawable.metal_helmet;
+        return null;
+    }
+
+    private int getBreastplateResistanceBulletId() {
+        return getBulletId(Hero.instance.getBreastplate().getResistanceType());
+    }
+
+    private int getHelmetResistanceBulletId() {
+        return getBulletId(Hero.instance.getHelmet().getResistanceType());
     }
 
 
@@ -67,9 +98,22 @@ public class PauseDialog extends Dialog {
     private void initData() {
         binding.lockpicks.setText(String.valueOf(Hero.instance.getLockpicks()));
         binding.weaponIcon.setImageResource(getWeaponId());
-        binding.weaponBullet.setImageResource(getBulletId());
+        binding.weaponBullet.setImageResource(getBulletId(Hero.instance.getWeapon().getType()));
         binding.weaponDamage.setText(String.valueOf(Hero.instance.getWeapon().getMaxDamage()));
         binding.weaponReload.setText(String.valueOf(Hero.instance.getWeapon().getReload()));
+
+        Integer helmetId = getHelmetId();
+        if (helmetId != null) {
+            binding.helmetIcon.setImageResource(helmetId);
+            binding.helmetArmor.setText(String.valueOf(Hero.instance.getHelmet().getDefaultArmor()));
+            binding.helmetResistanceIcon.setImageResource(getHelmetResistanceBulletId());
+        }
+        Integer breastplateId = getBreastplateId();
+        if (breastplateId != null) {
+            binding.breastplateIcon.setImageResource(breastplateId);
+            binding.breastplateArmor.setText(String.valueOf(Hero.instance.getBreastplate().getDefaultArmor()));
+            binding.breastplateResistanceIcon.setImageResource(getBreastplateResistanceBulletId());
+        }
     }
 
     @SuppressLint("DefaultLocale")

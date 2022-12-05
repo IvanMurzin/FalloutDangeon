@@ -3,9 +3,7 @@ package ru.ivanmurzin.falloutdungeon.controller;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
-import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.controller.object.BulletController;
 import ru.ivanmurzin.falloutdungeon.controller.object.ChestController;
@@ -15,6 +13,10 @@ import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherBreastplate;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherHelmet;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.MetalBreastplate;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.MetalHelmet;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Cryolator;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
@@ -40,7 +42,6 @@ public class GameObjectController {
     }
 
     public void draw(Canvas canvas, GameDisplay display) {
-        Log.d(Constants.TAG_D, level.getInteractiveGameObjects().size() + "");
         for (InteractiveGameObject interactive : level.getInteractiveGameObjects()) {
             if (interactive instanceof Chest) {
                 chestController.draw(canvas, display, (Chest) interactive);
@@ -64,6 +65,10 @@ public class GameObjectController {
         private final Bitmap pistolBitmap;
         private final Bitmap laserPistolBitmap;
         private final Bitmap cryolatorBitmap;
+        private final Bitmap leatherHelmetBitmap;
+        private final Bitmap metalHelmetBitmap;
+        private final Bitmap leatherBreastplateBitmap;
+        private final Bitmap metalBreastplateBitmap;
         private final Bitmap unknownBitmap;
 
         public ItemController(Context context) {
@@ -72,6 +77,10 @@ public class GameObjectController {
             pistolBitmap = BitmapUtil.getScaledBitmap(context, 100, 80, R.drawable.pistol);
             laserPistolBitmap = BitmapUtil.getScaledBitmap(context, 100, 80, R.drawable.laser_pistol);
             cryolatorBitmap = BitmapUtil.getScaledBitmap(context, 100, 80, R.drawable.cryolator);
+            leatherHelmetBitmap = BitmapUtil.getScaledBitmap(context, 80, 80, R.drawable.leather_helmet);
+            metalHelmetBitmap = BitmapUtil.getScaledBitmap(context, 80, 50, R.drawable.metal_helmet);
+            leatherBreastplateBitmap = BitmapUtil.getScaledBitmap(context, 80, 80, R.drawable.leather_breatplate);
+            metalBreastplateBitmap = BitmapUtil.getScaledBitmap(context, 80, 80, R.drawable.metal_breastplate);
             unknownBitmap = BitmapUtil.getScaledBitmap(context, 100, 80, R.drawable.unknown);
         }
 
@@ -86,6 +95,14 @@ public class GameObjectController {
                 itemBitmap = laserPistolBitmap;
             } else if (item instanceof Cryolator) {
                 itemBitmap = cryolatorBitmap;
+            } else if (item instanceof LeatherHelmet) {
+                itemBitmap = leatherHelmetBitmap;
+            } else if (item instanceof LeatherBreastplate) {
+                itemBitmap = leatherBreastplateBitmap;
+            } else if (item instanceof MetalHelmet) {
+                itemBitmap = metalHelmetBitmap;
+            } else if (item instanceof MetalBreastplate) {
+                itemBitmap = metalBreastplateBitmap;
             } else if (item instanceof Weapon) {
                 itemBitmap = weaponBitmap;
             } else {

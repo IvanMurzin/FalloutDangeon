@@ -23,10 +23,10 @@ public class BulletController {
     private final Bitmap bulletLaserH;
 
     public BulletController(Context context) {
-        bulletOrdinaryN = BitmapUtil.getScaledBitmap(context, 30, 60, R.drawable.bullet_up);
-        bulletOrdinaryS = BitmapUtil.getScaledBitmap(context, 30, 60, R.drawable.bullet_down);
-        bulletOrdinaryW = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_left);
-        bulletOrdinaryE = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.bullet_right);
+        bulletOrdinaryN = BitmapUtil.getScaledBitmap(context, 15, 40, R.drawable.bullet_up);
+        bulletOrdinaryS = BitmapUtil.getScaledBitmap(context, 15, 40, R.drawable.bullet_down);
+        bulletOrdinaryW = BitmapUtil.getScaledBitmap(context, 40, 15, R.drawable.bullet_left);
+        bulletOrdinaryE = BitmapUtil.getScaledBitmap(context, 40, 15, R.drawable.bullet_right);
         bulletFrostN = BitmapUtil.getScaledBitmap(context, 30, 60, R.drawable.frost_bullet_up);
         bulletFrostS = BitmapUtil.getScaledBitmap(context, 30, 60, R.drawable.frost_bullet_down);
         bulletFrostW = BitmapUtil.getScaledBitmap(context, 60, 30, R.drawable.frost_bullet_left);

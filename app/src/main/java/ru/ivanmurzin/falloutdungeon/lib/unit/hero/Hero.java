@@ -6,8 +6,8 @@ import android.util.Log;
 
 import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.Aid;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.BodyArmor;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Helmet;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Armor;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.ArmorType;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.artifact.Artifact;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Cryolator;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
@@ -20,8 +20,8 @@ public class Hero extends Unit {
     public final Special special;
     public final Experience experience;
     private Weapon weapon;
-    private Helmet helmet;
-    private BodyArmor bodyArmor;
+    private Armor helmet;
+    private Armor breastplate;
     private Artifact[] artifacts;
     private int lockpicks;
     private Aid[] aid;
@@ -43,6 +43,11 @@ public class Hero extends Unit {
 
     public void switchWeapon(Weapon weapon) {
         this.weapon = weapon;
+    }
+
+    public void switchArmor(Armor armor) {
+        if (armor.type == ArmorType.Breastplate) breastplate = armor;
+        else helmet = armor;
     }
 
     public Weapon getWeapon() {
@@ -67,6 +72,13 @@ public class Hero extends Unit {
         return weapon.shoot(x, y, speedX, speedY, true);
     }
 
+    public Armor getHelmet() {
+        return helmet;
+    }
+
+    public Armor getBreastplate() {
+        return breastplate;
+    }
 
     @Override
     public double getDistance(float ox, float oy) {
@@ -78,11 +90,16 @@ public class Hero extends Unit {
 
     }
 
+
     @Override
     public void takeDamage(double damage, WeaponType type) {
+        double breastplateArmor = breastplate == null ? 0 : breastplate.getArmor(type);
+        double helmetArmor = helmet == null ? 0 : helmet.getArmor(type);
+        double resultArmor = breastplateArmor + helmetArmor;
         double resistance = 1 - special.getResistance();
-        health -= damage * resistance;
-        Log.v(Constants.TAG, "Pure damage=" + damage + " resistance=" + resistance + " result=" + damage * resistance);
+        Log.v(Constants.TAG_V, "Pure damage=" + damage + " resistance=" + resistance + " armor=" + resultArmor + " result = " + (damage - resultArmor) * resistance);
+        if (damage < resultArmor) return;
+        health -= (damage - resultArmor) * resistance;
         if (health < 0) health = 0;
     }
 

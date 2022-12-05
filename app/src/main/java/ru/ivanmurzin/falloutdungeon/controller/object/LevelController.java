@@ -77,11 +77,12 @@ public class LevelController {
 
     private Set<Chest> getRandomChests() {
         Set<Chest> chests = new HashSet<>();
-        chests.add(new Chest(level.fieldSize * TILE_SIZE - 200, level.fieldSize * TILE_SIZE - 200, WeaponGenerator.getTopWeapon(), 5, ChestType.Weapon));
         chests.add(new Chest(level.fieldSize * TILE_SIZE - 200, 700, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
-        chests.add(new Chest(200, level.fieldSize * TILE_SIZE - 200, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
+        chests.add(new Chest(level.fieldSize * TILE_SIZE - 200, level.fieldSize * TILE_SIZE - 200, WeaponGenerator.getTopWeapon(), 5, ChestType.Weapon));
+        chests.add(new Chest(200, level.fieldSize * TILE_SIZE - 200, ItemGenerator.getMiddleItem(), 3, ChestType.Ordinary));
         chests.add(new Chest(200, 200, WeaponGenerator.getSimpleWeapon(), 2, ChestType.Weapon));
-        chests.add(new Chest(800, 800, ItemGenerator.getSimpleItem(), 1, ChestType.Ordinary));
+        chests.add(new Chest(800, 800, ItemGenerator.getMiddleItem(), 3, ChestType.Ordinary));
+        chests.add(new Chest(1000, 1000, ItemGenerator.getMiddleItem(), 3, ChestType.Ordinary));
         return chests;
     }
 

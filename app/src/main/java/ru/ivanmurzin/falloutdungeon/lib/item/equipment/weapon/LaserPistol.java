@@ -9,7 +9,7 @@ import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 
 public class LaserPistol extends Weapon {
     public LaserPistol() {
-        super("Лазерный пистолет", null, 20, 10, WeaponType.Laser, 15, null);
+        super("Лазерный пистолет", null, 15, 10, WeaponType.Laser, 15, null);
     }
 
     @Override
