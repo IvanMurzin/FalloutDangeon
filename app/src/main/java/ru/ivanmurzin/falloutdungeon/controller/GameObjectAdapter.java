@@ -27,14 +27,14 @@ import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
-public class GameObjectController {
+public class GameObjectAdapter {
     private final Level level;
     private final UnitController unitController;
     private final ChestController chestController;
     private final BulletController bulletController;
     private final ItemController itemController;
 
-    public GameObjectController(Context context, Level level) {
+    public GameObjectAdapter(Context context, Level level) {
         this.level = level;
         unitController = new UnitController(context);
         itemController = new ItemController(context);

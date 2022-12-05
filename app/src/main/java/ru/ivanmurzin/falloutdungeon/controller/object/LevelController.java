@@ -8,11 +8,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 import ru.ivanmurzin.falloutdungeon.R;
-import ru.ivanmurzin.falloutdungeon.controller.GameObjectController;
+import ru.ivanmurzin.falloutdungeon.controller.GameObjectAdapter;
 import ru.ivanmurzin.falloutdungeon.controller.object.unit.HeroController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
@@ -28,7 +28,7 @@ import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
 public class LevelController {
-    private final GameObjectController gameObjectController;
+    private final GameObjectAdapter gameObjectAdapter;
     private final HeroController heroController;
     private final Level level;
     private final Bitmap defaultBitmap;
@@ -37,7 +37,7 @@ public class LevelController {
     public LevelController(Context context, int width, int height) {
         level = new Level(1, 40);
         heroController = new HeroController(context, level, width, height, TILE_SIZE);
-        gameObjectController = new GameObjectController(context, level);
+        gameObjectAdapter = new GameObjectAdapter(context, level);
         Bitmap[] cellBitmaps = new Bitmap[4];
         cellBitmaps[0] = BitmapUtil.getScaledBitmap(context, TILE_SIZE, TILE_SIZE, R.drawable.tile1);
         cellBitmaps[1] = BitmapUtil.getScaledBitmap(context, TILE_SIZE, TILE_SIZE, R.drawable.tile2);
@@ -70,13 +70,13 @@ public class LevelController {
             canvas.drawBitmap(fence, display.offsetX(i * TILE_SIZE), display.offsetY((level.fieldSize - 1) * TILE_SIZE), null);
         }
 
-        gameObjectController.draw(canvas, display);
+        gameObjectAdapter.draw(canvas, display);
         heroController.draw(canvas, display);
     }
 
 
-    private Set<Chest> getRandomChests() {
-        Set<Chest> chests = new HashSet<>();
+    private List<Chest> getRandomChests() {
+        List<Chest> chests = new LinkedList<>();
         chests.add(new Chest(level.fieldSize * TILE_SIZE - 200, 700, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
         chests.add(new Chest(level.fieldSize * TILE_SIZE - 200, level.fieldSize * TILE_SIZE - 200, WeaponGenerator.getTopWeapon(), 5, ChestType.Weapon));
         chests.add(new Chest(200, level.fieldSize * TILE_SIZE - 200, ItemGenerator.getMiddleItem(), 3, ChestType.Ordinary));
@@ -92,8 +92,8 @@ public class LevelController {
         return chests;
     }
 
-    private Set<Unit> getRandomUnits() {
-        Set<Unit> units = new HashSet<>();
+    private List<Unit> getRandomUnits() {
+        List<Unit> units = new LinkedList<>();
         units.add(new Raider(level.fieldSize * TILE_SIZE - 100, level.fieldSize * TILE_SIZE - 100, level));
         units.add(new Raider(50, 50, level));
         units.add(new Raider(850, 850, level));
