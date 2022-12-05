@@ -1,5 +1,7 @@
 package ru.ivanmurzin.falloutdungeon.lib.item.aid;
 
+import androidx.annotation.NonNull;
+
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 
 public class CommonAid extends Aid {
@@ -13,5 +15,11 @@ public class CommonAid extends Aid {
     @Override
     public void use() {
         Hero.instance.increaseHealth(health);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return String.valueOf(health);
     }
 }

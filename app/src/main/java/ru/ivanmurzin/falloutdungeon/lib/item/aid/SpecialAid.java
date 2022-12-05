@@ -1,6 +1,5 @@
 package ru.ivanmurzin.falloutdungeon.lib.item.aid;
 
-import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Special;
 
 public class SpecialAid extends Aid {

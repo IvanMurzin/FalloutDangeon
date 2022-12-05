@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import java.util.Locale;
-import java.util.Set;
 
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.controller.ActionController;
@@ -119,8 +118,7 @@ public class HeroController {
         if (event.getActionMasked() != MotionEvent.ACTION_POINTER_DOWN && event.getActionMasked() != MotionEvent.ACTION_DOWN)
             return;
         if (actionController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
-            Set<InteractiveGameObject> interactiveGameObjects = level.getInteractiveGameObjects();
-            for (InteractiveGameObject object : interactiveGameObjects) {
+            for (InteractiveGameObject object : level.getInteractiveGameObjects()) {
                 if (Hero.instance.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
                     object.action(logger);
                     break;

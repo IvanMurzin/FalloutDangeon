@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Window;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.databinding.MenuDialogBinding;
@@ -21,6 +22,7 @@ import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.SpecialType;
+import ru.ivanmurzin.falloutdungeon.view.adapter.AidAdapter;
 
 public class PauseDialog extends Dialog {
 
@@ -92,6 +94,12 @@ public class PauseDialog extends Dialog {
         initExperience();
         initButtons();
         initData();
+        initRecycler();
+    }
+
+    private void initRecycler() {
+        binding.aidRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.aidRecycler.setAdapter(new AidAdapter(Hero.instance.getAids()));
     }
 
 

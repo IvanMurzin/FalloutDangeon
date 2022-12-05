@@ -1,8 +1,8 @@
 package ru.ivanmurzin.falloutdungeon.lib.game;
 
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
@@ -20,9 +20,9 @@ public class Level {
     public final int levelNumber;
     public final int fieldSize;
     public final Cell[][] cells;
-    private final Set<InteractiveGameObject> interactiveGameObjects;
-    private final Set<Unit> units;
-    private final Set<Weapon.Bullet> bullets;
+    private final List<InteractiveGameObject> interactiveGameObjects;
+    private final List<Unit> units;
+    private final List<Weapon.Bullet> bullets;
 
 
     public Level(int levelNumber, int fieldSize) {
@@ -34,22 +34,22 @@ public class Level {
         }
         this.levelNumber = levelNumber;
         this.fieldSize = fieldSize;
-        interactiveGameObjects = new HashSet<>();
-        units = new HashSet<>();
+        interactiveGameObjects = new LinkedList<>();
+        bullets = new LinkedList<>();
+        units = new LinkedList<>();
         units.add(Hero.instance);
-        bullets = new HashSet<>();
     }
 
 
-    public Set<InteractiveGameObject> getInteractiveGameObjects() {
+    public List<InteractiveGameObject> getInteractiveGameObjects() {
         return interactiveGameObjects;
     }
 
-    public Set<Weapon.Bullet> getBullets() {
+    public List<Weapon.Bullet> getBullets() {
         return bullets;
     }
 
-    public Set<Unit> getUnits() {
+    public List<Unit> getUnits() {
         return units;
     }
 

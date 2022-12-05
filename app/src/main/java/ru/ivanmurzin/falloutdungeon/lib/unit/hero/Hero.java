@@ -22,13 +22,12 @@ public class Hero extends Unit {
 
     public final Special special;
     public final Experience experience;
+    private final List<Aid> aids;
     private Weapon weapon;
     private Armor helmet;
     private Armor breastplate;
     private Artifact[] artifacts;
     private int lockpicks;
-    private final List<Aid> aids;
-    private int aidWeight = 0;
 
     private Hero() {
         super(100, 10);
@@ -64,8 +63,11 @@ public class Hero extends Unit {
     }
 
     public boolean addAid(Aid aid) {
+        int aidWeight = 0;
+        for (Aid myAid : aids) {
+            aidWeight += myAid.weight;
+        }
         if (aidWeight >= special.getMaxWeight()) return false;
-        aidWeight += aid.weight;
         aids.add(aid);
         return true;
     }
@@ -102,6 +104,10 @@ public class Hero extends Unit {
 
     }
 
+
+    public List<Aid> getAids() {
+        return aids;
+    }
 
     @Override
     public void takeDamage(double damage, WeaponType type) {
