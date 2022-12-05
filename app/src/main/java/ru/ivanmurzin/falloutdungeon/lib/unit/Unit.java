@@ -17,7 +17,7 @@ abstract public class Unit extends MovingGameObject {
     }
 
     public Unit(int maxHealth, int armor) {
-        this(0, 0, 0, maxHealth, armor);
+        this(0, 0, 30, maxHealth, armor);
     }
 
     public double getMaxHealth() {

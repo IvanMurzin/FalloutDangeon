@@ -87,8 +87,8 @@ public class HeroController {
             lastSpeedX = speedX;
             lastSpeedY = speedY;
         }
-        speedX = joystickController.getActuatorX() * SPEED;
-        speedY = joystickController.getActuatorY() * SPEED;
+        speedX = joystickController.getActuatorX() * Hero.instance.getSpeed();
+        speedY = joystickController.getActuatorY() * Hero.instance.getSpeed();
         Hero.instance.x += speedX;
         Hero.instance.y += speedY;
         if (Hero.instance.x > (fieldSize - 5) * 40) Hero.instance.x = (fieldSize - 5) * 40;

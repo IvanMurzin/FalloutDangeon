@@ -9,4 +9,8 @@ public abstract class MovingGameObject extends GameObject {
     }
 
     public abstract void onMove();
+
+    public float getSpeed() {
+        return speed;
+    }
 }
