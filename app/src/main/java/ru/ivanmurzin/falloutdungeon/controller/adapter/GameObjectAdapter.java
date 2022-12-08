@@ -1,4 +1,4 @@
-package ru.ivanmurzin.falloutdungeon.controller;
+package ru.ivanmurzin.falloutdungeon.controller.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;

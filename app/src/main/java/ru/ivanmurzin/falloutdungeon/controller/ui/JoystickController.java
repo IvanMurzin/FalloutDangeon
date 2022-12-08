@@ -1,18 +1,9 @@
 package ru.ivanmurzin.falloutdungeon.controller.ui;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-
-import ru.ivanmurzin.falloutdungeon.R;
-
-public class JoystickController implements UiController {
+public class JoystickController {
     private final float centerX;
     private final float centerY;
     private final float outRadius;
-    private final Bitmap buttonIn;
-    private final Bitmap buttonOut;
     private float positionX;
     private float positionY;
     private float actuatorX;
@@ -21,14 +12,12 @@ public class JoystickController implements UiController {
     private int joystickPointerId = 0;
     private int touchCount = 0;
 
-    public JoystickController(Context context, float centerX, float centerY) {
+    public JoystickController(float centerX, float centerY) {
         this.centerX = centerX;
         this.centerY = centerY;
         this.outRadius = 150;
         this.positionX = centerX;
         this.positionY = centerY;
-        buttonIn = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_in), 100, 100, false);
-        buttonOut = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.button_out), 150 + buttonIn.getWidth() / 2, 150 + buttonIn.getHeight() / 2, false);
     }
 
     public int getJoystickPointerId() {
@@ -51,17 +40,27 @@ public class JoystickController implements UiController {
         this.touchCount--;
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        canvas.drawBitmap(buttonOut, centerX - buttonOut.getWidth() / 2f, centerY - buttonOut.getHeight() / 2f, null);
-        canvas.drawBitmap(buttonIn, positionX - buttonIn.getWidth() / 2f, positionY - buttonIn.getHeight() / 2f, null);
-    }
 
     public void update() {
         positionX = centerX + actuatorX * outRadius;
         positionY = centerY + actuatorY * outRadius;
     }
 
+    public float getCenterX() {
+        return centerX;
+    }
+
+    public float getCenterY() {
+        return centerY;
+    }
+
+    public float getPositionX() {
+        return positionX;
+    }
+
+    public float getPositionY() {
+        return positionY;
+    }
 
     public boolean isInJoystick(float x, float y) {
         float distance = (float) Math.sqrt(Math.pow((centerX - x), 2) + Math.pow((y - centerY), 2));

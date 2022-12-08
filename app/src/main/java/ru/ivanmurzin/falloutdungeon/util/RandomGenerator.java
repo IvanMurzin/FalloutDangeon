@@ -1,6 +1,10 @@
 package ru.ivanmurzin.falloutdungeon.util;
 
+import android.util.Log;
+
 import java.util.Random;
+
+import ru.ivanmurzin.falloutdungeon.Constants;
 
 public class RandomGenerator {
     private static final Random random = new Random();
@@ -11,7 +15,7 @@ public class RandomGenerator {
 
     public static boolean isSuccess(int chance) {
         int randomInt = random.nextInt(100);
-//        Log.v(Constants.TAG_V, "isSuccess: chance=" + chance + " random=" + randomInt);
+        Log.v(Constants.TAG_V, "isSuccess: chance=" + chance + " random=" + randomInt);
         return chance >= randomInt;
     }
 

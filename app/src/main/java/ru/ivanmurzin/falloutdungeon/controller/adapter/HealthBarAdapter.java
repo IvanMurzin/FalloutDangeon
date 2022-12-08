@@ -1,4 +1,4 @@
-package ru.ivanmurzin.falloutdungeon.controller.ui;
+package ru.ivanmurzin.falloutdungeon.controller.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,16 +7,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ru.ivanmurzin.falloutdungeon.R;
+import ru.ivanmurzin.falloutdungeon.controller.ui.UiController;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 
-public class HealthBarController implements UiController {
+public class HealthBarAdapter implements UiController {
 
     private final Bitmap bitmap;
     private final Paint paintText = new Paint();
     private final Paint paintHealth = new Paint();
 
-    public HealthBarController(Context context) {
+    public HealthBarAdapter(Context context) {
         bitmap = BitmapUtil.getScaledBitmap(context, 450, 150, R.drawable.health_bar);
         paintHealth.setColor(Color.parseColor("#FA0000"));
         paintText.setColor(Color.WHITE);

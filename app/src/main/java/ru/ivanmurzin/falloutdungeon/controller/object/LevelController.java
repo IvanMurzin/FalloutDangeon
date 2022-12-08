@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ru.ivanmurzin.falloutdungeon.R;
-import ru.ivanmurzin.falloutdungeon.controller.GameObjectAdapter;
+import ru.ivanmurzin.falloutdungeon.controller.adapter.GameObjectAdapter;
 import ru.ivanmurzin.falloutdungeon.controller.object.unit.HeroController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
@@ -107,7 +107,7 @@ public class LevelController {
     }
 
     public JoystickController getJoystickController() {
-        return heroController.joystickController;
+        return heroController.joystickAdapter.controller;
     }
 
     public void onTouchEvent(MotionEvent event) {

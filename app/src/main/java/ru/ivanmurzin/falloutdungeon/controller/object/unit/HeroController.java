@@ -12,8 +12,8 @@ import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.controller.ActionController;
 import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.controller.NotifyController;
-import ru.ivanmurzin.falloutdungeon.controller.ui.HealthBarController;
-import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
+import ru.ivanmurzin.falloutdungeon.controller.adapter.HealthBarAdapter;
+import ru.ivanmurzin.falloutdungeon.controller.adapter.JoystickAdapter;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
@@ -23,10 +23,9 @@ import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
 public class HeroController {
-    private static final float SPEED = 30;
     private static final int ACTION_ACTIVATION_RADIUS = 100;
-    public final JoystickController joystickController;
-    public final HealthBarController healthBarController;
+    public final JoystickAdapter joystickAdapter;
+    public final HealthBarAdapter healthBarAdapter;
     private final Logger logger;
     private final Level level;
     private final ActionController actionController;
@@ -50,8 +49,8 @@ public class HeroController {
         Hero.instance.x = width / 2f;
         Hero.instance.y = height / 2f;
         this.fieldSize = fieldSize;
-        joystickController = new JoystickController(context, 250, height * 3 / 4f);
-        healthBarController = new HealthBarController(context);
+        joystickAdapter = new JoystickAdapter(context, 250, height * 3 / 4f);
+        healthBarAdapter = new HealthBarAdapter(context);
         actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
         shootController = new ActionController(context, width - 200, height - 200, R.drawable.shoot);
         logger = new NotifyController(context);
@@ -70,8 +69,8 @@ public class HeroController {
 
     public void draw(Canvas canvas, GameDisplay display) {
         canvas.drawBitmap(currentFrame, display.offsetX(Hero.instance.x), display.offsetY(Hero.instance.y), null);
-        joystickController.draw(canvas);
-        healthBarController.draw(canvas);
+        joystickAdapter.draw(canvas);
+        healthBarAdapter.draw(canvas);
         for (GameObject object : level.getInteractiveGameObjects()) {
             if (Hero.instance.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
                 actionController.draw(canvas);
@@ -82,13 +81,13 @@ public class HeroController {
     }
 
     public void update() {
-        joystickController.update();
+        joystickAdapter.controller.update();
         if (speedX != 0 && speedY != 0) {
             lastSpeedX = speedX;
             lastSpeedY = speedY;
         }
-        speedX = joystickController.getActuatorX() * Hero.instance.getSpeed();
-        speedY = joystickController.getActuatorY() * Hero.instance.getSpeed();
+        speedX = joystickAdapter.controller.getActuatorX() * Hero.instance.getSpeed();
+        speedY = joystickAdapter.controller.getActuatorY() * Hero.instance.getSpeed();
         Hero.instance.x += speedX;
         Hero.instance.y += speedY;
         if (Hero.instance.x > (fieldSize - 5) * 40) Hero.instance.x = (fieldSize - 5) * 40;
