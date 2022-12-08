@@ -117,9 +117,11 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
             while (running) {
                 Canvas canvas = holder.lockCanvas();
                 try {
-                    sleep(1000 / fps);
+                    long start = System.currentTimeMillis();
                     drawFrames(canvas, gameDisplay);
                     update();
+                    long stop = System.currentTimeMillis();
+                    sleep(1000 / fps - (stop - start));
                 } catch (Exception e) {
                     Log.e(Constants.TAG_E, "GameThread: " + e + " what: " + e.getMessage() + "\nstackTrace:\n" + Arrays.toString(e.getStackTrace()));
                 } finally {
