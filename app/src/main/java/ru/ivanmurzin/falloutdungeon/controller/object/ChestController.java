@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.ChestState;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
@@ -42,6 +43,7 @@ public class ChestController {
             case Opened:
                 level.removeInteractive(chest);
                 level.addDroppedItem(chest.item, chest.x, chest.y);
+                chest.setState(ChestState.Removed);
         }
     }
 }

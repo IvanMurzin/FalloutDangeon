@@ -23,6 +23,10 @@ public class Chest extends InteractiveGameObject {
         return state;
     }
 
+    public void setState(ChestState state) {
+        this.state = state;
+    }
+
     @Override
     public void action(Logger logger) {
         if (state == ChestState.Closed) {

@@ -5,12 +5,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import java.util.Arrays;
+
+import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.controller.object.LevelController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
@@ -116,7 +120,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                     sleep(1000 / fps);
                     drawFrames(canvas, gameDisplay);
                     update();
-                } catch (Exception ignored) {
+                } catch (Exception e) {
+                    Log.e(Constants.TAG_E, "GameThread: " + e + " what: " + e.getMessage() + "\nstackTrace:\n" + Arrays.toString(e.getStackTrace()));
                 } finally {
                     try {
                         holder.unlockCanvasAndPost(canvas);

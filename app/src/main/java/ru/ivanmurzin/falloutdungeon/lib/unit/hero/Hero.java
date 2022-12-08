@@ -39,7 +39,7 @@ public class Hero extends Unit {
         special.setSpecial(SpecialType.Intelligence, 7);
         special.setSpecial(SpecialType.Agility, 8);
         special.setSpecial(SpecialType.Luck, 10);
-        lockpicks = 5;
+        lockpicks = 15;
         experience = new Experience();
         weapon = new Cryolator();
         aids = new LinkedList<>();

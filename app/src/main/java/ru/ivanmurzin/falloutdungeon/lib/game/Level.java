@@ -1,7 +1,6 @@
 package ru.ivanmurzin.falloutdungeon.lib.game;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
@@ -13,6 +12,7 @@ import ru.ivanmurzin.falloutdungeon.lib.item.Item;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
 import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
+import ru.ivanmurzin.falloutdungeon.tools.GameList;
 
 public class Level {
     public final static int TILE_SIZE = 40;
@@ -34,9 +34,9 @@ public class Level {
         }
         this.levelNumber = levelNumber;
         this.fieldSize = fieldSize;
-        interactiveGameObjects = new LinkedList<>();
-        bullets = new LinkedList<>();
-        units = new LinkedList<>();
+        interactiveGameObjects = new GameList<>();
+        bullets = new GameList<>();
+        units = new GameList<>();
         units.add(Hero.instance);
     }
 
