@@ -1,5 +1,9 @@
-package ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon;
+package ru.ivanmurzin.falloutdungeon.controller.generator;
 
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Cryolator;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.SpecialType;
 import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 

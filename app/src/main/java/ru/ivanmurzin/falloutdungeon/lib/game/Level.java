@@ -1,11 +1,14 @@
 package ru.ivanmurzin.falloutdungeon.lib.game;
 
+import static ru.ivanmurzin.falloutdungeon.controller.generator.LevelGenerator.TILE_SIZE;
+
 import java.util.Iterator;
 import java.util.List;
 
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.Cell;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.Door;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
@@ -15,7 +18,6 @@ import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.tools.GameList;
 
 public class Level {
-    public final static int TILE_SIZE = 40;
     private final static int HIT_RADIUS = 60;
     public final int levelNumber;
     public final int fieldSize;
@@ -55,6 +57,10 @@ public class Level {
 
     public void addChest(Chest chests) {
         interactiveGameObjects.add(chests);
+    }
+
+    public void addDoor(Door door) {
+        interactiveGameObjects.add(door);
     }
 
     public void addDroppedItem(Item item, float x, float y) {

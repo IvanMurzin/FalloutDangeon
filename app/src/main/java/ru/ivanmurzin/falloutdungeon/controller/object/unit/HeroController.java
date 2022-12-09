@@ -17,7 +17,6 @@ import ru.ivanmurzin.falloutdungeon.controller.adapter.JoystickAdapter;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
@@ -90,10 +89,9 @@ public class HeroController {
         speedY = joystickAdapter.controller.getActuatorY() * Hero.instance.getSpeed();
         Hero.instance.x += speedX;
         Hero.instance.y += speedY;
-        if (Hero.instance.x > (fieldSize - 5) * 40) Hero.instance.x = (fieldSize - 5) * 40;
+        if (Hero.instance.x > (fieldSize - 3) * 40) Hero.instance.x = (fieldSize - 3) * 40;
         if (Hero.instance.x < 0) {
             Hero.instance.x = 0;
-            Hero.instance.takeDamage(1, WeaponType.Ordinary);
         }
         if (Hero.instance.y > (fieldSize - 5) * 40) Hero.instance.y = (fieldSize - 5) * 40;
         if (Hero.instance.y < 0) Hero.instance.y = 0;

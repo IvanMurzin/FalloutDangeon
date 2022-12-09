@@ -10,6 +10,7 @@ import ru.ivanmurzin.falloutdungeon.controller.object.ChestController;
 import ru.ivanmurzin.falloutdungeon.controller.object.unit.UnitController;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.Level;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.Door;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
@@ -31,6 +32,8 @@ public class GameObjectAdapter {
     private final ChestController chestController;
     private final BulletController bulletController;
     private final ItemController itemController;
+    private final Bitmap doorBitmap;
+
 
     public GameObjectAdapter(Context context, Level level) {
         this.level = level;
@@ -38,6 +41,7 @@ public class GameObjectAdapter {
         itemController = new ItemController(context);
         bulletController = new BulletController(context);
         chestController = new ChestController(context, level);
+        doorBitmap = BitmapUtil.getScaledBitmap(context, 80, 100, R.drawable.door);
     }
 
     public void draw(Canvas canvas, GameDisplay display) {
@@ -48,6 +52,10 @@ public class GameObjectAdapter {
             }
             if (interactive instanceof GameItem) {
                 itemController.draw(canvas, display, (GameItem) interactive);
+                continue;
+            }
+            if (interactive instanceof Door) {
+                canvas.drawBitmap(doorBitmap, display.offsetX(interactive.x), display.offsetY(interactive.y), null);
             }
         }
         for (Weapon.Bullet bullet : level.getBullets()) {

@@ -1,4 +1,4 @@
-package ru.ivanmurzin.falloutdungeon.lib.item.equipment;
+package ru.ivanmurzin.falloutdungeon.controller.generator;
 
 import android.content.Context;
 

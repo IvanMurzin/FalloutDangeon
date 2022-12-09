@@ -1,6 +1,11 @@
 package ru.ivanmurzin.falloutdungeon;
 
-
+/***
+ * docs
+ * death
+ * new level
+ * tests
+ */
 public class Constants {
     public static String TAG = "LOGGER_TAG";
     public static String TAG_I = "LOGGER_TAG_I";
