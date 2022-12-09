@@ -6,6 +6,7 @@ import ru.ivanmurzin.falloutdungeon.lib.item.Item;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.CommonAid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Armor;
 import ru.ivanmurzin.falloutdungeon.lib.item.lockpick.Lockpick;
+import ru.ivanmurzin.falloutdungeon.lib.unit.hero.SpecialType;
 import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 import ru.ivanmurzin.falloutdungeon.util.YamlLoader;
 
@@ -26,6 +27,10 @@ public class ItemGenerator {
     }
 
     public Armor getArmor() {
-        return armors[RandomGenerator.getRandom(0, armors.length)];
+        Armor armor = armors[RandomGenerator.getRandom(0, armors.length)];
+        if (RandomGenerator.isSuccess(50)) {
+            armor.enchantScale.setSpecial(SpecialType.Endurance, 3);
+        }
+        return armor;
     }
 }

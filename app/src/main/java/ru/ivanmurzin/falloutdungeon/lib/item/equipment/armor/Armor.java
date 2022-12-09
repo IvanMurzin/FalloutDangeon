@@ -1,9 +1,11 @@
 package ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor;
 
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
+import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.Equipment;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
@@ -28,8 +30,9 @@ public class Armor extends Equipment {
     }
 
     public double getArmor(WeaponType type) {
-        double enchantResistance = enchantScale == null ? 1 : enchantScale.getResistance();
+        double enchantResistance = 1 + enchantScale.getResistance();
         double scale = type == typeResistance.first ? typeResistance.second : 1;
+        Log.v(Constants.TAG_V + "_GET_ARMOR", "enchantResistance=" + enchantResistance + "\nscale=" + scale + "\narmor=" + defence * scale * enchantResistance);
         return defence * scale * enchantResistance;
     }
 
