@@ -12,10 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.ivanmurzin.falloutdungeon.R;
 import ru.ivanmurzin.falloutdungeon.databinding.MenuDialogBinding;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Armor;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherBreastplate;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherHelmet;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.MetalBreastplate;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.MetalHelmet;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
@@ -53,16 +49,18 @@ public class PauseDialog extends Dialog {
     @Nullable
     private Integer getBreastplateId() {
         Armor breastplate = Hero.instance.getBreastplate();
-        if (breastplate instanceof LeatherBreastplate) return R.drawable.leather_breatplate;
-        if (breastplate instanceof MetalBreastplate) return R.drawable.metal_breastplate;
+        if (breastplate == null) return null;
+        if (breastplate.id == 1) return R.drawable.leather_breatplate;
+        if (breastplate.id == 2) return R.drawable.metal_breastplate;
         return null;
     }
 
     @Nullable
     private Integer getHelmetId() {
         Armor helmet = Hero.instance.getHelmet();
-        if (helmet instanceof LeatherHelmet) return R.drawable.leather_helmet;
-        if (helmet instanceof MetalHelmet) return R.drawable.metal_helmet;
+        if (helmet == null) return null;
+        if (helmet.id == 1) return R.drawable.leather_helmet;
+        if (helmet.id == 2) return R.drawable.metal_helmet;
         return null;
     }
 
@@ -113,13 +111,13 @@ public class PauseDialog extends Dialog {
         Integer helmetId = getHelmetId();
         if (helmetId != null) {
             binding.helmetIcon.setImageResource(helmetId);
-            binding.helmetArmor.setText(String.valueOf(Hero.instance.getHelmet().getDefaultArmor()));
+            binding.helmetArmor.setText(String.valueOf(Hero.instance.getHelmet().getDefence()));
             binding.helmetResistanceIcon.setImageResource(getHelmetResistanceBulletId());
         }
         Integer breastplateId = getBreastplateId();
         if (breastplateId != null) {
             binding.breastplateIcon.setImageResource(breastplateId);
-            binding.breastplateArmor.setText(String.valueOf(Hero.instance.getBreastplate().getDefaultArmor()));
+            binding.breastplateArmor.setText(String.valueOf(Hero.instance.getBreastplate().getDefence()));
             binding.breastplateResistanceIcon.setImageResource(getBreastplateResistanceBulletId());
         }
     }

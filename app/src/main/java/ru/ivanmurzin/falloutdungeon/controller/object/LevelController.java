@@ -28,6 +28,7 @@ import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
 public class LevelController {
+    private final ItemGenerator generator;
     private final GameObjectAdapter gameObjectAdapter;
     private final HeroController heroController;
     private final Level level;
@@ -38,6 +39,10 @@ public class LevelController {
         level = new Level(1, 40);
         heroController = new HeroController(context, level, width, height, TILE_SIZE);
         gameObjectAdapter = new GameObjectAdapter(context, level);
+        generator = new ItemGenerator(context);
+        getRandomChests().forEach(level::addChest);
+        getRandomUnits().forEach(level::addUnit);
+
         Bitmap[] cellBitmaps = new Bitmap[4];
         cellBitmaps[0] = BitmapUtil.getScaledBitmap(context, TILE_SIZE, TILE_SIZE, R.drawable.tile1);
         cellBitmaps[1] = BitmapUtil.getScaledBitmap(context, TILE_SIZE, TILE_SIZE, R.drawable.tile2);
@@ -50,8 +55,6 @@ public class LevelController {
             }
         }
         fence = BitmapUtil.getScaledBitmap(context, TILE_SIZE, 60, R.drawable.fence);
-        getRandomChests().forEach(level::addChest);
-        getRandomUnits().forEach(level::addUnit);
     }
 
     public void draw(Canvas canvas, GameDisplay display) {
@@ -77,18 +80,21 @@ public class LevelController {
 
     private List<Chest> getRandomChests() {
         List<Chest> chests = new LinkedList<>();
-        chests.add(new Chest(level.fieldSize * TILE_SIZE - 200, 700, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
-        chests.add(new Chest(level.fieldSize * TILE_SIZE - 200, level.fieldSize * TILE_SIZE - 200, WeaponGenerator.getTopWeapon(), 5, ChestType.Weapon));
-        chests.add(new Chest(200, level.fieldSize * TILE_SIZE - 200, ItemGenerator.getMiddleItem(), 3, ChestType.Ordinary));
-        chests.add(new Chest(200, 200, WeaponGenerator.getSimpleWeapon(), 2, ChestType.Weapon));
-        chests.add(new Chest(800, 800, ItemGenerator.getMiddleItem(), 3, ChestType.Ordinary));
-        chests.add(new Chest(1000, 1000, ItemGenerator.getMiddleItem(), 3, ChestType.Ordinary));
-        chests.add(new Chest(100, 100, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
-        chests.add(new Chest(300, 300, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
-        chests.add(new Chest(400, 400, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
-        chests.add(new Chest(500, 500, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
-        chests.add(new Chest(600, 600, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
-        chests.add(new Chest(700, 700, ItemGenerator.getSimpleItem(), 1, ChestType.Rare));
+        chests.add(new Chest(200, 200, WeaponGenerator.getSimpleWeapon(), 1, ChestType.Weapon));
+        chests.add(new Chest(400, 200, WeaponGenerator.getSimpleWeapon(), 2, ChestType.Weapon));
+        chests.add(new Chest(200, 400, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
+        chests.add(new Chest(400, 400, WeaponGenerator.getTopWeapon(), 4, ChestType.Weapon));
+
+        chests.add(new Chest(1000, 200, generator.getArmor(), 1, ChestType.Rare));
+        chests.add(new Chest(1200, 200, generator.getArmor(), 2, ChestType.Rare));
+        chests.add(new Chest(1000, 400, generator.getArmor(), 3, ChestType.Rare));
+        chests.add(new Chest(1200, 400, generator.getArmor(), 4, ChestType.Rare));
+
+        chests.add(new Chest(200, 800, generator.getSimpleItem(), 1, ChestType.Ordinary));
+        chests.add(new Chest(400, 800, generator.getSimpleItem(), 2, ChestType.Ordinary));
+        chests.add(new Chest(200, 1000, generator.getSimpleItem(), 3, ChestType.Ordinary));
+        chests.add(new Chest(400, 1000, generator.getSimpleItem(), 4, ChestType.Ordinary));
+
         return chests;
     }
 

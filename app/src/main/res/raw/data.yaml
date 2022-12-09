@@ -1,0 +1,32 @@
+armor:
+  - id: 1
+    name: Кожанный шлем
+    type: Helmet
+    defence: 2.0
+    resistance:
+      type: Laser
+      value: 0.4
+
+  - id: 2
+    name: Металлический шлем
+    type: Helmet
+    defence: 3.0
+    resistance:
+      type: Ordinary
+      value: 0.3
+
+  - id: 1
+    name: Кожанный нагрудник
+    type: Breastplate
+    defence: 3.0
+    resistance:
+      type: Laser
+      value: 0.4
+
+  - id: 2
+    name: Металлический нагрудник
+    type: Breastplate
+    defence: 5.0
+    resistance:
+      type: Ordinary
+      value: 0.3

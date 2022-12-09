@@ -14,10 +14,8 @@ import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.CommonAid;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherBreastplate;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.LeatherHelmet;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.MetalBreastplate;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.MetalHelmet;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Armor;
+import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.ArmorType;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Cryolator;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.LaserPistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
@@ -98,14 +96,31 @@ public class GameObjectAdapter {
                 itemBitmap = laserPistolBitmap;
             } else if (item instanceof Cryolator) {
                 itemBitmap = cryolatorBitmap;
-            } else if (item instanceof LeatherHelmet) {
-                itemBitmap = leatherHelmetBitmap;
-            } else if (item instanceof LeatherBreastplate) {
-                itemBitmap = leatherBreastplateBitmap;
-            } else if (item instanceof MetalHelmet) {
-                itemBitmap = metalHelmetBitmap;
-            } else if (item instanceof MetalBreastplate) {
-                itemBitmap = metalBreastplateBitmap;
+            } else if (item instanceof Armor) {
+                Armor armor = (Armor) item;
+                if (armor.type == ArmorType.Helmet) {
+                    switch (armor.id) {
+                        case 1:
+                            itemBitmap = leatherHelmetBitmap;
+                            break;
+                        case 2:
+                            itemBitmap = metalHelmetBitmap;
+                            break;
+                        default:
+                            itemBitmap = unknownBitmap;
+                    }
+                } else {
+                    switch (armor.id) {
+                        case 1:
+                            itemBitmap = leatherBreastplateBitmap;
+                            break;
+                        case 2:
+                            itemBitmap = metalBreastplateBitmap;
+                            break;
+                        default:
+                            itemBitmap = unknownBitmap;
+                    }
+                }
             } else if (item instanceof CommonAid) {
                 itemBitmap = stimpackBitmap;
             } else if (item instanceof Weapon) {
