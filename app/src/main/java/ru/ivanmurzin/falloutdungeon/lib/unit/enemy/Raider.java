@@ -1,6 +1,7 @@
 package ru.ivanmurzin.falloutdungeon.lib.unit.enemy;
 
-import ru.ivanmurzin.falloutdungeon.lib.game.Level;
+
+import ru.ivanmurzin.falloutdungeon.lib.game.Field;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Pistol;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
@@ -9,7 +10,7 @@ import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 
 public class Raider extends Enemy {
 
-    public Raider(float x, float y, Level level) {
+    public Raider(float x, float y, Field.Level level) {
         super(x, y, 7, 60, 10, new Pistol(), 600, 50, level);
         typeResistance.put(WeaponType.Ordinary, 0.8);
     }

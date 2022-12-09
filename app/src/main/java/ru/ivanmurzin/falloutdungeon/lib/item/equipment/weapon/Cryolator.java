@@ -12,7 +12,7 @@ import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 
 public class Cryolator extends Weapon {
     public Cryolator() {
-        super("Криолятор", 10, 4, WeaponType.Frost, 5);
+        super("Криолятор", 50, 4, WeaponType.Frost, 5);
     }
 
     @Override

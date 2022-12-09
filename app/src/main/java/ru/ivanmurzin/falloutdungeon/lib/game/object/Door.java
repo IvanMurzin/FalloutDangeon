@@ -2,12 +2,16 @@ package ru.ivanmurzin.falloutdungeon.lib.game.object;
 
 import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
+import ru.ivanmurzin.falloutdungeon.lib.game.Field;
 
 public class Door extends InteractiveGameObject {
+    private final Field field;
     private DoorState state = DoorState.Closed;
 
-    public Door(int x, int y) {
+
+    public Door(Field field, int x, int y) {
         super(x, y);
+        this.field = field;
     }
 
     public void open() {
@@ -24,6 +28,10 @@ public class Door extends InteractiveGameObject {
 
     @Override
     public void action(Logger logger) {
-        logger.notify("Дверь");
+        if (state != DoorState.Open) {
+            logger.notifyError(field.getLevel().getUnits().size() + "");
+        } else {
+            field.nextLevel();
+        }
     }
 }

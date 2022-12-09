@@ -16,7 +16,7 @@ import ru.ivanmurzin.falloutdungeon.controller.adapter.HealthBarAdapter;
 import ru.ivanmurzin.falloutdungeon.controller.adapter.JoystickAdapter;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
-import ru.ivanmurzin.falloutdungeon.lib.game.Level;
+import ru.ivanmurzin.falloutdungeon.lib.game.Field;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
@@ -26,7 +26,7 @@ public class HeroController {
     public final JoystickAdapter joystickAdapter;
     public final HealthBarAdapter healthBarAdapter;
     private final Logger logger;
-    private final Level level;
+    private final Field field;
     private final ActionController actionController;
     private final ActionController shootController;
     private final Frames framesNE;
@@ -35,7 +35,6 @@ public class HeroController {
     private final Frames framesSW;
     private final Frames framesW;
     private final Frames framesNW;
-    private final int fieldSize;
     private Bitmap currentFrame;
     private float speedX;
     private float speedY;
@@ -43,11 +42,10 @@ public class HeroController {
     private float lastSpeedY;
     private int reload = 0;
 
-    public HeroController(Context context, Level level, int width, int height, int fieldSize) {
-        this.level = level;
+    public HeroController(Context context, Field field, int width, int height) {
+        this.field = field;
         Hero.instance.x = width / 2f;
         Hero.instance.y = height / 2f;
-        this.fieldSize = fieldSize;
         joystickAdapter = new JoystickAdapter(context, 250, height * 3 / 4f);
         healthBarAdapter = new HealthBarAdapter(context);
         actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
@@ -70,7 +68,7 @@ public class HeroController {
         canvas.drawBitmap(currentFrame, display.offsetX(Hero.instance.x), display.offsetY(Hero.instance.y), null);
         joystickAdapter.draw(canvas);
         healthBarAdapter.draw(canvas);
-        for (GameObject object : level.getInteractiveGameObjects()) {
+        for (GameObject object : field.getLevel().getInteractiveGameObjects()) {
             if (Hero.instance.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
                 actionController.draw(canvas);
                 break;
@@ -89,11 +87,13 @@ public class HeroController {
         speedY = joystickAdapter.controller.getActuatorY() * Hero.instance.getSpeed();
         Hero.instance.x += speedX;
         Hero.instance.y += speedY;
-        if (Hero.instance.x > (fieldSize - 3) * 40) Hero.instance.x = (fieldSize - 3) * 40;
+        if (Hero.instance.x > (field.getLevel().fieldSize - 3) * 40)
+            Hero.instance.x = (field.getLevel().fieldSize - 3) * 40;
         if (Hero.instance.x < 0) {
             Hero.instance.x = 0;
         }
-        if (Hero.instance.y > (fieldSize - 5) * 40) Hero.instance.y = (fieldSize - 5) * 40;
+        if (Hero.instance.y > (field.getLevel().fieldSize - 5) * 40)
+            Hero.instance.y = (field.getLevel().fieldSize - 5) * 40;
         if (Hero.instance.y < 0) Hero.instance.y = 0;
         currentFrame = setFrame();
         if (reload != 0) reload = (reload + 1) % Hero.instance.getWeapon().reloadTime;
@@ -115,7 +115,7 @@ public class HeroController {
         if (event.getActionMasked() != MotionEvent.ACTION_POINTER_DOWN && event.getActionMasked() != MotionEvent.ACTION_DOWN)
             return;
         if (actionController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
-            for (InteractiveGameObject object : level.getInteractiveGameObjects()) {
+            for (InteractiveGameObject object : field.getLevel().getInteractiveGameObjects()) {
                 if (Hero.instance.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
                     object.action(logger);
                     break;
@@ -126,9 +126,9 @@ public class HeroController {
 
         if (reload == 0 && shootController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
             if (speedX == 0 && speedY == 0) {
-                level.addBullet(Hero.instance.shoot(lastSpeedX, lastSpeedY));
+                field.getLevel().addBullet(Hero.instance.shoot(lastSpeedX, lastSpeedY));
             } else {
-                level.addBullet(Hero.instance.shoot(speedX, speedY));
+                field.getLevel().addBullet(Hero.instance.shoot(speedX, speedY));
             }
             reload++;
         }

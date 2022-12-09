@@ -132,4 +132,9 @@ public class Hero extends Unit {
     public void onDie() {
 
     }
+
+    public void resetCoordinates() {
+        x = 0;
+        y = 0;
+    }
 }

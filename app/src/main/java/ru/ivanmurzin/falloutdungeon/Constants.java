@@ -3,7 +3,6 @@ package ru.ivanmurzin.falloutdungeon;
 /***
  * docs
  * death
- * new level
  * tests
  */
 public class Constants {

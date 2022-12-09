@@ -9,8 +9,9 @@ import ru.ivanmurzin.falloutdungeon.controller.object.BulletController;
 import ru.ivanmurzin.falloutdungeon.controller.object.ChestController;
 import ru.ivanmurzin.falloutdungeon.controller.object.unit.UnitController;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
-import ru.ivanmurzin.falloutdungeon.lib.game.Level;
+import ru.ivanmurzin.falloutdungeon.lib.game.Field;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.Door;
+import ru.ivanmurzin.falloutdungeon.lib.game.object.DoorState;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.GameItem;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.chest.Chest;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
@@ -27,41 +28,41 @@ import ru.ivanmurzin.falloutdungeon.util.BitmapUtil;
 import ru.ivanmurzin.falloutdungeon.view.GameDisplay;
 
 public class GameObjectAdapter {
-    private final Level level;
+    private final Field field;
     private final UnitController unitController;
     private final ChestController chestController;
     private final BulletController bulletController;
     private final ItemController itemController;
     private final Bitmap doorBitmap;
+    private final Bitmap doorOpenedBitmap;
 
 
-    public GameObjectAdapter(Context context, Level level) {
-        this.level = level;
+    public GameObjectAdapter(Context context, Field field) {
+        this.field = field;
         unitController = new UnitController(context);
         itemController = new ItemController(context);
         bulletController = new BulletController(context);
-        chestController = new ChestController(context, level);
+        chestController = new ChestController(context, field);
         doorBitmap = BitmapUtil.getScaledBitmap(context, 80, 100, R.drawable.door);
+        doorOpenedBitmap = BitmapUtil.getScaledBitmap(context, 80, 100, R.drawable.door_opened);
     }
 
     public void draw(Canvas canvas, GameDisplay display) {
-        for (InteractiveGameObject interactive : level.getInteractiveGameObjects()) {
+        Door door = field.getLevel().door;
+        canvas.drawBitmap(door.getState() == DoorState.Open ? doorOpenedBitmap : doorBitmap, display.offsetX(door.x), display.offsetY(door.y), null);
+        for (InteractiveGameObject interactive : field.getLevel().getInteractiveGameObjects()) {
             if (interactive instanceof Chest) {
                 chestController.draw(canvas, display, (Chest) interactive);
                 continue;
             }
             if (interactive instanceof GameItem) {
                 itemController.draw(canvas, display, (GameItem) interactive);
-                continue;
-            }
-            if (interactive instanceof Door) {
-                canvas.drawBitmap(doorBitmap, display.offsetX(interactive.x), display.offsetY(interactive.y), null);
             }
         }
-        for (Weapon.Bullet bullet : level.getBullets()) {
+        for (Weapon.Bullet bullet : field.getLevel().getBullets()) {
             bulletController.draw(canvas, display, bullet);
         }
-        for (Unit unit : level.getUnits()) {
+        for (Unit unit : field.getLevel().getUnits()) {
             unitController.draw(canvas, display, unit);
         }
     }

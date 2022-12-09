@@ -129,6 +129,7 @@ public class GameList<T> extends AbstractList<T> {
         @Override
         public void remove() {
             removeNode(cursor);
+            --size;
         }
     }
 }

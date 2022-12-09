@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ru.ivanmurzin.falloutdungeon.R;
-import ru.ivanmurzin.falloutdungeon.util.YamlLoader;
 import ru.ivanmurzin.falloutdungeon.view.Game;
 import ru.ivanmurzin.falloutdungeon.widget.PauseDialog;
 
@@ -59,7 +58,5 @@ public class MainActivity extends AppCompatActivity {
             isMenuOpened = true;
         });
         rootPanel.addView(menu);
-
-        YamlLoader yamlLoader = new YamlLoader(this);
     }
 }

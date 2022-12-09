@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ru.ivanmurzin.falloutdungeon.Constants;
-import ru.ivanmurzin.falloutdungeon.lib.game.Level;
+import ru.ivanmurzin.falloutdungeon.lib.game.Field;
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
@@ -18,11 +18,11 @@ public abstract class Enemy extends Unit {
     public final int dropExperience;
     protected final Map<WeaponType, Double> typeResistance;
     protected final int viewRadius;
-    private final Level level;
+    private final Field.Level level;
     protected int reload = 0;
 
 
-    public Enemy(float x, float y, float speed, int maxHealth, int armor, Weapon weapon, int viewRadius, int dropExperience, Level level) {
+    public Enemy(float x, float y, float speed, int maxHealth, int armor, Weapon weapon, int viewRadius, int dropExperience, Field.Level level) {
         super(x, y, speed, maxHealth, armor);
         this.weapon = weapon;
         this.dropExperience = dropExperience;
@@ -72,7 +72,7 @@ public abstract class Enemy extends Unit {
     @Override
     public boolean onShoot(Weapon.Bullet bullet) {
         if (!bullet.fromHero) return false;
-        Log.i(Constants.TAG_I, "Hit:\t" + getClass().getSimpleName() + "\thp:" + this.health + "\tdmg:" + bullet.damage + "\tfrom:" + (bullet.fromHero ? "Hero" : "Enemy"));
+        Log.i(Constants.TAG_I, "Hit:\t" + getClass().getSimpleName() + "\thp:" + this.health + "\tdmg:" + bullet.damage);
         takeDamage(bullet.damage, bullet.getType());
         return true;
     }
