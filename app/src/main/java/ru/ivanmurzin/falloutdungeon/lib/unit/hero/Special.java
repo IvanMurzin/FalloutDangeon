@@ -52,6 +52,12 @@ public class Special {
         return 30 + agility + luck; // 30% + agility * 5% + luck * 2%
     }
 
+    public int getHitChance(Special special) {
+        return getHitChance()
+                + special.getSpecial(SpecialType.Agility).getValue() * 5
+                + special.getSpecial(SpecialType.Luck).getValue() * 2;
+    }
+
     public double getResistance() {
         return special.get(SpecialType.Endurance).getValue() / 2d * 0.05; // endurance / 2 * 0.05
     }

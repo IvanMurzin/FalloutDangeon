@@ -115,7 +115,7 @@ public class Hero extends Unit {
         double helmetArmor = helmet == null ? 0 : helmet.getArmor(type);
         double resultArmor = breastplateArmor + helmetArmor;
         double resistance = 1 - special.getResistance();
-        Log.v(Constants.TAG_V, "Pure damage=" + damage + " resistance=" + resistance + " armor=" + resultArmor + " result = " + (damage - resultArmor) * resistance);
+        Log.v(Constants.TAG_V + "_TAKE_DAMAGE", "Pure damage=" + damage + " resistance=" + resistance + " armor=" + resultArmor + " result = " + (damage - resultArmor) * resistance);
         if (damage < resultArmor) return;
         health -= (damage - resultArmor) * resistance;
         if (health < 0) health = 0;

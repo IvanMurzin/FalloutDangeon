@@ -4,12 +4,9 @@ import static java.lang.Math.abs;
 
 import androidx.annotation.Nullable;
 
-import java.util.Map;
-
 import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.lib.MovingGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.Equipment;
-import ru.ivanmurzin.falloutdungeon.lib.unit.enemy.Enemy;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Special;
 
@@ -18,16 +15,13 @@ public abstract class Weapon extends Equipment {
     protected final int maxDamage;
     protected final WeaponType type;
     protected final int criticalChance;
-    protected final Map<Class<Enemy>, Double> legendaryScale;
 
-
-    public Weapon(String name, Special enchantScale, int maxDamage, int reloadTime, WeaponType type, int criticalChance, Map<Class<Enemy>, Double> legendaryScale) {
-        super(name, enchantScale);
+    public Weapon(String name, int maxDamage, int reloadTime, WeaponType type, int criticalChance) {
+        super(name);
         this.maxDamage = maxDamage;
         this.reloadTime = reloadTime;
         this.type = type;
         this.criticalChance = criticalChance;
-        this.legendaryScale = legendaryScale;
     }
 
     public Bullet shoot(float x, float y, float speedX, float speedY, boolean fromHero) {
@@ -70,7 +64,7 @@ public abstract class Weapon extends Equipment {
         public Bullet(float x, float y, float speedX, float speedY, boolean fromHero) {
             super(x, y, 50);
             this.fromHero = fromHero;
-            this.damage = getDamage(fromHero ? null : Hero.instance.special);
+            this.damage = getDamage(fromHero ? Hero.instance.special : null);
             if (speedX > 0 && abs(speedX) > abs(speedY)) {
                 direction = Direction.East;
                 return;

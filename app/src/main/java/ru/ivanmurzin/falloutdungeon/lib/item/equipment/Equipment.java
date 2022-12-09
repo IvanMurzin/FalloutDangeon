@@ -1,13 +1,15 @@
 package ru.ivanmurzin.falloutdungeon.lib.item.equipment;
 
+import org.jetbrains.annotations.NotNull;
+
 import ru.ivanmurzin.falloutdungeon.lib.item.Item;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Special;
 
 public abstract class Equipment extends Item {
-    protected final Special enchantScale;
+    @NotNull
+    public final Special enchantScale = new Special();
 
-    public Equipment(String name, Special enchantScale) {
+    public Equipment(String name) {
         super(name);
-        this.enchantScale = enchantScale;
     }
 }

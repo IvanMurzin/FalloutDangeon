@@ -8,7 +8,6 @@ import ru.ivanmurzin.falloutdungeon.controller.Logger;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.Equipment;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
-import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Special;
 
 public class Armor extends Equipment {
     public final int id;
@@ -16,8 +15,8 @@ public class Armor extends Equipment {
     protected final double defence;
     protected final Pair<WeaponType, Double> typeResistance;
 
-    public Armor(int id, String name, Special enchantScale, double defence, ArmorType type, Pair<WeaponType, Double> typeResistance) {
-        super(name, enchantScale);
+    public Armor(int id, String name, double defence, ArmorType type, Pair<WeaponType, Double> typeResistance) {
+        super(name);
         this.id = id;
         this.defence = defence;
         this.type = type;

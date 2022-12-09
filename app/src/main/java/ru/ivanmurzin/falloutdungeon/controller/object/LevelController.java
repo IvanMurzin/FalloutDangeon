@@ -81,7 +81,7 @@ public class LevelController {
     private List<Chest> getRandomChests() {
         List<Chest> chests = new LinkedList<>();
         chests.add(new Chest(200, 200, WeaponGenerator.getSimpleWeapon(), 1, ChestType.Weapon));
-        chests.add(new Chest(400, 200, WeaponGenerator.getSimpleWeapon(), 2, ChestType.Weapon));
+        chests.add(new Chest(400, 200, WeaponGenerator.getMiddleWeapon(), 2, ChestType.Weapon));
         chests.add(new Chest(200, 400, WeaponGenerator.getMiddleWeapon(), 3, ChestType.Weapon));
         chests.add(new Chest(400, 400, WeaponGenerator.getTopWeapon(), 4, ChestType.Weapon));
 

@@ -47,7 +47,7 @@ public class YamlLoader {
                 Objects.requireNonNull(resistanceType);
                 Objects.requireNonNull(resistanceValue);
                 Pair<WeaponType, Double> resistancePair = new Pair<>(resistanceType, resistanceValue);
-                armorList.add(new Armor(id, name, null, defence, type, resistancePair));
+                armorList.add(new Armor(id, name, defence, type, resistancePair));
             }
             Log.i(Constants.TAG_I, armorObjects.toString());
         } catch (Exception e) {

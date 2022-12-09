@@ -1,27 +1,30 @@
 package ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
+import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Special;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.SpecialType;
 import ru.ivanmurzin.falloutdungeon.util.RandomGenerator;
 
 public class Pistol extends Weapon {
     public Pistol() {
-        super("10-мм пистолет", null, 10, 30, WeaponType.Ordinary, 10, null);
+        super("10-мм пистолет", 10, 30, WeaponType.Ordinary, 10);
     }
 
     @Override
     public double getDamage(@Nullable Special special) {
-        int specialHitChance = special == null ? 80 : special.getHitChance();
-        int specialCriticalChance = special == null ? 10 : special.getSpecial(SpecialType.Luck).getValue();
-        int enchantHitChance = enchantScale == null ? 0 : enchantScale.getHitChance();
-        int enchantCriticalChance = enchantScale == null ? 0 : enchantScale.getSpecial(SpecialType.Luck).getValue();
-        int hitChance = specialHitChance + enchantHitChance;
+        int hitChance = special == null ? 70 : special.getHitChance(enchantScale);
+        int specialCriticalChance = special == null ? 15 : special.getSpecial(SpecialType.Luck).getValue();
+        int enchantCriticalChance = enchantScale.getSpecial(SpecialType.Luck).getValue();
         if (!RandomGenerator.isSuccess(hitChance)) return 0;
         int resultCriticalChance = criticalChance + specialCriticalChance + enchantCriticalChance;
         int criticalDamage = 0;
         if (RandomGenerator.isSuccess(resultCriticalChance)) criticalDamage = maxDamage;
+        if (special != null)
+            Log.v(Constants.TAG_V + "_GET_DAMAGE", "specialHitChance=" + special.getHitChance() + "\nhitChance=" + hitChance + "\nspecialCriticalChance=" + specialCriticalChance + "\nenchantCriticalChance=" + enchantCriticalChance + "\nresultCriticalChance=" + resultCriticalChance);
         return RandomGenerator.getFromMax(maxDamage) + criticalDamage;
     }
 
