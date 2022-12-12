@@ -2,8 +2,10 @@ package ru.ivanmurzin.falloutdungeon.view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -18,6 +20,7 @@ import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.controller.object.LevelController;
 import ru.ivanmurzin.falloutdungeon.controller.ui.JoystickController;
 import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
+import ru.ivanmurzin.falloutdungeon.widget.GameOverDialog;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private static final int fps = 30;
@@ -25,7 +28,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private GameThread gameThread;
     private GameDisplay gameDisplay;
     private LevelController levelController;
+    private final DisplayMetrics displayMetrics = new DisplayMetrics();
 
+    private final Handler handler = new Handler();
 
     public Game(Context context) {
         super(context);
@@ -36,9 +41,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         this.holder = holder;
         levelController = new LevelController(getContext(), getWidth(), getHeight());
-        DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, Hero.instance);
+        gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, Hero.getInstance());
         gameThread = new GameThread();
         gameThread.start();
     }
@@ -56,6 +60,21 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public void update() {
         gameDisplay.update();
         levelController.update();
+        if (Hero.getInstance().getHealth() == 0) {
+            gameThread.running = false;
+            handler.post(() -> {
+                Log.v(Constants.TAG, "message");
+                Dialog gameOverDialog = new GameOverDialog(getContext());
+                gameOverDialog.show();
+                gameOverDialog.setOnDismissListener(view -> {
+                    Hero.getInstance().reset();
+                    levelController = new LevelController(getContext(), getWidth(), getHeight());
+                    gameThread = new GameThread();
+                    gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, Hero.getInstance());
+                    gameThread.start();
+                });
+            });
+        }
     }
 
     public void drawFrames(Canvas canvas, GameDisplay display) {

@@ -43,7 +43,7 @@ public class Armor extends Equipment {
     @Override
     public boolean pick(Logger logger) {
         logger.notifyInfo("Надето: " + name);
-        Hero.instance.switchArmor(this);
+        Hero.getInstance().switchArmor(this);
         return true;
     }
 

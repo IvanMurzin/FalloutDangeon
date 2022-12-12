@@ -2,12 +2,9 @@ package ru.ivanmurzin.falloutdungeon.lib.game;
 
 import static ru.ivanmurzin.falloutdungeon.controller.generator.LevelGenerator.TILE_SIZE;
 
-import android.util.Log;
-
 import java.util.Iterator;
 import java.util.List;
 
-import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.lib.GameObject;
 import ru.ivanmurzin.falloutdungeon.lib.InteractiveGameObject;
 import ru.ivanmurzin.falloutdungeon.lib.game.object.Cell;
@@ -36,7 +33,7 @@ public class Field {
     public void nextLevel() {
         if (level.next != null) {
             level = level.next;
-            Hero.instance.resetCoordinates();
+            Hero.getInstance().resetCoordinates();
         }
     }
 
@@ -63,7 +60,7 @@ public class Field {
             interactiveGameObjects = new GameList<>();
             bullets = new GameList<>();
             units = new GameList<>();
-            units.add(Hero.instance);
+            units.add(Hero.getInstance());
             this.door = door;
             interactiveGameObjects.add(door);
         }
@@ -139,9 +136,7 @@ public class Field {
                             bulletIterator.remove();
                             if (unit.getHealth() == 0) {
                                 unit.onDie();
-                                Log.d(Constants.TAG_D, units.size() + "");
                                 unitIterator.remove();
-                                Log.d(Constants.TAG_D, units.size() + "");
                                 break;
                             }
                         }

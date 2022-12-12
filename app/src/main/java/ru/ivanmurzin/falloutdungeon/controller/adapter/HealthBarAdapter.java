@@ -26,7 +26,7 @@ public class HealthBarAdapter implements UiController {
 
     @Override
     public void draw(Canvas canvas) {
-        Hero hero = Hero.instance;
+        Hero hero = Hero.getInstance();
         double healthScale = hero.getHealth() / hero.getMaxHealth();
         canvas.drawRect(90, 59, (float) (90 + 270 * healthScale), 86, paintHealth);
         canvas.drawBitmap(bitmap, 0, 0, null);

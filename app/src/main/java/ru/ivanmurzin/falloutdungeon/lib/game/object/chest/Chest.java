@@ -30,17 +30,17 @@ public class Chest extends InteractiveGameObject {
     @Override
     public void action(Logger logger) {
         if (state == ChestState.Closed) {
-            boolean decreaseLockpick = Hero.instance.decreaseLockpick();
+            boolean decreaseLockpick = Hero.getInstance().decreaseLockpick();
             if (!decreaseLockpick) {
                 logger.notifyError("Недостаточно отмычек");
                 return;
             }
-            int hackChance = Hero.instance.special.getHackChance(difficulty);
+            int hackChance = Hero.getInstance().special.getHackChance(difficulty);
             if (RandomGenerator.isSuccess(hackChance)) {
-                logger.notifySuccess("Успех! Отмычек в запасе: " + Hero.instance.getLockpicks());
+                logger.notifySuccess("Успех! Отмычек в запасе: " + Hero.getInstance().getLockpicks());
                 state = ChestState.Opened;
             } else {
-                logger.notifyWarning("Провал! Отмычек в запасе: " + Hero.instance.getLockpicks());
+                logger.notifyWarning("Провал! Отмычек в запасе: " + Hero.getInstance().getLockpicks());
             }
         }
     }

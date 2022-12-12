@@ -11,22 +11,19 @@ import ru.ivanmurzin.falloutdungeon.Constants;
 import ru.ivanmurzin.falloutdungeon.lib.item.aid.Aid;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.Armor;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.armor.ArmorType;
-import ru.ivanmurzin.falloutdungeon.lib.item.equipment.artifact.Artifact;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Cryolator;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.Weapon;
 import ru.ivanmurzin.falloutdungeon.lib.item.equipment.weapon.WeaponType;
 import ru.ivanmurzin.falloutdungeon.lib.unit.Unit;
 
 public class Hero extends Unit {
-    public static final Hero instance = new Hero();
-
+    private static Hero instance = new Hero();
     public final Special special;
     public final Experience experience;
     private final List<Aid> aids;
     private Weapon weapon;
     private Armor helmet;
     private Armor breastplate;
-    private Artifact[] artifacts;
     private int lockpicks;
 
     private Hero() {
@@ -136,5 +133,13 @@ public class Hero extends Unit {
     public void resetCoordinates() {
         x = 0;
         y = 0;
+    }
+
+    public void reset() {
+        instance = new Hero();
+    }
+
+    public static Hero getInstance() {
+        return instance;
     }
 }

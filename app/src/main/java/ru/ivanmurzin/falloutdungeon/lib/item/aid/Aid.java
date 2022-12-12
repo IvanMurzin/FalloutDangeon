@@ -16,7 +16,7 @@ public abstract class Aid extends Item {
 
     @Override
     public boolean pick(Logger logger) {
-        if (Hero.instance.addAid(this)) {
+        if (Hero.getInstance().addAid(this)) {
             logger.notifyInfo("Добавлено: " + name);
             return true;
         }

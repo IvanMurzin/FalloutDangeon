@@ -41,7 +41,7 @@ public abstract class Weapon extends Equipment {
     @Override
     public boolean pick(Logger logger) {
         logger.notifyInfo("Подобрано: " + name);
-        Hero.instance.switchWeapon(this);
+        Hero.getInstance().switchWeapon(this);
         return true;
     }
 
@@ -64,7 +64,7 @@ public abstract class Weapon extends Equipment {
         public Bullet(float x, float y, float speedX, float speedY, boolean fromHero) {
             super(x, y, 50);
             this.fromHero = fromHero;
-            this.damage = getDamage(fromHero ? Hero.instance.special : null);
+            this.damage = getDamage(fromHero ? Hero.getInstance().special : null);
             if (speedX > 0 && abs(speedX) > abs(speedY)) {
                 direction = Direction.East;
                 return;

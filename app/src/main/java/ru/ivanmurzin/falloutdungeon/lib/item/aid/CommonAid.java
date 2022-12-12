@@ -14,7 +14,7 @@ public class CommonAid extends Aid {
 
     @Override
     public void use() {
-        Hero.instance.increaseHealth(health);
+        Hero.getInstance().increaseHealth(health);
     }
 
     @NonNull

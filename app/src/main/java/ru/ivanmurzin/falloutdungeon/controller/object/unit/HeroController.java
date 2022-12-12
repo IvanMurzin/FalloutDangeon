@@ -44,8 +44,8 @@ public class HeroController {
 
     public HeroController(Context context, Field field, int width, int height) {
         this.field = field;
-        Hero.instance.x = width / 2f;
-        Hero.instance.y = height / 2f;
+        Hero.getInstance().x = width / 2f;
+        Hero.getInstance().y = height / 2f;
         joystickAdapter = new JoystickAdapter(context, 250, height * 3 / 4f);
         healthBarAdapter = new HealthBarAdapter(context);
         actionController = new ActionController(context, width - 400, height - 300, R.drawable.act);
@@ -65,11 +65,11 @@ public class HeroController {
     }
 
     public void draw(Canvas canvas, GameDisplay display) {
-        canvas.drawBitmap(currentFrame, display.offsetX(Hero.instance.x), display.offsetY(Hero.instance.y), null);
+        canvas.drawBitmap(currentFrame, display.offsetX(Hero.getInstance().x), display.offsetY(Hero.getInstance().y), null);
         joystickAdapter.draw(canvas);
         healthBarAdapter.draw(canvas);
         for (GameObject object : field.getLevel().getInteractiveGameObjects()) {
-            if (Hero.instance.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
+            if (Hero.getInstance().getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
                 actionController.draw(canvas);
                 break;
             }
@@ -83,21 +83,21 @@ public class HeroController {
             lastSpeedX = speedX;
             lastSpeedY = speedY;
         }
-        speedX = joystickAdapter.controller.getActuatorX() * Hero.instance.getSpeed();
-        speedY = joystickAdapter.controller.getActuatorY() * Hero.instance.getSpeed();
-        Hero.instance.x += speedX;
-        Hero.instance.y += speedY;
-        if (Hero.instance.x > (field.getLevel().fieldSize - 3) * 40)
-            Hero.instance.x = (field.getLevel().fieldSize - 3) * 40;
-        if (Hero.instance.x < 0) {
-            Hero.instance.x = 0;
+        speedX = joystickAdapter.controller.getActuatorX() * Hero.getInstance().getSpeed();
+        speedY = joystickAdapter.controller.getActuatorY() * Hero.getInstance().getSpeed();
+        Hero.getInstance().x += speedX;
+        Hero.getInstance().y += speedY;
+        if (Hero.getInstance().x > (field.getLevel().fieldSize - 3) * 40)
+            Hero.getInstance().x = (field.getLevel().fieldSize - 3) * 40;
+        if (Hero.getInstance().x < 0) {
+            Hero.getInstance().x = 0;
         }
-        if (Hero.instance.y > (field.getLevel().fieldSize - 5) * 40)
-            Hero.instance.y = (field.getLevel().fieldSize - 5) * 40;
-        if (Hero.instance.y < 0) Hero.instance.y = 0;
+        if (Hero.getInstance().y > (field.getLevel().fieldSize - 5) * 40)
+            Hero.getInstance().y = (field.getLevel().fieldSize - 5) * 40;
+        if (Hero.getInstance().y < 0) Hero.getInstance().y = 0;
         currentFrame = setFrame();
-        if (reload != 0) reload = (reload + 1) % Hero.instance.getWeapon().reloadTime;
-        if (reload != 0) reload = (reload + 1) % Hero.instance.getWeapon().reloadTime;
+        if (reload != 0) reload = (reload + 1) % Hero.getInstance().getWeapon().reloadTime;
+        if (reload != 0) reload = (reload + 1) % Hero.getInstance().getWeapon().reloadTime;
     }
 
     private Bitmap setFrame() {
@@ -116,7 +116,7 @@ public class HeroController {
             return;
         if (actionController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
             for (InteractiveGameObject object : field.getLevel().getInteractiveGameObjects()) {
-                if (Hero.instance.getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
+                if (Hero.getInstance().getDistance(object.x, object.y) < ACTION_ACTIVATION_RADIUS) {
                     object.action(logger);
                     break;
                 }
@@ -126,9 +126,9 @@ public class HeroController {
 
         if (reload == 0 && shootController.clickOnAction(event.getX(event.getActionIndex()), event.getY(event.getActionIndex()))) {
             if (speedX == 0 && speedY == 0) {
-                field.getLevel().addBullet(Hero.instance.shoot(lastSpeedX, lastSpeedY));
+                field.getLevel().addBullet(Hero.getInstance().shoot(lastSpeedX, lastSpeedY));
             } else {
-                field.getLevel().addBullet(Hero.instance.shoot(speedX, speedY));
+                field.getLevel().addBullet(Hero.getInstance().shoot(speedX, speedY));
             }
             reload++;
         }

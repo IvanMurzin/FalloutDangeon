@@ -35,10 +35,10 @@ public abstract class Enemy extends Unit {
 
     @Override
     public void onMove() {
-        double distance = Hero.instance.getDistance(x + 50, y + 40);
+        double distance = Hero.getInstance().getDistance(x + 50, y + 40);
         if (distance < 600) {
-            float dx = Hero.instance.x - x;
-            float dy = Hero.instance.y - y;
+            float dx = Hero.getInstance().x - x;
+            float dy = Hero.getInstance().y - y;
             if (reload == 0) {
                 level.addBullet(weapon.shoot(x + 50, y + 40, dx, dy, false));
             }
@@ -66,7 +66,7 @@ public abstract class Enemy extends Unit {
     @Override
     public void onDie() {
         level.addDroppedItem(getDrop(), x, y);
-        Hero.instance.experience.accrueExperience(dropExperience);
+        Hero.getInstance().experience.accrueExperience(dropExperience);
     }
 
     @Override

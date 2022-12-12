@@ -29,7 +29,7 @@ public class PauseDialog extends Dialog {
     }
 
     private int getWeaponId() {
-        Weapon weapon = Hero.instance.getWeapon();
+        Weapon weapon = Hero.getInstance().getWeapon();
         if (weapon instanceof Pistol) return R.drawable.pistol;
         if (weapon instanceof LaserPistol) return R.drawable.laser_pistol;
         return R.drawable.cryolator;
@@ -48,7 +48,7 @@ public class PauseDialog extends Dialog {
 
     @Nullable
     private Integer getBreastplateId() {
-        Armor breastplate = Hero.instance.getBreastplate();
+        Armor breastplate = Hero.getInstance().getBreastplate();
         if (breastplate == null) return null;
         if (breastplate.id == 1) return R.drawable.leather_breatplate;
         if (breastplate.id == 2) return R.drawable.metal_breastplate;
@@ -57,7 +57,7 @@ public class PauseDialog extends Dialog {
 
     @Nullable
     private Integer getHelmetId() {
-        Armor helmet = Hero.instance.getHelmet();
+        Armor helmet = Hero.getInstance().getHelmet();
         if (helmet == null) return null;
         if (helmet.id == 1) return R.drawable.leather_helmet;
         if (helmet.id == 2) return R.drawable.metal_helmet;
@@ -65,16 +65,16 @@ public class PauseDialog extends Dialog {
     }
 
     private int getBreastplateResistanceBulletId() {
-        return getBulletId(Hero.instance.getBreastplate().getResistanceType());
+        return getBulletId(Hero.getInstance().getBreastplate().getResistanceType());
     }
 
     private int getHelmetResistanceBulletId() {
-        return getBulletId(Hero.instance.getHelmet().getResistanceType());
+        return getBulletId(Hero.getInstance().getHelmet().getResistanceType());
     }
 
 
     private String getSpecialText(SpecialType type) {
-        int value = Hero.instance.special.getSpecial(type).getValue();
+        int value = Hero.getInstance().special.getSpecial(type).getValue();
         if (value < 3) return "Плохо  ";
         if (value < 5) return "Средне ";
         if (value < 7) return "Хорошо ";
@@ -97,59 +97,59 @@ public class PauseDialog extends Dialog {
 
     private void initRecycler() {
         binding.aidRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.aidRecycler.setAdapter(new AidAdapter(Hero.instance.getAids()));
+        binding.aidRecycler.setAdapter(new AidAdapter(Hero.getInstance().getAids()));
     }
 
 
     private void initData() {
-        binding.lockpicks.setText(String.valueOf(Hero.instance.getLockpicks()));
+        binding.lockpicks.setText(String.valueOf(Hero.getInstance().getLockpicks()));
         binding.weaponIcon.setImageResource(getWeaponId());
-        binding.weaponBullet.setImageResource(getBulletId(Hero.instance.getWeapon().getType()));
-        binding.weaponDamage.setText(String.valueOf(Hero.instance.getWeapon().getMaxDamage()));
-        binding.weaponReload.setText(String.valueOf(Hero.instance.getWeapon().getReload()));
+        binding.weaponBullet.setImageResource(getBulletId(Hero.getInstance().getWeapon().getType()));
+        binding.weaponDamage.setText(String.valueOf(Hero.getInstance().getWeapon().getMaxDamage()));
+        binding.weaponReload.setText(String.valueOf(Hero.getInstance().getWeapon().getReload()));
 
         Integer helmetId = getHelmetId();
         if (helmetId != null) {
             binding.helmetIcon.setImageResource(helmetId);
-            binding.helmetArmor.setText(String.valueOf(Hero.instance.getHelmet().getDefence()));
+            binding.helmetArmor.setText(String.valueOf(Hero.getInstance().getHelmet().getDefence()));
             binding.helmetResistanceIcon.setImageResource(getHelmetResistanceBulletId());
         }
         Integer breastplateId = getBreastplateId();
         if (breastplateId != null) {
             binding.breastplateIcon.setImageResource(breastplateId);
-            binding.breastplateArmor.setText(String.valueOf(Hero.instance.getBreastplate().getDefence()));
+            binding.breastplateArmor.setText(String.valueOf(Hero.getInstance().getBreastplate().getDefence()));
             binding.breastplateResistanceIcon.setImageResource(getBreastplateResistanceBulletId());
         }
     }
 
     @SuppressLint("DefaultLocale")
     private void initSpecial() {
-        binding.strength.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Strength).getValue()));
+        binding.strength.setText(String.format("%02d", Hero.getInstance().special.getSpecial(SpecialType.Strength).getValue()));
         binding.strengthText.setText(getSpecialText(SpecialType.Strength));
-        binding.perception.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Perception).getValue()));
+        binding.perception.setText(String.format("%02d", Hero.getInstance().special.getSpecial(SpecialType.Perception).getValue()));
         binding.perceptionText.setText(getSpecialText(SpecialType.Perception));
 
-        binding.endurance.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Endurance).getValue()));
+        binding.endurance.setText(String.format("%02d", Hero.getInstance().special.getSpecial(SpecialType.Endurance).getValue()));
         binding.enduranceText.setText(getSpecialText(SpecialType.Endurance));
 
-        binding.charisma.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Charisma).getValue()));
+        binding.charisma.setText(String.format("%02d", Hero.getInstance().special.getSpecial(SpecialType.Charisma).getValue()));
         binding.charismaText.setText(getSpecialText(SpecialType.Charisma));
 
-        binding.intelligence.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Intelligence).getValue()));
+        binding.intelligence.setText(String.format("%02d", Hero.getInstance().special.getSpecial(SpecialType.Intelligence).getValue()));
         binding.intelligenceText.setText(getSpecialText(SpecialType.Intelligence));
 
-        binding.agility.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Agility).getValue()));
+        binding.agility.setText(String.format("%02d", Hero.getInstance().special.getSpecial(SpecialType.Agility).getValue()));
         binding.agilityText.setText(getSpecialText(SpecialType.Agility));
 
-        binding.luck.setText(String.format("%02d", Hero.instance.special.getSpecial(SpecialType.Luck).getValue()));
+        binding.luck.setText(String.format("%02d", Hero.getInstance().special.getSpecial(SpecialType.Luck).getValue()));
         binding.luckText.setText(getSpecialText(SpecialType.Luck));
     }
 
     @SuppressLint("DefaultLocale")
     private void initExperience() {
-        binding.experience.setText(String.valueOf(Hero.instance.experience.getCurrent()));
-        binding.experienceRequired.setText(String.valueOf(Hero.instance.experience.getRequired()));
-        binding.level.setText(String.format("%02d", Hero.instance.experience.getLevel()));
+        binding.experience.setText(String.valueOf(Hero.getInstance().experience.getCurrent()));
+        binding.experienceRequired.setText(String.valueOf(Hero.getInstance().experience.getRequired()));
+        binding.level.setText(String.format("%02d", Hero.getInstance().experience.getLevel()));
     }
 
     private void initButtons() {
