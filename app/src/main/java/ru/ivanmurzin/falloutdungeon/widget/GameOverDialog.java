@@ -1,6 +1,5 @@
 package ru.ivanmurzin.falloutdungeon.widget;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -23,7 +22,7 @@ public class GameOverDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(binding.getRoot());
 
-        binding.restart.setOnClickListener(view->{
+        binding.restart.setOnClickListener(view -> {
             dismiss();
         });
     }

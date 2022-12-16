@@ -23,7 +23,6 @@ import ru.ivanmurzin.falloutdungeon.lib.unit.hero.Hero;
 import ru.ivanmurzin.falloutdungeon.widget.GameOverDialog;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
-    private static final int fps = 30;
     private SurfaceHolder holder;
     private GameThread gameThread;
     private GameDisplay gameDisplay;
@@ -66,6 +65,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                 Log.v(Constants.TAG, "message");
                 Dialog gameOverDialog = new GameOverDialog(getContext());
                 gameOverDialog.show();
+                gameOverDialog.setCancelable(false);
                 gameOverDialog.setOnDismissListener(view -> {
                     Hero.getInstance().reset();
                     levelController = new LevelController(getContext(), getWidth(), getHeight());
@@ -136,9 +136,12 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
             while (running) {
                 Canvas canvas = holder.lockCanvas();
                 try {
+                    final long start = System.currentTimeMillis();
                     drawFrames(canvas, gameDisplay);
                     update();
-                    sleep(1000 / fps);
+                    final long stop = System.currentTimeMillis();
+                    final long sleepTime = 110 - (stop - start);
+                    sleep(sleepTime > 0 ? sleepTime : 0);
                 } catch (Exception e) {
                     Log.e(Constants.TAG_E, "GameThread: " + e + " what: " + e.getMessage() + "\nstackTrace:\n" + Arrays.toString(e.getStackTrace()));
                 } finally {
